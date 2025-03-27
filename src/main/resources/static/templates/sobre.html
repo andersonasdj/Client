@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="br">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/img/favicon.ico">
+	<link rel="stylesheet" href="assets/css/defaultStyle.css">
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/password-generator.css">
+	<link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+	<title>SisTech - TechGold</title>
+</head>
+<body>
+	<div class="container-fluid">
+		<!-- ############################################## BARRA DE NAVEGAÇÃO ################################################### -->
+				<nav class="navbar navbar-expand-lg bg-light">
+					<div class="container-fluid">
+						<a class="navbar-brand color-text" href="/cliente/home"><img src="./assets/img/key.png" style="height: 18px;"> cliente</a>
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+							data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+							aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+							<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+								<li class="nav-item"><a class="nav-link active color-text" aria-current="page" href="/cliente/home">Início</a></li>
+									<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown"aria-expanded="false">Solicitações</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="/cliente/solicitacao/form">Novo</a></li>
+										<li><a class="dropdown-item" href="/cliente/solicitacao/list">Listar</a></li>
+										<li><hr class="dropdown-divider"></li>
+										<li><a class="dropdown-item" href="/cliente/solicitacao/relatorios">Relatórios</a></li>
+									</ul>
+								</li>
+								
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown"aria-expanded="false">Dashboard</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="/cliente/solicitacao/dashboard/geral">Solicitações ativas</a></li>
+									</ul>
+								</li>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ferramentas</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">Password Generator</a></li>
+									</ul>
+								</li>
+							</ul>
+							<ul class="navbar-nav mb-3 mb-lg-0">
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" id="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="/cliente/cliente/perfil">Perfil</a></li>
+										<li><hr class="dropdown-divider"></li>
+										<li><a class="dropdown-item" href="/cliente/sobre">Sobre</a></li>
+									</ul>
+								</li>
+									<a href="/cliente/logout"><i class="bi bi-power"style="font-size: 2rem; color: red;"></i></a>
+							</ul>
+							
+						</div>
+					</div>
+				</nav>
+				<!-- ############################################## BARRA DE NAVEGAÇÃO ################################################### -->
+
+		<hr class="bg-danger border-2 border-top border-danger">
+		 	<br />
+			<h4>Sobre o SisTech</h4>
+
+			<p>Sistema para controle e relatórios de solicitações de TI.</p>
+			<p>Versão (1.0) <a href="#">Novidades</a> </p>
+			<p>Desenvolvido por <u><b>Anderson de Araujo</b></u> - <span style="font-size: 20px;">T</span>ech<span style="color: orange; border-color: black; "><span style="font-size: 20px;">G</span>old</span> tecnologia.</p>
+			<p> </p>
+			
+			<p><a href="/sistech/swagger-ui/index.html"> Documentação API </a></p>
+		
+			<footer class="container-fluid fixed-bottom text-center text-white">
+					<!-- Copyright -->
+					<div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+						© 2025 Copyright:
+						<a class="text-white" href="#">TechGold</a>
+					</div>
+					<!-- Copyright -->
+			</footer>
+	</div>
+	<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+		<div class="modal fade" id="modalPasswordGenerator" tabindex="-1" aria-labelledby="modalPasswordGenerator"
+			aria-hidden="true">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="container-password">
+						<div class="result">
+							<div class="result__info right">click para copiar</div>
+							<div class="result__info left">copiado</div>
+							<div class="result__viewbox" id="result" style="color: aliceblue; "></div>
+							<a id="copy-btn" style="--x: 0; --y: 0"><i class="far fa-copy"></i></a>
+						</div>
+						<div class="length range__slider" data-min="4" data-max="32">
+							<div class="length__title field-title" data-length='0'>Tamanho:</div>
+							<input id="slider" type="range" min="4" max="32" value="16" />
+						</div>
+						<div class="settings">
+							<span class="settings__title field-title">configurações</span>
+							<div class="setting">
+								<input type="checkbox" id="uppercase" checked />
+								<label for="uppercase">Incluir Maiúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="lowercase" checked />
+								<label for="lowercase">Incluir Minúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="number" checked />
+								<label for="number">Incluir Número</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="symbol" />
+								<label for="symbol">Incluir Símbolo</label>
+							</div>
+						</div>
+						<button class="btn generate" id="generate">Gerar Senha</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+
+	<script src="assets/js/jquery-3.6.3.js"></script>
+	<script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/password-generator.js"></script>
+</body>
+</html>

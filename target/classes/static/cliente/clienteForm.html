@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="br">
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Sistech - Clientes</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="../assets/img/favicon.ico">
+	<link rel="stylesheet" href="../assets/css/defaultStyle.css">
+	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../assets/css/password-generator.css">
+	<link rel="stylesheet" href="../assets/css/bootstrap-icons.min.css">
+</head>
+<body>
+	<div class="container-fluid">
+		<!-- ###################################### BARRA DE NAVEGAÇÃO ###################################### -->
+		<nav class="navbar navbar-expand-lg bg-light">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="/sistech/home"><img src="../assets/img/key.png" style="height: 18px;"> SisTech</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a class="nav-link active" aria-current="page" href="/sistech/home">Início</a></li>
+							<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Solicitações</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/sistech/solicitacao/form">Novo</a></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/list">Listar</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/modelos">Modelos</a></li>	
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/relatorios">Relatórios</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Clientes</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/sistech/cliente/list">Listar</a></li>
+								<li><a class="dropdown-item" href="/sistech/cliente/form">Novo</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Funcionarios</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/sistech/funcionario/list">Listar</a></li>
+								<li><a class="dropdown-item" href="/sistech/funcionario/form">Novo</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dashboard</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/dashboard/inicio" target="_blank" style="color: brown; font-weight: bold;">Realtime <i class="bi bi-speedometer2"></i></a></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/dashboard/geral">Solicitações ativas</a></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/dashboard/funcionario">Funcionario</a></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/dashboard/cliente">Cliente</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ferramentas</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">Password Generator</a></li>
+								<li><a class="dropdown-item" href="/sistech/avisos">Avisos</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="navbar-nav mb-3 mb-lg-0">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" id="perfil" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/sistech/funcionario/perfil">Perfil</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/sistech/gerencia">Gerência</a></li>
+								<li><a class="dropdown-item" href="/sistech/configuracoes">Configurações</a></li><li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/sistech/sobre">Sobre</a></li>
+							</ul>
+						</li>
+							<a href="/sistech/logout"><i class="bi bi-power"style="font-size: 2rem; color: red;"></i></a>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- ###################################### BARRA DE NAVEGAÇÃO ###################################### -->
+		<hr class="bg-danger border-2 border-top border-danger">
+
+		<div id="form-cliente">
+			<label for="nomeCliente" class="form-laber mt-2">Nome</label>
+			<input type="text" id="nomeCliente" class="form-control mt-2" autocomplete="off" style="width: 350px;">
+			
+			<label for="endereco" class="form-laber mt-2">Endereco</label>
+			<input type="text" id="endereco" class="form-control mt-2" autocomplete="off" style="width: 350px;">
+			
+			<label for="bairro" class="form-laber mt-2">Bairro</label>
+			<input type="text" id="bairro" class="form-control mt-2" autocomplete="off" style="width: 350px;">
+			
+			<label for="telefone" class="form-laber mt-2">telefone</label>
+			<input ttype="tel" maxlength="15" onkeyup="handlePhone(event)" id="telefone" class="form-control mt-2" style="width: 200px;">
+			
+			<label for="username" class="form-laber mt-2">Usuario</label>
+			<input type="text" id="username" class="form-control mt-2" autocomplete="off" style="width: 200px;">
+		
+			<label for="password" class="form-laber mt-2">Senha</label>
+			<input type="password" id="password" class="form-control mt-2" autocomplete="off" style="width: 300px;">
+			
+			<label for="cnpj" class="form-laber mt-2">CNPJ</label>
+			<input type="text" id="cnpj" class="form-control mt-2" autocomplete="off" style="width: 300px;">
+		</div>
+		<br />
+		<button class="btn btn-success" onclick="salvar()">Salvar</button>
+
+		<br /><br /><br />
+		<footer class="container-fluid fixed-bottom text-center text-white">
+				<!-- Copyright -->
+				<div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+					© 2024 Copyright:
+					<a class="text-white" href="#">TechGold</a>
+				</div>
+				<!-- Copyright -->
+		</footer>
+	</div>
+	<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+		<div class="modal fade" id="modalPasswordGenerator" tabindex="-1" aria-labelledby="modalPasswordGenerator"
+			aria-hidden="true">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="container-password">
+						<div class="result">
+							<div class="result__info right">click para copiar</div>
+							<div class="result__info left">copiado</div>
+							<div class="result__viewbox" id="result" style="color: aliceblue; "></div>
+							<a id="copy-btn" style="--x: 0; --y: 0"><i class="far fa-copy"></i></a>
+						</div>
+						<div class="length range__slider" data-min="4" data-max="32">
+							<div class="length__title field-title" data-length='0'>Tamanho:</div>
+							<input id="slider" type="range" min="4" max="32" value="16" />
+						</div>
+						<div class="settings">
+							<span class="settings__title field-title">configurações</span>
+							<div class="setting">
+								<input type="checkbox" id="uppercase" checked />
+								<label for="uppercase">Incluir Maiúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="lowercase" checked />
+								<label for="lowercase">Incluir Minúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="number" checked />
+								<label for="number">Incluir Número</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="symbol" />
+								<label for="symbol">Incluir Símbolo</label>
+							</div>
+						</div>
+						<button class="btn generate" id="generate">Gerar Senha</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+	<script src="../assets/js/jquery-3.6.3.js"></script>
+	<script src="../assets/js/popper.min.js"></script>
+	<script src="../assets/js/bootstrap.min.js"></script>
+	<script src="../assets/js/password-generator.js"></script>
+	<script>
+		function salvar() {
+			var nomeCliente = $('#nomeCliente').val();
+			var endereco = $('#endereco').val();
+			var telefone = $('#telefone').val();
+			var username = $('#username').val();
+			var password = $('#password').val();
+			var bairro = $('#bairro').val();
+			var cnpj = $('#cnpj').val();
+			
+			$.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url: "/sistech/clientes",
+				data: JSON.stringify(
+					{
+						"nomeCliente": nomeCliente,
+						"endereco": endereco,
+					    "telefone": telefone,
+					    "username": username,
+					    "password": password,
+					    "cnpj": cnpj,
+					    "bairro": bairro
+					}
+				),
+				success: function (data) { 
+					alert("salvo com sucesso!");
+					window.location.href = "/sistech/cliente/list";
+				},
+				statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+				    401: function() { alert('Realize login novamente!'); }
+				}
+			});
+		}
+		
+		const handlePhone = (event) => {
+		  let input = event.target
+		  input.value = phoneMask(input.value)
+		}
+		
+		const phoneMask = (value) => {
+		  if (!value) return ""
+		  value = value.replace(/\D/g,'')
+		  value = value.replace(/(\d{2})(\d)/,"($1) $2")
+		  value = value.replace(/(\d)(\d{4})$/,"$1-$2")
+		  return value
+		}
+	</script>
+</body>
+</html>

@@ -18,5 +18,11 @@ public class ClienteController {
 	public String formulario() {
 		return "clienteForm.html";
 	}
+	
+	@GetMapping("/perfil")
+	public String perfil() {
+		return "perfil.html";
+		
+	}
 
 }

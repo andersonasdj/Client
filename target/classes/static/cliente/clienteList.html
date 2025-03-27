@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="br">
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/styleBusca.css">
+	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../assets/css/password-generator.css">
+	<link rel="stylesheet" href="../assets/css/StyleClientesFuncionarios.css">
+	<link rel="stylesheet" href="../assets/css/bootstrap-icons.min.css">
+	<title>SisTech - Clientes</title>
+</head>
+<body>
+	<div class="container-fluid">
+		<!-- ###################################### BARRA DE NAVEGAÇÃO ###################################### -->
+		<nav class="navbar navbar-expand-lg bg-light">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="/sistech/home"><img src="../assets/img/key.png" style="height: 18px;"> SisTech</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a class="nav-link active" aria-current="page" href="/sistech/home">Início</a></li>
+							<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Solicitações</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/sistech/solicitacao/form">Novo</a></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/list">Listar</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/modelos">Modelos</a></li>	
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/relatorios">Relatórios</a></li>
+							</ul>
+						</li>
+						
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Clientes</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/sistech/cliente/list">Listar</a></li>
+								<li><a class="dropdown-item" href="/sistech/cliente/form">Novo</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Funcionarios</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/sistech/funcionario/list">Listar</a></li>
+								<li><a class="dropdown-item" href="/sistech/funcionario/form">Novo</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dashboard</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/dashboard/inicio" target="_blank" style="color: brown; font-weight: bold;">Realtime <i class="bi bi-speedometer2"></i></a></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/dashboard/geral">Solicitações ativas</a></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/dashboard/funcionario">Funcionario</a></li>
+								<li><a class="dropdown-item" href="/sistech/solicitacao/dashboard/cliente">Cliente</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ferramentas</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">Password Generator</a></li>
+								<li><a class="dropdown-item" href="/sistech/avisos">Avisos</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="navbar-nav mb-3 mb-lg-0">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" id="perfil" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/sistech/funcionario/perfil">Perfil</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/sistech/gerencia">Gerência</a></li>
+								<li><a class="dropdown-item" href="/sistech/configuracoes">Configurações</a></li><li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/sistech/sobre">Sobre</a></li>
+							</ul>
+						</li>
+							<a href="/sistech/logout"><i class="bi bi-power"style="font-size: 2rem; color: red;"> </i></a>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- ###################################### BARRA DE NAVEGAÇÃO ###################################### -->
+		<hr class="bg-danger border-2 border-top border-danger">
+		
+		<div class="container-fluid">
+		  <div class="row">
+		    <div class="col">
+				<a href="/sistech/cliente/form"> <button class="btn btn-sm btn-primary">Novo </button></a>
+		    </div>
+		    <div class="col">
+				<button class="btn btn-sm btn-dark" onclick="filtros()">Filtros</button>
+		    </div>
+		    <div class="col">
+				<div class="d-flex">
+					<span id="contador" class="counter pull-right"> </span>
+			        <input class="form-control me-2" type="search" placeholder="Busca avançada" aria-label="Search" id="palavraChave">
+			        <button class="btn btn-sm btn-outline-success" onclick="buscaPorPalavra()" >Buscar</button>
+				</div><br />
+		    </div>
+		  </div>
+		</div>
+		
+		<div id="opcoesFiltro" style="display: none;">
+			<hr class="bg-danger border-2 border-top border">
+			<div class="row">
+				<div class="col-md-5">
+					<div class="row">
+						<div class="col-md-2 mt-3">
+							<label class="form-label"><b>Bairro</b></label>
+						</div>
+						
+						<div class="col-md-3">
+							<div class="controls">
+								<select class="form-select mt-2" id="bairro" name="bairro">
+									<option> </option> 
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-1"> 
+					<b><span id="qtdFiltrados"></span></b>
+				</div>
+				
+				<div class="col-md-6">
+					<a class="btn btn-sm btn-dark" onclick="listarVip('vip')">Vip</a>
+					<a class="btn btn-sm btn-dark" onclick="listarVip('redflag')">Red Flag</a>
+					<a class="btn btn-sm btn-dark" onclick="listarVip('redfladvip')">Red Flag + Vip</a>
+				</div>
+				
+			</div>
+			<hr class="bg-danger border-2 border-top borde">
+		</div>
+		
+		<div class="table-responsive">
+			<table class="table table-striped align-middle results" id="tabela-clientes">
+				<thead>
+					<tr>
+						<th scope="col">Nome</th>
+						<th scope="col">Status</th>
+						<th scope="col">Ação</th>
+					</tr>
+				</thead>
+				<tbody id="corpoClientes">
+					<tr> </tr>
+				</tbody>
+			</table>
+
+			<nav aria-label="Page navigation example">
+			  <ul id="paginas" class="pagination"> </ul>
+			</nav>
+		</div>
+	</div>
+	<br /><br />
+	<footer class="container-fluid fixed-bottom text-center text-white">
+			<!-- Copyright -->
+			<div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+				© 2024 Copyright:
+				<a class="text-white" href="#">TechGold</a>
+			</div>
+			<!-- Copyright -->
+	</footer>
+
+		<!-- ########################################## MODAL EDIÇÃO CLIENTE ################################################ -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Edição Cliente</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-8">
+								<label class="form-label" for="nomemodal"><b>Nome</b></label>
+								<input type="text" id="nomemodal" class="form-control"><br />
+							</div>
+							<div class="col-md-4 ms-auto">
+								<label class="form-label" for="idmodal">ID</label>
+								<input type="text" id="idmodal" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label class="form-label" for="usuariomodal"><b>Usuario</b></label>
+								<input type="text" id="usuariomodal" class="form-control"><br />
+							</div>
+							<div class="col-md-6 ms-auto">
+								<label class="form-label" for="senhamodal"><b>Senha</b></label>
+								<input type="password" id="senhamodal" class="form-control">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label class="form-label" for="telefonemodal"><b>Telefone</b></label>
+								<input type="tel" maxlength="15" onkeyup="handlePhone(event)" id="telefonemodal" class="form-control">
+							</div>
+							<div class="col-md-6 ms-auto">
+								<label class="form-label" for="cnpjmodal"><b>CNPJ</b></label>
+								<input type="text" id="cnpjmodal" class="form-control"><br />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<label class="form-label" for="enderecomodal"><b>Endereço</b></label>
+								<input type="text" id="enderecomodal" class="form-control"><br />
+							</div>
+						</div>
+						
+						<div class="row">
+							
+							<div class="col-md-6">
+								<label class="form-label mt-2" for="bairroModal"><b>Bairro</b></label>
+								<input type="text" id="bairroModal" class="form-control"><br />
+							</div>
+							
+							<div class="col-md-6">
+								<label class="form-label mt-2" for="ativoModal"><b>Ativo</b></label>
+								<select class="form-select" id="ativoModal"> </select>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6">
+								<label class="form-label mt-2" for="redFlagModal"><b>Red Flag</b></label>
+								<select class="form-select" id="redFlagModal"> </select>
+							</div>
+							<div class="col-md-6">
+								<label class="form-label mt-2" for="vipModal"><b>VIP</b></label>
+								<select class="form-select" id="vipModal"> </select>
+							</div>
+						</div>
+						</br>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+							<button type="button" class="btn btn-primary" onclick="atualiza()">Salvar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ########################################## MODAL EDIÇÃO CLIENTE ################################################ -->
+
+		<!-- ####################################### MODAL LISTA DE COLABORADORES ########################################### -->
+		<div class="modal fade" id="modalColaborador" tabindex="-1" aria-labelledby="modalLabelColaborador"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="modalLabelColaborador">
+							<button class="btn btn-success btn-sm" data-bs-toggle="modal"
+								data-bs-target="#addColaboradorModal" onclick=novoColaborador()>Novo</button>
+							<input type="text" hidden id="idColaboradoCliente" name="idColaboradoCliente">
+						</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+					</div>
+
+					<table class="table table-striped align-middle" id="tabela-colaboradores">
+						<thead>
+							<tr>
+								<th scope="col">Id</th>
+								<th scope="col">Nome</th>
+								<th scope="col">Celular</th>
+								<th scope="col">Ação</th>
+							</tr>
+						</thead>
+						<tbody id="tbColaboradoresCorpo">
+							<tr> </tr>
+						</tbody>
+					</table>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+						</div>
+				</div>
+			</div>
+		</div>
+		<!-- ####################################### MODAL LISTA DE COLABORADORES ########################################### -->
+
+		<!-- ####################################### MODAL ADICIONA COLABORADOR ############################################# -->
+		<div class="modal fade" id="addColaboradorModal" tabindex="-1" aria-labelledby="addColaboradorModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="addColaboradorModalLabel">Adição de Colaborador</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+					</div>
+					<div class="modal-body">
+						<label class="form-label mt-2" for="idAddModal">Id Cliente</label>
+						<input type="text" id="idAddModal" class="form-control" readonly>
+						<label class="form-label mt-2" for="nomeAddmodal">Nome</label>
+						<input type="text" id="nomeAddmodal" class="form-control">
+						<label class="form-label mt-2" for="celularAddmodal">Celular</label>
+						<input type="tel" maxlength="15" onkeyup="handlePhone(event)" id="celularAddmodal" class="form-control">
+						<label class="form-label mt-2" for="emailAddmodal">Email</label>
+						<input type="text" id="emailAddmodal" class="form-control">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+						<button type="button" class="btn btn-primary" onclick="salvarColaborador()">Salvar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ####################################### MODAL ADICIONA COLABORADOR ############################################# -->
+		
+		<!-- ###################################### MODAL EDIÇÃO DE COLABORADOR ############################################# -->
+		<div class="modal fade" id="editarColaboradorModal" tabindex="-1" aria-labelledby="editarColaboradorModal"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="editarColaboradorModal">Edição de Colaborador</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-8">
+								<label class="form-label mt-2" for="nomeEdicaoModal"><b>Nome</b></label>
+								<input type="text" id="nomeEdicaoModal" class="form-control"><br />
+							</div>
+							<div class="col-md-4 ms-auto">
+								<label class="form-label mt-2" for="idEdicaoModal">ID</label>
+								<input type="text" id="idEdicaoModal" class="form-control" readonly>
+								</di>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label class="form-label mt-2" for="celularEdicaoModal"><b>Celular</b></label>
+								<input type="tel" maxlength="17" onkeyup="handlePhone(event)" id="celularEdicaoModal" class="form-control"><br />
+							</div>
+							<div class="col-md-6 ms-auto">
+								<label class="form-label mt-2" for="statusEdicaoModal"><b>VIP</b></label>
+								<select class="form-select" id="statusEdicaoModal" aria-label="Default select example"> </select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 ms-auto">
+								<label class="form-label mt-2" for="emailEdicaoModal"><b>Email</b></label>
+								<input type="text" id="emailEdicaoModal" class="form-control"><br />
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalColaborador">Fechar</button>
+						<button type="button" class="btn btn-primary" onclick="atualizarColaborador()">Salvar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ###################################### MODAL EDIÇÃO DE COLABORADOR ############################################# -->
+		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+		<div class="modal fade" id="modalPasswordGenerator" tabindex="-1" aria-labelledby="modalPasswordGenerator"
+			aria-hidden="true">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="container-password">
+						<div class="result">
+							<div class="result__info right">click para copiar</div>
+							<div class="result__info left">copiado</div>
+							<div class="result__viewbox" id="result" style="color: aliceblue; "></div>
+							<a id="copy-btn" style="--x: 0; --y: 0"><i class="far fa-copy"></i></a>
+						</div>
+						<div class="length range__slider" data-min="4" data-max="32">
+							<div class="length__title field-title" data-length='0'>Tamanho:</div>
+							<input id="slider" type="range" min="4" max="32" value="16" />
+						</div>
+						<div class="settings">
+							<span class="settings__title field-title">configurações</span>
+							<div class="setting">
+								<input type="checkbox" id="uppercase" checked />
+								<label for="uppercase">Incluir Maiúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="lowercase" checked />
+								<label for="lowercase">Incluir Minúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="number" checked />
+								<label for="number">Incluir Número</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="symbol" />
+								<label for="symbol">Incluir Símbolo</label>
+							</div>
+						</div>
+						<button class="btn generate" id="generate">Gerar Senha</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+	</div>
+	<script src="../assets/js/jquery-3.6.3.js"></script>
+	<script src="../assets/js/popper.min.js"></script>
+	<script src="../assets/js/bootstrap.min.js"></script>
+	<script src="../assets/js/password-generator.js"></script>
+	<script>
+		
+		var input = document.getElementById("palavraChave");
+		input.addEventListener("keypress", function(event) {
+		  if (event.key === "Enter") {
+		    buscaPorPalavra();
+		  }
+		});
+		
+		function buscaPorPalavra(){
+			
+			$('#corpoClientes').empty();
+			$('#paginas').empty();
+			$('#contador').text("");
+			$('#qtdFiltrados').text("");			
+			let palavra = document.getElementById('palavraChave').value;
+			
+			if(palavra != ''){
+				$.ajax({
+					type: "GET",
+					contentType: "application/json",
+					url: "/sistech/clientes/nome/"+palavra,
+					success: function (data) {
+						$('#contador').text(data.totalElements);
+						$('#qtdFiltrados').text(data.totalElements);
+						
+						data.content.map(i => {
+							var status;
+							if(i.ativo == true){
+								status = "<FONT COLOR='#008000'>Ativado</FONT>";
+							}else{
+								status = "<FONT COLOR='#ff0000'>Desativado</FONT>";
+							}
+							
+							var vip =" ";
+							var redFlag =" ";
+							if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><b> * VIP </b></span>"; }
+							if(i.redFlag == true){ redFlag = "<span style='color: red; font-size: 15px'><b> * REDFLAG </b></span>"; }
+							
+							var itens = 
+							'<tr id=linha' + i.id + '>'
+							+ '<td>' + i.nomeCliente + vip + redFlag + '</td>'
+							+ '<td>' + status + '</t}>'
+							+ '<td>'
+							+ ' <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick=editar(' + i.id + ')><i class="bi bi-pencil-square"></i></button>'
+							+ ' <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalColaborador" onclick=editarColaboradores(' + i.id + ')><i class="bi bi-people"></i></button>'
+							+ ' <button class="btn btn-danger btn-sm" onclick=excluir(' + i.id + ')><i class="bi bi-trash"></i></button>'
+							+ '</td>'
+							+ '</tr>'
+						$('#tabela-clientes').append(itens);
+						});
+					},
+					statusCode: {
+					    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					    401: function() { alert('Realize login novamente!'); }
+					}
+				});
+			}else{
+				listarTodos();
+			}
+		}
+		
+		
+		function listarVip(filtro){
+			$('#corpoClientes').empty();
+			$('#paginas').empty();
+			$('#qtdFiltrados').text("");
+			$('#contador').empty();
+			$('#palavraChave').val("");
+			palavraChave
+			$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			url: "/sistech/clientes/filtro/vip/"+filtro,
+			success: function (data) {
+				$('#qtdFiltrados').text(data.length);
+				data.map(i => {
+					var status;
+					if(i.ativo == true){
+						status = "<FONT COLOR='#008000'>Ativado</FONT>";
+					}else{
+						status = "<FONT COLOR='#ff0000'>Desativado</FONT>";
+					}
+					
+					var vip =" ";
+					var redFlag =" ";
+					if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><b> * VIP </b></span>"; }
+					if(i.redFlag == true){ redFlag = "<span style='color: red; font-size: 15px'><b> * REDFLAG </b></span>"; }
+					
+					var itens = 
+					'<tr id=linha' + i.id + '>'
+					+ '<td>' + i.nomeCliente + vip + redFlag + '</td>'
+					+ '<td>' + status + '</t}>'
+					+ '<td>'
+					+ ' <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick=editar(' + i.id + ')><i class="bi bi-pencil-square"></i></button>'
+					+ ' <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalColaborador" onclick=editarColaboradores(' + i.id + ')><i class="bi bi-people"></i></button>'
+					+ ' <button class="btn btn-danger btn-sm" onclick=excluir(' + i.id + ')><i class="bi bi-trash"></i></button>'
+					+ '</td>'
+					+ '</tr>'
+				$('#tabela-clientes').append(itens);
+				});
+			},
+			statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+				    401: function() { alert('Realize login novamente!'); }
+			}
+			});
+		}
+		
+		listarTodos();
+		
+		$(document).ready(function () {
+			var divQtdItens = $("#bairro");
+			divQtdItens.on("change", function () {
+				$('#corpoClientes').empty();
+				$('#paginas').empty();
+				if($('#bairro').val() == ""){
+					listarTodos();
+				}else{
+					listarPorBairro($('#bairro').val());
+				}
+			});
+		});
+		
+		function filtros(){
+			$("#opcoesFiltro").stop().slideToggle(800);
+		}
+		
+		function listarTodos(){
+			$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			url: "/sistech/clientes",
+			success: function (data) {
+				$('#qtdFiltrados').text(data.totalElements);
+				
+				if(data.totalPages > 1){
+					for(var i=0; i < data.totalPages ; i++ ){
+							$('#paginas').append('<li class="page-item" id=numPag'+ i+'"><a id=numPag'+ i+' class="page-link" onclick="paginacao('+ i +')">'+ (i + 1) +'</a></li>');
+					}
+					$("#numPag0").attr("style","color:red");
+				}
+					
+				data.content.map(i => {
+					var status;
+					if(i.ativo == true){
+						status = "<FONT COLOR='#008000'>Ativado</FONT>";
+					}else{
+						status = "<FONT COLOR='#ff0000'>Desativado</FONT>";
+					}
+					
+					var vip =" ";
+					var redFlag =" ";
+					if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><b> * VIP </b></span>"; }
+					if(i.redFlag == true){ redFlag = "<span style='color: red; font-size: 15px'><b> * REDFLAG </b></span>"; }
+					
+					var itens = 
+					'<tr id=linha' + i.id + '>'
+					+ '<td>' + i.nomeCliente + vip + redFlag + '</td>'
+					+ '<td>' + status + '</t}>'
+					+ '<td>'
+					+ ' <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick=editar(' + i.id + ')><i class="bi bi-pencil-square"></i></button>'
+					+ ' <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalColaborador" onclick=editarColaboradores(' + i.id + ')><i class="bi bi-people"></i></button>'
+					+ ' <button class="btn btn-danger btn-sm" onclick=excluir(' + i.id + ')><i class="bi bi-trash"></i></button>'
+					+ '</td>'
+					+ '</tr>'
+				$('#tabela-clientes').append(itens);
+				});
+			},
+			statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+				    401: function() { alert('Realize login novamente!'); }
+			}
+			});
+		}
+		
+		$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			url: "/sistech/clientes/bairros",
+			success: function (data) {
+				for (var i = 0; i < data.length; i++) {
+					$('#bairro').append('<option value="' + data[i] + '">' + data[i] + '</option>');
+				}
+			},
+			statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+				    401: function() { alert('Realize login novamente!'); }
+			}
+		});
+		
+		const handlePhone = (event) => {
+		  let input = event.target
+		  input.value = phoneMask(input.value)
+		}
+		
+		const phoneMask = (value) => {
+		  if (!value) return ""
+		  value = value.replace(/\D/g,'')
+		  value = value.replace(/(\d{2})(\d)/,"($1) $2")
+		  value = value.replace(/(\d)(\d{4})$/,"$1-$2")
+		  return value
+		}
+	</script>
+	
+	<script>
+		function listarPorBairro(bairro){
+			$('#qtdFiltrados').text("");
+			$('#contador').empty();
+			$('#palavraChave').val("");
+			$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			url: "/sistech/clientes/filtro/"+bairro,
+			success: function (data) {
+				
+				$('#qtdFiltrados').text(data.length);
+				data.map(i => {
+					var status;
+					if(i.ativo == true){
+						status = "<FONT COLOR='#008000'>Ativado</FONT>";
+					}else{
+						status = "<FONT COLOR='#ff0000'>Desativado</FONT>";
+					}
+					
+					var vip =" ";
+					var redFlag =" ";
+					if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><b> * VIP </b></span>"; }
+					if(i.redFlag == true){ redFlag = "<span style='color: red; font-size: 15px'><b> * REDFLAG </b></span>"; }
+					
+					var itens = 
+					'<tr id=linha' + i.id + '>'
+					+ '<td>' + i.nomeCliente + vip + redFlag + '</td>'
+					+ '<td>' + status + '</t}>'
+					+ '<td>'
+					+ ' <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick=editar(' + i.id + ')><i class="bi bi-pencil-square"></i></button>'
+					+ ' <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalColaborador" onclick=editarColaboradores(' + i.id + ')><i class="bi bi-people"></i></button>'
+					+ ' <button class="btn btn-danger btn-sm" onclick=excluir(' + i.id + ')><i class="bi bi-trash"></i></button>'
+					+ '</td>'
+					+ '</tr>'
+				$('#tabela-clientes').append(itens);
+				});
+			},
+			statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+				    401: function() { alert('Realize login novamente!'); }
+			}
+		});
+			
+		}
+		
+		function paginacao(num){
+			$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			url: "/sistech/clientes?page="+num,
+			success: function (data) {
+				$('#corpoClientes').empty();
+				$('#paginas').empty();
+				
+				for(var i=0; i < data.totalPages ; i++ ){
+					$('#paginas').append('<li class="page-item"><a id=numPag'+ i+' class="page-link" onclick="paginacao('+ i +')">'+ (i + 1) +'</a></li>');
+				}
+				$("#numPag"+num).attr("style","color:red");
+
+				data.content.map(i => {
+					var status,vip="",redFlag="";
+					if(i.ativo == true){ status = "<FONT COLOR='#008000'>Ativado</FONT>"; }
+					else{ status = "<FONT COLOR='#ff0000'>Desativado</FONT>"; }
+					
+					if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><b> * VIP </b></span>"; }
+					if(i.redFlag == true){ redFlag = "<span style='color: red; font-size: 15px'><b> * REDFLAG </b></span>"; }
+					
+					var itens = 
+					'<tr id=linha' + i.id + '>'
+					+ '<td>' + i.nomeCliente + vip + redFlag + '</td>'
+					+ '<td>' + status + '</t>'
+					+ '<td>'
+					+ ' <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick=editar(' + i.id + ')><i class="bi bi-pencil-square"></i></button>'
+					+ ' <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalColaborador" onclick=editarColaboradores(' + i.id + ')><i class="bi bi-people"></i></button>'
+					+ ' <button class="btn btn-danger btn-sm" onclick=excluir(' + i.id + ')><i class="bi bi-trash"></i></button>'
+					+ '</td>'
+					+ '</tr>'
+				$('#tabela-clientes').append(itens);
+				});
+				},
+				statusCode: {
+					    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					    401: function() { alert('Realize login novamente!'); }
+				}
+			});
+		}
+		
+		function excluir(id) {
+			if (confirm("Tem certeza que deseja excluir o cliente de ID: " + id + " ?") == true) {
+				var t = "#linhaModalColaborador" + id;
+				var remove = $(t).closest('tr');
+				$.ajax({
+					type: "DELETE",
+					contentType: "application/json",
+					url: "/sistech/clientes/delete/" + id,
+					success: function () {
+						if (confirm("Tem certeza que deseja excluir?") == true) {
+							remove.fadeOut(1500, function () {
+								remove.remove();
+							});
+						}
+					},
+					error: function (e) { alert("Erro: Esse cliente possui solicitações cadastradas!"); }
+				});
+			}
+		}
+		
+		function excluirColaborador(id) {
+			if (confirm("Tem certeza que deseja excluir o colaborador de ID: " + id + " ?") == true) {
+				var t = "#linhaModalColaborador" + id;
+				var remove = $(t).closest('tr');
+				$.ajax({
+					type: "DELETE",
+					contentType: "application/json",
+					url: "/sistech/colaborador/delete/" + id,
+					success: function () {
+						if (confirm("Tem certeza que deseja excluir?") == true) {
+							remove.fadeOut(1000, function () {
+								remove.remove();
+							});
+						}
+					},
+					error: function (e) { alert("Erro ao tentar excluir o colaborador!"); }
+				});
+			}
+		}
+	</script>
+	<script>
+		function editar(id) {
+			$.ajax({
+				type: "GET",
+				contentType: "application/json",
+				url: "/sistech/clientes/edit/" + id,
+				success: function (data) {
+					$('#idmodal').val("");
+					$('#nomemodal').val("");
+					$('#enderecomodal').val("");
+					$('#ativoModal').empty();
+					$('#vipModal').empty();
+					$('#redFlagModal').empty();
+					$('#bairroModal').val("");
+
+					$('#idmodal').val(data.id);
+					$('#nomemodal').val(data.nomeCliente);
+					$('#enderecomodal').val(data.endereco);
+					$('#telefonemodal').val(data.telefone);
+					$('#usuariomodal').val(data.username);
+					$('#senhamodal').val(data.password);
+					$('#cnpjmodal').val(data.cnpj);
+					$('#bairroModal').val(data.bairro);
+					
+					
+					if (data.ativo == true) {
+						$('#ativoModal').append("<option value=" + data.ativo + "> Ativado </option>");
+						$('#ativoModal').append("<option value=false>Desativado</option>");
+					} else {
+						$('#ativoModal').append("<option value=" + data.ativo + "> Desativado</option>");
+						$('#ativoModal').append("<option value=true>Ativado</option>");
+					}
+					
+					if (data.vip == true) {
+						$('#vipModal').append("<option value=" + data.vip + "> Ativado </option>");
+						$('#vipModal').append("<option value=false>Desativado</option>");
+					} else {
+						$('#vipModal').append("<option value=" + data.vip + "> Desativado </option>");
+						$('#vipModal').append("<option value=true>Ativado</option>");
+					}
+					
+					if (data.redFlag == true) {
+						$('#redFlagModal').append("<option value=" + data.redFlag + "> Ativado </option>");
+						$('#redFlagModal').append("<option value=false>Desativado</option>");
+					} else {
+						$('#redFlagModal').append("<option value=" + data.redFlag + "> Desativado </option>");
+						$('#redFlagModal').append("<option value=true>Ativado</option>");
+					}
+				},
+				statusCode: {
+					    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					    401: function() { alert('Realize login novamente!'); },
+					    405: function() { alert('Você não possui permissão de edição!'); }
+				}
+			});
+		}
+
+		function editarColaboradores(id) {
+			$.ajax({
+				type: "GET",
+				contentType: "application/json",
+				url: "/sistech/colaborador/list/" + id,
+				success: function (data) {
+					$('#tbColaboradoresCorpo').empty();
+					$('#idColaboradoCliente').empty();
+					$('#idColaboradoCliente').val(id);
+
+					var itens = data.map(i =>
+
+						'<tr id=linhaModalColaborador' + i.id + '>'
+						+ '<td>' + i.id + '</td>'
+						+ '<td>' + i.nomeColaborador + '</td>'
+						+ '<td>' + i.celular + '</t}>'
+						+ '<td>'
+						+ ' <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editarColaboradorModal" onclick=editarColaborador(' + i.id + ')><i class="bi bi-pencil-square"></i></button>'
+						+ ' <button class="btn btn-danger btn-sm" onclick=excluirColaborador(' + i.id + ')><i class="bi bi-trash"></i></button>'
+						+ '</td>'
+						+ '</tr>'
+					);
+					$('#tabela-colaboradores').append(itens);
+				},
+				statusCode: {
+					    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					    401: function() { alert('Realize login novamente!'); }
+				}
+			});
+		}
+		
+		function editarColaborador(id){
+			$.ajax({
+				type: "GET",
+				contentType: "application/json",
+				url: "/sistech/colaborador/edit/" + id,
+				success: function (data) {
+					$('#idEdicaoModal').val("");
+					$('#nomeEdicaoModal').val("");
+					$('#celularEdicaoModal').val("");
+					$('#statusEdicaoModal').empty();
+					$('#emailEdicaoModal').val("");
+					
+					$('#idEdicaoModal').val(data.id);
+					$('#nomeEdicaoModal').val(data.nomeColaborador);
+					$('#celularEdicaoModal').val(data.celular);
+					$('#emailEdicaoModal').val(data.email);
+					
+					if (data.vip == true) {
+						$('#statusEdicaoModal').append("<option value=" + data.vip + ">" + data.vip + "</option>");
+						$('#statusEdicaoModal').append("<option value=false>false</option>");
+					} else {
+						$('#statusEdicaoModal').append("<option value=" + data.vip + ">" + data.vip + "</option>");
+						$('#statusEdicaoModal').append("<option value=true>true</option>");
+					}
+				},
+				statusCode: {
+					    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					    401: function() { alert('Realize login novamente!'); }
+				}
+			});
+		}		
+		
+		function atualizarColaborador(){
+			var id = $('#idEdicaoModal').val(),
+				nomeColaborador = $('#nomeEdicaoModal').val(),
+				celular = $('#celularEdicaoModal').val(),
+				vip = $('#statusEdicaoModal').val(),
+				email = $('#emailEdicaoModal').val(),
+				idCliente = $('#idColaboradoCliente').val();
+
+			$.ajax({
+				type: "PUT",
+				contentType: "application/json",
+				url: "/sistech/colaborador/edit",
+				data: JSON.stringify({
+					"id": id,
+					"nomeColaborador": nomeColaborador,
+					"celular": celular,
+					"vip": vip,
+					"email": email,
+					"idCliente": idCliente
+				}),
+				success: function (data) {
+					alert(data);
+				},
+				statusCode: {
+					500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					401: function() { alert('Realize login novamente!'); }
+				}
+			});
+		}
+
+		function novoColaborador() {
+			var id = $('#idColaboradoCliente').val();
+			$('#idAddModal').val("");
+			$('#nomeAddmodal').val("");
+			$('#celularAddmodal').val("");
+			$('#idAddModal').val(id);
+		}
+
+		function salvarColaborador() {
+
+			var clienteId = $('#idAddModal').val(),
+		 		nomeAddmodal = $('#nomeAddmodal').val(),
+				celularAddmodal = $('#celularAddmodal').val(),
+				email = $('#emailAddmodal').val();
+
+			$.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url: "/sistech/colaborador",
+				data: JSON.stringify(
+					{
+						"clienteId": clienteId,
+						"nomeColaborador": nomeAddmodal,
+						"celular": celularAddmodal,
+						"email": email
+					}
+				),
+				success: function (data) {
+					$('#nomeAddmodal').val("");
+					$('#celularAddmodal').val("");
+					$('#emailAddmodal').val("");
+					alert(data);
+				},
+				statusCode: {
+					    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					    401: function() { alert('Realize login novamente!'); }
+				}
+			});
+		}
+
+		function atualiza() {
+			var id = $('#idmodal').val(),
+				nomeCliente = $('#nomemodal').val(),
+				username = $('#usuariomodal').val(),
+				password = $('#senhamodal').val(),
+				telefone = $('#telefonemodal').val(),
+				cnpj = $('#cnpjmodal').val(),
+				endereco = $('#enderecomodal').val(),
+				ativo = $('#ativoModal').val(),
+				vip = $('#vipModal').val(),
+				redFlag = $('#redFlagModal').val();
+				bairro = $('#bairroModal').val(),
+			
+			$.ajax({
+				type: "PUT",
+				contentType: "application/json",
+				url: "/sistech/clientes",
+				data: JSON.stringify({
+					"id": id,
+					"nomeCliente": nomeCliente,
+					"username": username,
+					"password": password,
+					"telefone": telefone,
+					"cnpj": cnpj,
+					"endereco": endereco,
+					"ativo": ativo,
+					"vip": vip,
+					"redFlag": redFlag,
+					"bairro": bairro
+				}),
+				success: function (data) {
+					
+					var status,vipData ="",redFlagData="";
+					if(data.ativo == true){ status = "<FONT COLOR='#008000'>Ativado</FONT>"; }
+					else{ status = "<FONT COLOR='#ff0000'>Desativado</FONT>"; }
+					
+					if(data.vip == true){ vipData = "<span style='color: RoyalBlue; font-size: 15px'><b> * VIP </b></span>"; }
+					if(data.redFlag == true){ redFlagData = "<span style='color: red; font-size: 15px'><b> * REDFLAG </b></span>"; }
+
+					var itens =
+						'<tr id=linha' + data.id + '>'
+						+ '<td>' + data.nomeCliente + vipData + redFlagData + '</td>'
+						+ '<td>' + status + '</td>'
+						+ '<td>'
+						+ ' <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick=editar(' + data.id + ')><i class="bi bi-pencil-square"></i></button>'
+						+ ' <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalColaborador" onclick=editarColaborador(' + data.id + ')><i class="bi bi-people"></i></button>'
+						+ ' <button class="btn btn-danger btn-sm" onclick=excluir(' + data.id + ')><i class="bi bi-trash"></i></button>'
+						+ '</td>'
+						+ '</tr>';
+					$('#linha' + data.id).remove();
+					$('#tabela-clientes').append(itens);
+					alert("atualizado com sucesso");
+				},
+				statusCode: {
+					500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					401: function() { alert('Realize login novamente!'); }
+				}
+			});
+		}
+	</script>
+	<script>
+		$(document).ready(function() {
+		  $(".search").keyup(function () {
+		    var searchTerm = $(".search").val();
+		    var listItem = $('.results tbody').children('tr');
+		    var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+		    
+		  $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+		        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+		    }
+		  });
+		    
+		  $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+		    $(this).attr('visible','false');
+		  });
+		
+		  $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+		    $(this).attr('visible','true');
+		  });
+		
+		  var jobCount = $('.results tbody tr[visible="true"]').length;
+		    $('.counter').text(jobCount + ' item');
+		
+		  if(jobCount == '0') {$('.no-result').show();}
+		    else {$('.no-result').hide();}
+				  });
+		});
+	</script>
+</body>
+</html>

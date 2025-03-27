@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="br">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/img/favicon.ico">
+	<link rel="stylesheet" href="assets/css/defaultStyle.css">
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/stylePerfil.css">
+	<link rel="stylesheet" href="assets/css/password-generator.css">
+	<link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+<!--	<link rel="stylesheet" href="assets/css/dark.css">-->
+	<title>cliente - TechGold</title>
+</head>
+<body>
+	<div class="container-fluid">
+		<!-- ############################################## BARRA DE NAVEGAÇÃO ################################################### -->
+		<nav class="navbar navbar-expand-lg bg-light">
+			<div class="container-fluid">
+				<a class="navbar-brand color-text" href="/cliente/home"><img src="./assets/img/key.png" style="height: 18px;"> cliente</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a class="nav-link active color-text" aria-current="page" href="/cliente/home">Início</a></li>
+							<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown"aria-expanded="false">Solicitações</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/cliente/solicitacao/form">Novo</a></li>
+								<li><a class="dropdown-item" href="/cliente/solicitacao/list">Listar</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/cliente/solicitacao/relatorios">Relatórios</a></li>
+							</ul>
+						</li>
+						
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown"aria-expanded="false">Dashboard</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/cliente/solicitacao/dashboard/geral">Solicitações ativas</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ferramentas</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">Password Generator</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="navbar-nav mb-3 mb-lg-0">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle color-text" id="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/cliente/cliente/perfil">Perfil</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/cliente/sobre">Sobre</a></li>
+							</ul>
+						</li>
+							<a href="/cliente/logout"><i class="bi bi-power"style="font-size: 2rem; color: red;"></i></a>
+					</ul>
+					
+				</div>
+			</div>
+		</nav>
+		<!-- ############################################## BARRA DE NAVEGAÇÃO ################################################### -->
+
+		<hr class="bg-danger border-2 border-top border-danger">
+			<div class="container-fluid">
+				<div class="row justify-content-between">
+				    <div class="col-2 col-s-4">
+							<div id="containerPerfil">
+								<aside class="">
+										<img id="" src="./assets/img/login.png" style="width: 180px" class="img-fluid img-thumbnail" alt="...">
+								</aside>
+							<br /><br />
+						</div>
+				    </div>
+				    <div class="col-7 col-s-6">
+						<br />
+				    		<p><span id="saudacao"> </span> <b><span id="nomeFuncionario"> </span></b></p>
+							<p><span id="dataUltimoLogin"> </span></p>
+							<span id="btnAvisos"> </span>
+							<span>
+								<a id="btnRefeicao" class="" href="#" onclick="refeicao()" role="button" aria-expanded="false"></a>
+							</span>
+				    </div>
+				    <div class="col-3 col-s-6">
+						<div class="calender">
+							<div class="top">
+								<span id="months">Janeiro</span>
+							</div>
+							<span id="days">Sabado</span>
+							<span id="dates">01</span>
+							<span id="years">2024</span>
+						</div>
+						<p class="time-title">Hoje</p>
+						<div class="time">
+						    <div id="hours">00</div>
+						    <div id="minutes">00</div>
+						    <div id="seconds">00</div>
+						    <div id="ampm">00</div>
+						</div>
+			   		</div>
+			    </div>
+			 </div>
+		</div>
+		
+		<div id="resultados-graficos">
+			<div class="container-fluid">
+				<span id="agendamentosAtrasados"> </span><br />
+				<span id="agendamentosHoje"> </span>
+			</div>
+			<br />	
+			
+			<div class="container-fluid">
+				<div class="row justify-content-between">
+					<div class="col-4">
+						<canvas id="minhasSolicitacoes" style="height:50vh; width:40vw"> </canvas>
+					</div>
+					<div class="col-4">
+						<canvas id="geralSolicitacoes" style="height:50vh; width:40vw"> </canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+			
+		<br /><br /><br />
+		<footer class="container-fluid fixed-bottom text-center text-white">
+			<!-- Copyright -->
+			<div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+				© 2025 Copyright:
+				<a class="text-white" href="#">TechGold</a>
+			</div>
+			<!-- Copyright -->
+			</footer>
+		</footer>
+	</div>
+	<!-- ################################################# MODAL AVISOS ################################################# -->
+		<div class="modal fade" id="modalLabelColaborador" tabindex="-1" aria-labelledby="modalLabelColaborador"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="modalLabelColaborador">Avisos</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+					</div>
+						<div class="container">
+							<div id="conteudoAvisos">
+								
+							</div>
+						</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- ################################################# MODAL AVISOS ################################################# -->
+	
+	<!-- ############################################### MODAL TROCA DE SENHS ########################################### -->
+		<div class="modal fade" id="modalTrocaDeSenha" tabindex="-1" aria-labelledby="modalTrocaDeSenha"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="modalLabelColaborador">Aviso</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+						<div class="container">
+							<br />
+							<p><span style="font-size: 25px; color: red;">Realize a alteração de sua senha!</span> 
+								<a href="/cliente/funcionario/perfil" class="btn btn-warning">Alterar</a>
+							</p>
+						</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Fechar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- ############################################### MODAL TROCA DE SENHS ########################################### -->
+	<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+		<div class="modal fade" id="modalPasswordGenerator" tabindex="-1" aria-labelledby="modalPasswordGenerator"
+			aria-hidden="true">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="container-password">
+						<div class="result">
+							<div class="result__info right">click para copiar</div>
+							<div class="result__info left">copiado</div>
+							<div class="result__viewbox" id="result" style="color: aliceblue; "></div>
+							<a id="copy-btn" style="--x: 0; --y: 0"><i class="far fa-copy"></i></a>
+						</div>
+						<div class="length range__slider" data-min="4" data-max="32">
+							<div class="length__title field-title" data-length='0'>Tamanho:</div>
+							<input id="slider" type="range" min="4" max="32" value="16" />
+						</div>
+						<div class="settings">
+							<span class="settings__title field-title">configurações</span>
+							<div class="setting">
+								<input type="checkbox" id="uppercase" checked />
+								<label for="uppercase">Incluir Maiúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="lowercase" checked />
+								<label for="lowercase">Incluir Minúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="number" checked />
+								<label for="number">Incluir Número</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="symbol" />
+								<label for="symbol">Incluir Símbolo</label>
+							</div>
+						</div>
+						<button class="btn generate" id="generate">Gerar Senha</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+
+	<script src="assets/js/jquery-3.6.3.js"></script>
+	<script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/chart.js"></script>
+	<script src="assets/js/password-generator.js"></script>
+	<script>
+		
+		
+		$(document).ready(function () {
+				$.ajax({
+					url: "/cliente/funcionarios/home",
+					type: "GET",
+					success: function (data) {
+						
+						
+						if(data.agendadosAtrasados > 0){
+							$('#agendamentosAtrasados').append('<b> Agendamentos Atrasados: </b><span><a href="/cliente/solicitacao/relatorios" style="color: red; font-size: 25px">' + data.agendadosAtrasados +'</a></span>');
+						}
+						if(data.agendadosHoje > 0){
+							$('#agendamentosHoje').append('<b> Agendamentos Hoje: </b><span><a href="/cliente/solicitacao/relatorios" style="color: orange; font-size: 25px">' + data.agendadosHoje +'</a></span>');
+						}
+						
+						$('#saudacao').text(data.saudacao);
+						$('#nomeFuncionario').text(data.nomeFuncionario);
+						$('#dataUltimoLogin').text("Ultimo login: " + data.dataUltimoLogin);
+						
+						if(data.trocaSenha == true){
+							$("#modalTrocaDeSenha").modal('toggle'); 
+						}
+						<!--Chart.defaults.color = "#FFFFFF";-->
+						const ctx = document.getElementById('minhasSolicitacoes');
+						new Chart(ctx, {
+					    type: 'bar',
+					    data: {
+					      labels: ['Abertas', 'Andamento', 'Agendados', 'Aguardando','Pausado'],
+					      datasets: [{
+					        label: 'Minhas Solicitações: ' + data.solicitacoes.total,
+					        data: [data.solicitacoes.abertas, data.solicitacoes.andamento, data.solicitacoes.agendados, data.solicitacoes.aguardando, data.solicitacoes.pausado],
+					         backgroundColor: [
+							      'rgba(255, 99, 132, 0.2)',
+							      'rgba(0, 150, 255, 0.2)',
+							      'rgba(255, 205, 86, 0.2)',
+							      'rgba(121, 125, 127, 0.2)',
+							      'rgba(54, 162, 235, 0.2)',
+							      'rgba(153, 102, 255, 0.2)',
+							      'rgba(201, 203, 207, 0.2)'
+							    ],
+							    borderColor: [
+							      'rgb(255, 99, 132)',
+							      'rgb(0, 150, 255)',
+							      'rgb(255, 205, 86)',
+							      'rgb(121, 125, 127)',
+							      'rgb(54, 162, 235)',
+							      'rgb(153, 102, 255)',
+							      'rgb(201, 203, 207)'
+					    	],
+					        borderWidth: 1
+					      }]
+					    },
+					    options: {
+							 responsive: true,
+						     scales: { y: { min: 0, max: data.solicitacoes.total } } 
+						}
+					  });
+					  
+					  const ctx2 = document.getElementById('geralSolicitacoes');
+					  new Chart(ctx2, {
+					    type: 'line',
+					    data: {
+					      labels: ['Abertas', 'Andamento', 'Agendados', 'Aguardando','Pausado'],
+					      datasets: [{
+					        label: 'Solicitações gerais: ' + data.gerais.total,
+					        data: [data.gerais.abertas, data.gerais.andamento, data.gerais.agendados, data.gerais.aguardando, data.gerais.pausado],
+					         backgroundColor: [
+							      'rgba(255, 99, 132, 0.2)',
+							      'rgba(0, 150, 255, 0.2)',
+							      'rgba(255, 205, 86, 0.2)',
+							      'rgba(121, 125, 127, 0.2)',
+							      'rgba(54, 162, 235, 0.2)',
+							      'rgba(153, 102, 255, 0.2)',
+							      'rgba(201, 203, 207, 0.2)'
+							    ],
+							    borderColor: [
+							      'rgb(255, 99, 132)',
+							      'rgb(0, 150, 255)',
+							      'rgb(255, 205, 86)',
+							      'rgb(121, 125, 127)',
+							      'rgb(54, 162, 235)',
+							      'rgb(153, 102, 255)',
+							      'rgb(201, 203, 207)'
+					    	],
+					        borderWidth: 1
+					      }]
+					    },
+					    options: {
+							 responsive: true,
+							  tension: 0.2,
+						     scales: { y: { min: 0, max: data.gerais.total } }
+						}
+					  });
+					},
+					statusCode: {
+					    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					    401: function() { 
+							alert('Realize login novamente!');
+							window.location.href = "/cliente/login"; 
+						}
+					},
+					complete: function (data) { }
+				})
+		});
+	</script>
+	<script>
+		setInterval(() => {
+		  const month = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+		  const weekday = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sabado"];
+		
+		  // Day
+		  let months = document.getElementById("months");
+		  let days = document.getElementById("days");
+		  let dates = document.getElementById("dates");
+		  let years = document.getElementById("years");
+		
+		  // time
+		  let hours = document.getElementById("hours");
+		  let minutes = document.getElementById("minutes");
+		  let seconds = document.getElementById("seconds");
+		  let ampm = document.getElementById("ampm");
+		
+		  //Date
+		  let ma = month[new Date().getMonth()];
+		  let dy = weekday[new Date().getUTCDay()];
+		  let dt = new Date().getDate();
+		  let yr = new Date().getFullYear();
+		
+		  //time
+		  let h = new Date().getHours();
+		  let m = new Date().getMinutes();
+		  let s = new Date().getSeconds();
+		  let am = h >= 12 ? "PM" : "AM";
+		
+		  //convart time 12 hours
+		  if (h > 12){ h = h - 12; }
+		
+		  // add zero
+		  h = (h < 10) ? "0" + h : h;
+		  m = (m < 10) ? "0" + m : m;
+		  s = (s < 10) ? "0" + s : s;
+		  dt = (dt < 10) ? "0" + dt : dt;
+		
+		  // date
+		  months.innerHTML = ma;
+		  days.innerHTML = dy;
+		  dates.innerHTML = dt;
+		  years.innerHTML = yr;
+		
+		  // time
+		  hours.innerHTML = h;
+		  minutes.innerHTML = m;
+		  seconds.innerHTML = s;
+		  ampm.innerHTML = am;
+		})
+	</script>
+</body>
+</html>

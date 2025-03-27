@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import br.com.techgold.app.dto.DtoAtualizarCliente;
@@ -21,6 +22,10 @@ public class ClienteService {
 	
 	@Autowired
 	ClienteRepository repository;
+	
+	public UserDetails buscaPorUserDetails(String nome) {
+		return repository.findByUsername(nome);
+	}
 	
 	public Page<DtoClienteList> listarClientePorPalavra(Pageable page, String conteudo) {
 		return repository.listarClientesPorPalavra(page, conteudo).map(DtoClienteList::new);
