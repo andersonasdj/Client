@@ -13,41 +13,17 @@ public class SolicitacaoController {
 		
 		return "solicitacaoForm.html";
 	}
-
-	@GetMapping("/model")
-	public String formularioModelo() {
 		
-		return "solicitacaoFormModelo.html";
-	}
-	
 	@GetMapping("/list")
 	public String listar() {
 		
 		return "solicitacaoList.html";
 	}
 	
-	@GetMapping("/modelos")
-	public String modelos() {
-		
-		return "modelosSolicitacaoList.html";
-	}
-	
-	@GetMapping("/legacy")
-	public String legadas() {
-		
-		return "solicitacaoLegacyList.html";
-	}
-	
 	@GetMapping("/relatorios")
 	public String relatorios() {
 		
 		return "solicitacaoOpcoesRelatorios.html";
-	}
-	
-	@GetMapping("/excluidas")
-	public String excluidas() {
-		
-		return "solicitacaoExcluidas.html";
 	}
 	
 	@GetMapping("/finalizadas")
@@ -68,35 +44,4 @@ public class SolicitacaoController {
 		return "dashboardCliente.html";
 	}
 	
-	@GetMapping("/dashboard/funcionario")
-	public String dashboardFuncionario() {
-		
-		return "dashboardFuncionario.html";
-	}
-	
-	@GetMapping("/relatoriosclientes")
-	public String relatorioCliente() {
-		
-		return "solicitacaoRelatorioPorCliente.html";
-	}
-	
-//	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/relatoriostecnicos")
-	public String relatorioTecnico() {
-		
-		return "solicitacaoRelatorioPorTecnico.html";
-	}
-	
-	@GetMapping("/relatoriosfiltros")
-	public String relatorioFiltros() {
-		
-		return "solicitacaoRelatorioPorFiltro.html";
-	}
-	
-	@GetMapping("/relatoriosperiodo")
-	public String relatorioPeriodo() {
-		
-		return "solicitacaoRelatorioPorPeriodo.html";
-	}
-
 }

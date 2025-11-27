@@ -9,16 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ClienteController {
 	
 	
-	@GetMapping("/list")
-	public String listar() {
-		return "clienteList.html";
-	}
-	
-	@GetMapping("/form")
-	public String formulario() {
-		return "clienteForm.html";
-	}
-	
 	@GetMapping("/perfil")
 	public String perfil() {
 		return "perfil.html";

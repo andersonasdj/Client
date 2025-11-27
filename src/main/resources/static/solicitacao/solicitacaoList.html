@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="../assets/img/favicon.ico">
+	<link rel="stylesheet" href="../assets/css/defaultStyle.css">
+	<link rel="stylesheet" href="../assets/css/styleBusca.css">
+	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../assets/css/password-generator.css">
+	<link rel="stylesheet" href="../assets/css/StyleSolicitacao.css">
+	<link rel="stylesheet" href="../assets/css/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="../assets/css/dark.css">
+	<title>Sistech - Solicitações</title>
+</head>
+<body>
+	<div class="container-fluid">
+		<!-- ############################################## BARRA DE NAVEGAÇÃO ################################################### -->
+				<nav class="navbar navbar-expand-lg bg-light">
+					<div class="container-fluid">
+						<a class="navbar-brand color-text" href="/cliente/home"><img src="./../assets/img/key.png" style="height: 18px;"> cliente</a>
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+							data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+							aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+							<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+								<li class="nav-item"><a class="nav-link active color-text" aria-current="page" href="/cliente/home">Início</a></li>
+									<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown"aria-expanded="false">Solicitações</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="/cliente/solicitacao/form">Novo</a></li>
+										<li><a class="dropdown-item" href="/cliente/solicitacao/list">Listar</a></li>
+										<li><hr class="dropdown-divider"></li>
+										<li><a class="dropdown-item" href="/cliente/solicitacao/relatorios">Relatórios</a></li>
+									</ul>
+								</li>
+								
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown"aria-expanded="false">Dashboard</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="/cliente/solicitacao/dashboard/geral">Solicitações ativas</a></li>
+									</ul>
+								</li>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ferramentas</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">Password Generator</a></li>
+									</ul>
+								</li>
+							</ul>
+							<ul class="navbar-nav mb-3 mb-lg-0">
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" id="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="/cliente/cliente/perfil">Perfil</a></li>
+										<li><hr class="dropdown-divider"></li>
+										<li><a class="dropdown-item" href="/cliente/sobre">Sobre</a></li>
+									</ul>
+								</li>
+									<a href="/cliente/logout"><i class="bi bi-power"style="font-size: 2rem; color: red;"></i></a>
+							</ul>
+							
+						</div>
+					</div>
+				</nav>
+				<!-- ############################################## BARRA DE NAVEGAÇÃO ################################################### -->
+
+		<hr class="bg-danger border-2 border-top border-danger">
+		<div class="container-fluid">
+		  <div class="row">
+			  <div class="col-3">
+				<div class="control-group">
+					<div class="controls">
+				      <select name="" id="qtdItensPage" class="form-select" style="width: 80px;">
+				        <option value="100">100</option>
+				        <option value="150">150</option>
+				        <option value="200">200</option>
+				        <option value="250">250</option>
+				        <option value="300" selected >300</option>
+				        <option value="350">350</option>
+						<option value="400">400</option>
+						<option value="450">450</option>
+						<option value="500">500</option>
+				      </select>
+					</div>
+				</div>
+		    </div>
+		    <div class="col-3">
+				<b><span class="totalSolicitacoes" id="totalElementos"> </span></b>
+		    </div>
+		    <div class="col-6">
+				<button class="btn btn-danger btn-sm rederizaBtn" onclick="btnStatus('ABERTO')">ABERTO</button>
+				<button class="btn btn-primary btn-sm rederizaBtn" onclick="btnStatus('ANDAMENTO')">ANDAMENTO</button>
+				<button class="btn btn-warning btn-sm rederizaBtn" onclick="btnStatus('AGENDADO')">AGENDADO</button>
+				<button class="btn btn-light btn-sm rederizaBtn" onclick="btnStatus('PAUSADO')">PAUSADO</button>
+				<button class="btn btn-secondary btn-sm rederizaBtn" onclick="btnStatus('AGUARDANDO')">AGUARDANDO</button>
+				<button class="btn btn-dark btn-sm rederizaBtn" onclick="exibeTodas()">TODAS</button>
+		    </div>
+		  </div>
+		</div>
+		<hr class="bg-danger border-2 border-top border">
+		<span id="update" hidden> </span>
+		<div class="container-fluid">
+		  <div class="row">
+		    <div class="col-5">
+				<button class="btn btn-success btn-sm">Nova </button>
+		    </div>
+		    <div class="col-1">
+				<a href="/sistech/api/csv/download"> <i class="bi bi-filetype-csv" style="font-size: 1.8rem; color: cornflowerblue;"> </i></a>
+		    </div>
+		    <div class="col-1">
+				<a href="#" onclick="generatePDF()"> <i class="bi bi-filetype-pdf" style="font-size: 1.8rem; color: cornflowerblue;"> </i></a>
+		    </div>
+		    <div class="col-5">
+				<div class="form-group pull-right">
+		    		<input id="boxBusca" type="text" class="search form-control" placeholder="Busca">
+				</div>
+				<span class="counter pull-right"> </span>
+		    </div>
+		  </div>
+		</div>
+		
+		<div class="table-responsive mt-2">
+			<table class="table table-bordered results sortable table-action" id="tabela-usuarios">
+				<thead>
+					<tr>
+						<th data-field="id">ID</th>
+						<th data-field="abertura">Data Abertura</th>
+						<th data-field="cliente">Cliente</th>
+						<th data-field="solicitante">Solicitante</th>
+						<th data-field="afetado">Afetado</th>
+						<th data-field="classificacoes" class="escondeClassificacoes">Classificações</th>
+						<th data-field="descricao">Descrição</th>
+						<th data-field="criticidade">Criticidade</th>
+						<th data-field="classificacao">Classificação</th>
+						<th data-field="responsavel">Responsável</th>
+						<th data-field="status">Status</th>
+						<th data-field="duracao">Duração <span style="font-size: 10px;"> (minutos)</span></th>
+						<th data-field="versao" class="escondeVersao">Versão</th>
+					</tr>
+				</thead>
+				<tbody id="corpoSolicitacoes">
+					<tr> </tr>
+				</tbody>
+			</table>
+		</div>	
+		<nav aria-label="Page navigation example">
+		  <ul id="paginas" class="pagination"> </ul>
+		</nav>
+
+		<br /><br />
+		<footer class="container-fluid fixed-bottom text-center text-white">
+				<!-- Copyright -->
+				<div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+					© 2025 Copyright:
+					<a class="text-white" href="#">TechGold</a>
+				</div>
+				<!-- Copyright -->
+		</footer>
+			
+		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+		<div class="modal fade" id="modalPasswordGenerator" tabindex="-1" aria-labelledby="modalPasswordGenerator"
+			aria-hidden="true">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="container-password">
+						<div class="result">
+							<div class="result__info right">click para copiar</div>
+							<div class="result__info left">copiado</div>
+							<div class="result__viewbox" id="result" style="color: aliceblue; "></div>
+							<a id="copy-btn" style="--x: 0; --y: 0"><i class="far fa-copy"></i></a>
+						</div>
+						<div class="length range__slider" data-min="4" data-max="32">
+							<div class="length__title field-title" data-length='0'>Tamanho:</div>
+							<input id="slider" type="range" min="4" max="32" value="16" />
+						</div>
+						<div class="settings">
+							<span class="settings__title field-title">configurações</span>
+							<div class="setting">
+								<input type="checkbox" id="uppercase" checked />
+								<label for="uppercase">Incluir Maiúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="lowercase" checked />
+								<label for="lowercase">Incluir Minúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="number" checked />
+								<label for="number">Incluir Número</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="symbol" />
+								<label for="symbol">Incluir Símbolo</label>
+							</div>
+						</div>
+						<button class="btn generate" id="generate">Gerar Senha</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+		
+	</div>
+	<script src="../assets/js/jquery-3.6.3.js"></script>
+	<script src="../assets/js/popper.min.js"></script>
+	<script src="../assets/js/bootstrap.min.js"></script>
+	<script src="../assets/js/sorttable.js"></script>
+  	<script src="../assets/js/jspdf.min.js"></script>
+  	<script src="../assets/js/password-generator.js"></script>
+ 	<script src="../assets/js/jspdf.plugin.autotable.js"></script>
+	<script src="../assets/js/dark.js"></script>
+  
+	<script>
+		exibeTodasSolicitacoes();
+						
+		function exibeTodas(){
+			$('#corpoSolicitacoes, #paginas').empty();
+			exibeTodasSolicitacoes();
+		}
+		
+		function btnStatus(status){
+			var QtdItens = $("#qtdItensPage").val();
+			$.ajax({
+				type: "GET",
+				contentType: "application/json",
+				url: "/sistech/solicitacao/short/"+status+"?size="+QtdItens,
+				success: function (data) {
+					exibeItens(data);
+				},
+				statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					401: function() { 
+						alert('Realize login novamente!');
+						window.location.href = "/sistech/login"; 
+					}
+				}
+			});
+		}
+		
+		function exibeTodasSolicitacoes(){
+			var QtdItens = $("#qtdItensPage").val();
+			$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			url: "/cliente/api/v1/solicitacao/short?size="+QtdItens,
+			success: function (data) {
+				$('#totalElementos').text("");
+				$('#totalElementos').text(data.totalElements);
+				
+				if(data.totalPages > 1){
+					for(var i=0; i < data.totalPages ; i++ ){
+						$('#paginas').append('<li class="page-item" id=numPag'+ i+'"><a id=numPag'+ i+' class="page-link" onclick="paginacao('+ i +')">'+ (i + 1) +'</a></li>');
+					}
+					$("#numPag0").attr("style","color:red");
+				}
+				
+				data.content.map(i => {
+					var status,
+						vip,
+						redFlag,
+						alertaPeso,
+						alertaPrioridade,
+						tempo,
+						alerta,
+						dataStatus="";
+					if(i.peso > 7){alertaPeso = "class='blink' style='color: red; font-weight: bold;'";}
+					else if(i.peso > 3 && i.peso <= 7 ){alertaPeso = "style='color: orange; font-weight: bold;'";}
+					else{alertaPeso = "style='color: blue; font-weight: bold;'";}
+					
+					if(i.status == "ABERTO"){ status = "class='table-danger'" }
+					if(i.status == "AGENDADO"){ status = "class='table-warning'"; dataStatus = i.dataAgendado; }
+					if(i.status == "ANDAMENTO"){ status = "class='table-info'"; dataStatus = i.dataAndamento; }
+					if(i.status == "AGUARDANDO"){ status = "class='table-secondary'" }
+					if(i.status == "PAUSADO"){ status = "class='table-light'" }
+					if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><p><b> VIP </span>" }else{vip =""}
+					if(i.redFlag == true){ 
+						if(i.vip == true){
+							redFlag = "-<span class='blink' style='color: red; font-size: 15px'><b> REDFLAG</b></p></span>" }
+						else{
+							redFlag = "<span class='blink' style='color: red; font-size: 15px'><p><b>REDFLAG</b></p></span>" }
+					} else{redFlag =""}
+					
+					if(i.prioridade == "CRITICA"){
+						alertaPrioridade ="class='blink' style='color: red; font-weight: bold;'";
+					}else if(i.prioridade == "ALTA"){
+						alertaPrioridade ="style='color: orange; font-weight: bold;'";
+					}else{
+						alertaPrioridade ="class='' style=''";
+					}
+					if(i.duracao != null){
+						if(i.duracao <= 240 ){ alerta = "style='color: green; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 240 && i.duracao < 420){ alerta = "style='color: Chocolate; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 420){  alerta = "style='color: red; font-size: 19px'" ; tempo = i.duracao;}
+					}else {tempo = " "; alerta = " "}
+					
+					var itens = 
+					'<tr '+ status + ' id=linha' + i.id + ' data-bs-toggle="modal" data-bs-target="#modalEdicao" onclick=editar(' + i.id + ')>'
+					+ '<td id=name' + i.id + '>' + i.id + '</td>'
+					+ '<td>' + i.dataAbertura + '</td>'
+					+ '<td class=nome-do-cliente>' + i.nomeCliente  + vip + redFlag + '</td>'
+					+ '<td id=solicitante' + i.id + '>' + i.solicitante + '</td>'
+					+ '<td id=afetado' + i.id + '>' + i.afetado + '</td>'
+					+ '<td id=local'+ i.id+' style="font-size: 12px;" class=escondeClassificacoes><p> Local: ' + i.local + '</p>Categoria: ' + i.categoria +'</td>'
+					+ '<td class=descricao-problema id=descricao' + i.id + '>' + i.descricao + '</td>'
+					+ '<td id=prioridade' + i.id+'><span '+alertaPrioridade+' >' + i.prioridade + '</span></td>'
+					+ '<td id=classificacao' + i.id + '><p>' + i.classificacao + '</p> Peso: <span '+ alertaPeso + '>' + i.peso +'</span></td>'
+					+ '<td class=funcionario-responsavel id=nomeFuncionario' + i.id + '>' + i.nomeFuncionario + '</td>'
+					+ '<td id=status' + i.id + ' ><p>' + i.status + '</p><span style="font-size:12px ; color: blue; font-weight: bold">'+ dataStatus +'<p> ' + ((dataStatus != null && dataStatus != '') ? atualizaContador(dataStatus, i.status): atualizaContador(i.dataAtualizacao, i.status)) + '</p></span></td>'
+					+ '<td id=duracao' + i.id + '><span '+alerta+'><b>' + tempo + '</b></span></td>'
+					+ '<td id=versao' + i.id + ' class=escondeVersao>' + i.versao + '</td>'
+					+ '</tr>'
+					$('#tabela-usuarios').append(itens);
+					}
+				);
+				var box = $('#boxBusca').val();
+				$('#boxBusca').val("");
+			},
+			statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					401: function() { 
+						alert('Realize login novamente!');
+						window.location.href = "/sistech/login"; 
+					}
+			}
+			});
+		}
+		
+		function paginacao(num){
+			var QtdItens = $("#qtdItensPage").val();
+			$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			url: "/sistech/solicitacao/short?page="+num+"&size="+QtdItens,
+			success: function (data) {
+				$('#corpoSolicitacoes').empty();
+				$('#paginas').empty();
+				
+				$('#totalElementos').text("");
+				$('#totalElementos').text(data.totalElements);
+				
+				for(var i=0; i < data.totalPages ; i++ ){
+					$('#paginas').append('<li class="page-item"><a id=numPag'+ i+' class="page-link" onclick="paginacao('+ i +')">'+ (i + 1) +'</a></li>');
+				}
+				$("#numPag"+num).attr("style","color:red");
+				
+				data.content.map(i => {
+					var status, vip, redFlag, tempo, alerta, dataStatus = "", alertaPeso;
+					
+					if(i.peso > 7){ alertaPeso = "class='blink' style='color: red; font-weight: bold;'"; }
+					else if(i.peso > 3 && i.peso <= 7 ){ alertaPeso = "style='color: orange; font-weight: bold;'"; }
+					else{ alertaPeso = "style='color: blue; font-weight: bold;'"; }
+					
+					if(i.status == "ABERTO"){ status = "class='table-danger'" }
+					if(i.status == "AGENDADO"){ status = "class='table-warning'"; dataStatus = i.dataAgendado; }
+					if(i.status == "ANDAMENTO"){ status = "class='table-info'"; dataStatus = i.dataAndamento; }
+					if(i.status == "AGUARDANDO"){ status = "class='table-secondary'" }
+					if(i.status == "PAUSADO"){ status = "class='table-light'" }
+					if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><p><b> VIP </span>" }else{vip =""}
+					if(i.redFlag == true){ 
+						if(i.vip == true){
+							redFlag = "-<span class='blink' style='color: red; font-size: 15px'><b> REDFLAG</b></p></span>" }
+						else{
+							redFlag = "<span class='blink' style='color: red; font-size: 15px'><p><b>REDFLAG</b></p></span>" }
+					} else{redFlag =""}
+					
+					if(i.prioridade == "CRITICA"){
+						alertaPrioridade ="class='blink' style='color: red; font-weight: bold;'";
+					}else if(i.prioridade == "ALTA"){
+						alertaPrioridade ="style='color: orange; font-weight: bold;'";
+					}else{
+						alertaPrioridade ="class='' style=''";
+					}
+					if(i.duracao != null){
+						if(i.duracao <= 240 ){ alerta = "style='color: green; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 240 && i.duracao < 420){ alerta = "style='color: Chocolate; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 420){  alerta = "style='color: red; font-size: 19px'" ; tempo = i.duracao;}
+					}else {tempo = " "; alerta = " "}
+					
+					var itens = 
+					'<tr '+ status + ' id=linha' + i.id + ' data-bs-toggle="modal" data-bs-target="#modalEdicao" onclick=editar(' + i.id + ')>'
+					+ '<td id=name' + i.id + '>' + i.id + '</td>'
+					+ '<td>' + i.dataAbertura + '</td>'
+					+ '<td class=nome-do-cliente>' + i.nomeCliente  + vip + redFlag + '</td>'
+					+ '<td id=solicitante' + i.id + '>' + i.solicitante + '</td>'
+					+ '<td id=afetado' + i.id + '>' + i.afetado + '</td>'
+					+ '<td id=local'+ i.id+' style="font-size: 12px;" class=escondeClassificacoes><p> Local: ' + i.local + '</p>Categoria: ' + i.categoria +'</td>'
+					+ '<td class=descricao-problema id=descricao' + i.id + '>' + i.descricao + '</td>'
+					+ '<td id=prioridade' + i.id+'><span '+alertaPrioridade+' >' + i.prioridade + '</span></td>'
+					+ '<td id=classificacao' + i.id + '><p>' + i.classificacao + '</p> Peso: <span '+ alertaPeso + '>' + i.peso +'</span></td>'
+					+ '<td class=funcionario-responsavel id=nomeFuncionario' + i.id + '>' + i.nomeFuncionario + '</td>'
+					+ '<td id=status' + i.id + ' ><p>' + i.status + '</p><span style="font-size:12px ; color: red; font-weight: bold">'+ dataStatus +'</span></td>'
+					+ '<td id=duracao' + i.id + '><span '+alerta+'><b>' + tempo + '</b></span></td>'
+					+ '<td id=versao' + i.id + ' class=escondeVersao>' + i.versao + '</td>'
+					+ '</tr>'
+					$('#tabela-usuarios').append(itens);
+					}
+				);
+				var box = $('#boxBusca').val();
+				$('#boxBusca').val("");
+			},
+			statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					401: function() { 
+						alert('Realize login novamente!'); 
+						window.location.href = "/sistech/login"; 
+					}
+				}
+			});
+		}
+		
+		$(document).ready(function () {
+			var divQtdItens = $("#qtdItensPage");
+			divQtdItens.on("change", function () {
+				var quantidade = divQtdItens.val();
+				
+				$.ajax({
+					type: "GET",
+					contentType: "application/json",
+					url: "/sistech/solicitacao/short?size="+quantidade,
+					success: function (data) {
+						exibeItens(data);
+					},
+					statusCode: {
+					    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+						401: function() { 
+							alert('Realize login novamente!');
+							window.location.href = "/sistech/login"; 
+						}
+					}
+				});
+			});
+		});
+
+		function exibeItens(data){
+				$('#corpoSolicitacoes, #paginas').empty();
+				
+				$('#totalElementos').text("");
+				$('#totalElementos').text(data.totalElements);
+				
+				for(var i=0; i < data.totalPages ; i++ ){
+					$('#paginas').append('<li class="page-item"><a id=numPag'+ i+' class="page-link" onclick="paginacao('+ i +')">'+ (i + 1) +'</a></li>');
+				}
+				
+				data.content.map(i => {
+					var status, vip, redFlag, tempo, alerta, alertaPeso, dataStatus = "";
+						
+					if(i.peso > 7){
+						alertaPeso = "class='blink' style='color: red; font-weight: bold;'";
+					}else if(i.peso > 3 && i.peso <= 7 ){
+						alertaPeso = "style='color: orange; font-weight: bold;'";
+					}else{
+						alertaPeso = "style='color: blue; font-weight: bold;'";
+					}
+					if(i.status == "ABERTO"){ status = "class='table-danger'" }
+					if(i.status == "AGENDADO"){ status = "class='table-warning'"; dataStatus = i.dataAgendado; }
+					if(i.status == "ANDAMENTO"){ status = "class='table-info'"; dataStatus = i.dataAndamento; }
+					if(i.status == "AGUARDANDO"){ status = "class='table-secondary'" }
+					if(i.status == "PAUSADO"){ status = "class='table-light'" }
+					if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><p><b> VIP </span>" }else{vip =""}
+					if(i.redFlag == true){ 
+						if(i.vip == true){
+							redFlag = "-<span class='blink' style='color: red; font-size: 15px'><b> REDFLAG</b></p></span>" }
+						else{
+							redFlag = "<span class='blink' style='color: red; font-size: 15px'><p><b>REDFLAG</b></p></span>" }
+					} else{redFlag =""}
+					
+					if(i.prioridade == "CRITICA"){
+						alertaPrioridade ="class='blink' style='color: red; font-weight: bold;'";
+					}else if(i.prioridade == "ALTA"){
+						alertaPrioridade ="style='color: orange; font-weight: bold;'";
+					}else{
+						alertaPrioridade ="class='' style=''";
+					}
+					if(i.duracao != null){
+						if(i.duracao <= 240 ){ alerta = "style='color: green; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 240 && i.duracao < 420){ alerta = "style='color: Chocolate; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 420){  alerta = "style='color: red; font-size: 19px'" ; tempo = i.duracao;}
+					}else {tempo = " "; alerta = " "}
+					
+					var itens = 
+					'<tr '+ status + ' id=linha' + i.id + ' data-bs-toggle="modal" data-bs-target="#modalEdicao" onclick=editar(' + i.id + ')>'
+					+ '<td id=name' + i.id + '>' + i.id + '</td>'
+					+ '<td>' + i.dataAbertura + '</td>'
+					+ '<td class=nome-do-cliente>' + i.nomeCliente  + vip + redFlag + '</td>'
+					+ '<td id=solicitante' + i.id + '>' + i.solicitante + '</td>'
+					+ '<td id=afetado' + i.id + '>' + i.afetado + '</td>'
+					+ '<td id=local'+ i.id+' style="font-size: 12px;" class=escondeClassificacoes><p> Local: ' + i.local + '</p> Categoria: ' + i.categoria +'</td>'
+					+ '<td class=descricao-problema id=descricao' + i.id + '>' + i.descricao + '</td>'
+					+ '<td id=prioridade' + i.id+'><span '+alertaPrioridade+' >' + i.prioridade + '</span></td>'
+					+ '<td id=classificacao' + i.id + '><p>' + i.classificacao + '</p> Peso: <span '+ alertaPeso + '>' + i.peso +'</span></td>'
+					+ '<td class=funcionario-responsavel id=nomeFuncionario' + i.id + '>' + i.nomeFuncionario + '</td>'
+					+ '<td id=status' + i.id + ' ><p>' + i.status + '</p><span style="font-size:12px ; color: blue; font-weight: bold">'+ dataStatus +'<p> ' + ((dataStatus != null && dataStatus != '') ? atualizaContador(dataStatus, i.status): atualizaContador(i.dataAtualizacao, i.status)) + '</p></span></td>'
+					+ '<td id=duracao' + i.id + '><span '+alerta+'><b>' + tempo + '</b></span></td>'
+					+ '<td id=versao' + i.id + ' class=escondeVersao>' + i.versao + '</td>'
+					+ '</tr>'
+					$('#tabela-usuarios').append(itens);
+					}
+				);
+				var box = $('#boxBusca').val();
+				$('#boxBusca').val("");
+		}
+												
+	</script>
+	<script>
+		function converteData(dataStr){
+			const [data, hora] = dataStr.split(' ');
+			const [dia, mes, ano] = data.split('/').map(Number);
+			const [horas, minutos] = hora.split(':').map(Number);
+			return new Date(ano, mes -1, dia, horas, minutos);
+		}
+		
+		function atualizaContador(dataInicial, status){
+			const agora = new Date();
+			const outraData = converteData(dataInicial);
+			var diferenca = 0;
+			
+			if(outraData >= agora){ diferenca = outraData - agora; } else { diferenca = agora - outraData; }
+			
+			const segundosTotais = Math.floor(diferenca / 1000);
+			const dias = Math.floor(segundosTotais / 86400);
+			const horas = Math.floor((segundosTotais % 86400) / 3600);
+			const minutos = Math.floor((segundosTotais % 3600) / 60);
+			const segundos = segundosTotais % 60;
+			
+			if(outraData >= agora){
+				return `<span style="color : #227900"><b>Faltan: ${dias}d ${horas}h ${minutos}m</b></span>`;
+			}else{
+				if(status == 'PAUSADO' || status == 'AGUARDANDO' || status == 'ABERTO'){
+					return `<span style="color : #ff6000"><b>Atualização: ${dias}d ${horas}h ${minutos}m</b></span>`;	
+				}else{
+					return `<span style="color : red"><b>Passaram: ${dias}d ${horas}h ${minutos}m</b></span>`;	
+				}
+			}
+		}
+				
+		function generatePDF() {
+		  var doc = new jsPDF('l', 'pt');
+		
+		  var elem = document.getElementById('tabela-usuarios');
+		  var data = doc.autoTableHtmlToJson(elem);
+		  doc.autoTable(data.columns, data.rows, {
+		    margin: {left: 35},
+		    theme: 'grid',
+		    tableWidth: 'auto',
+		    fontSize: 7,
+		    overflow: 'linebreak',
+		    }
+		  );
+		  doc.save('Solicotacoes.pdf');
+		}
+		
+		$(document).ready(function() {
+		  $(".search").keyup(function () {
+		    var searchTerm = $(".search").val();
+		    var listItem = $('.results tbody').children('tr');
+		    var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+		    
+		  $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+		        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+		    }
+		  });
+		    
+		  $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+		    $(this).attr('visible','false');
+		  });
+		
+		  $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+		    $(this).attr('visible','true');
+		  });
+		
+		  var jobCount = $('.results tbody tr[visible="true"]').length;
+		    $('.counter').text(jobCount + ' item');
+		
+		  if(jobCount == '0') {$('.no-result').show();}
+		    else {$('.no-result').hide();}
+				  });
+		});
+	</script>
+</body>
+</html>
