@@ -13,7 +13,6 @@ public class ClienteService {
 	@Autowired ClienteRepository repository;
 	
 	public Cliente buscaPorNome(String nome) {
-		System.out.println("EM CLIENTE SERVICE BUSCA CLIENTE POR NOME");
 		return repository.findBynomeCliente(nome);
 	}
 	

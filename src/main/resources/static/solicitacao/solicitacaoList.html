@@ -11,7 +11,6 @@
 	<link rel="stylesheet" href="../assets/css/password-generator.css">
 	<link rel="stylesheet" href="../assets/css/StyleSolicitacao.css">
 	<link rel="stylesheet" href="../assets/css/bootstrap-icons.min.css">
-	<link rel="stylesheet" href="../assets/css/dark.css">
 	<title>Sistech - Solicitações</title>
 </head>
 <body>
@@ -202,7 +201,151 @@
 			</div>
 		</div>
 		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
-		
+		<!-- ##################################################  MODAL EDIÇÃO ############################################### -->
+		<div class="modal fade" id="modalEdicao" tabindex="-1" aria-labelledby="modalEdicao" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-6" id="modalEdicao">Edição ID: <span id="idmodal"> </span></h1> &nbsp; &nbsp;
+						<button class="btn btn-sm btn-historico" data-bs-toggle="modal" data-bs-target="#modalHistorico" onclick="exibeHistorico()">Histórico</button>
+						&nbsp; &nbsp;
+						<span id="btnTimesheet"> </span>
+						<span hidden id="idHistorico"> </span>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+					</div>
+					<div class="modal-body">
+						<span id="id_cliente" style="display: none;" > </span>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="controls">
+									<label class="form-label mt-2" for="localmodal"><b>Local</b></label>
+									<select class="form-select" id="localmodal" aria-label="" disabled> </select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<label class="form-label mt-2" for="nomeFuncionarioModal"><b>Técnico</b></label>
+								<div class="controls">
+									<select class="form-select" id="nomeFuncionarioModal" name="nomeFuncionarioModal" disabled>
+										<option> </option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4 ms-auto" id="divstatusmodal">
+								<label class="form-label mt-2" for="statusmodal"><b>Status</b></label>
+								<div class="controls">
+									<select class="form-select" id="statusmodal" aria-label="" disabled> </select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-8-auto" id="agendamentosmodal" style="display: none">
+								<div class="control-group">
+									<label class="form-label mt-4"><b>Data Agendamento</b></label>
+									<div class="datetimepickerModal">
+										<input type="date" id="dateModal" name="dateModal" value="" disabled>
+										<span> </span>
+										<input type="time" id="timeModal" name="timeModal" value="" disabled>
+									</div>
+									<div class="info">
+										<strong>Compatibility check:</strong>
+										Date "<span id="date-output"></span>",
+										Time "<span id="time-output"></span>"
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group mt-3">
+									<label class="control-label" for="solicitante"><b>Solicitante</b>
+										<span id="botaoColaboradores"></span>
+									</label>
+									<div class="controls">
+										<select class="form-control solicitante mt-3" name="nomeSolicitanteModal" id="nomeSolicitanteModal" disabled> </select>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="control-group mt-3">
+									<label class="form-label" for="afetado"><b>Usuário Afetado</b></label>
+									<div class="controls">
+										<select class="form-control usuario mt-2" name="nomeAfetadoModal" id="nomeAfetadoModal" disabled> </select>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="control-group mt-3">
+									<label class="form-label" for="formaAberturaModal"><b>Canal de Abertura</b></label>
+									<div class="controls">
+										<select class="form-control usuario mt-2" name="formaAberturaModal" id="formaAberturaModal" disabled> </select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 ms-auto">
+								<label class="form-label mt-3" for="categoriamodal"><b>Categoria</b></label>
+								<div class="controls">
+									<div class="controls">
+										<select class="form-select" id="categoriamodal" name="categoriamodal" disabled>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 ms-auto">
+								<label class="form-label mt-3" for="classificacaomodal"><b>Classificação</b></label>
+								<div class="controls">
+									<select class="form-select" id="classificacaomodal" name="classificacaomodal" disabled>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4 ms-auto">
+								<label class="form-label mt-3" for="prioridademodal"><b>Criticidade</b></label>
+								<div class="controls">
+									<select class="form-select" id="prioridademodal" name="prioridademodal" disabled>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 ms-auto">
+								<label class="form-label mt-3" for="descricaomodal"><b>Descrição</b></label>
+								<div class="controls">
+									<textarea class="form-control" rows="4" id="descricaomodal" class="form-control" spellcheck="true" disabled></textarea>
+								</div>
+							</div>
+							<div class="col-md-6 ms-auto">
+								<label class="form-label mt-3" for="observacaomodal"><b>Observação</b></label>
+								<div class="controls">
+									<textarea class="form-control" rows="4" id="observacaomodal" spellcheck="true" disabled></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<label class="form-label mt-3" for="resolucaomodal"><b>Resolução</b></label>
+							<div class="controls">
+								<textarea class="form-control" rows="4" id="resolucaomodal" spellcheck="true" disabled></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-10 mt-3">
+								<div class="controls">
+									<b><span id="dataAtualizacaoModal"> </span></b>
+								</div>
+							</div>
+							<div class="col-md-2 mt-3">
+								<div class="controls" style="color: darkblue; font-weight: bold;">Versão <span id="versaoModal"> </span></div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir a solicitação" onclick=print()><i class="bi bi-printer"> </i></button>
+						<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Fechar o quadro de edição" data-bs-dismiss="modal">Fechar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #################################  MODAL EDIÇÃO ######################################################## -->
 	</div>
 	<script src="../assets/js/jquery-3.6.3.js"></script>
 	<script src="../assets/js/popper.min.js"></script>
@@ -211,7 +354,69 @@
   	<script src="../assets/js/jspdf.min.js"></script>
   	<script src="../assets/js/password-generator.js"></script>
  	<script src="../assets/js/jspdf.plugin.autotable.js"></script>
-	<script src="../assets/js/dark.js"></script>
+	
+	<script>
+		function editar(id) {
+			$.ajax({
+				type: "GET",
+				contentType: "application/json",
+				url: "/cliente/api/v1/solicitacao/busca/" + id,
+				success: function (data) {
+						
+						$('#inputId').empty();
+						$('#btnTimesheet, #btnAnexo').text("");
+						$('#idmodal, #idHistorico, #versaoModal, #id_cliente').text('');
+						$('#dataAtualizacaoModal, #statusmodal, #categoriamodal, #classificacaomodal, #prioridademodal, #localmodal, #nomeFuncionarioModal, #nomeSolicitanteModal, #nomeAfetadoModal, #formaAberturaModal').empty();
+						$('#descricaomodal, #resolucaomodal, #observacaomodal, #dateModal, #timeModal').val('');
+						
+						if(data.anexo != null && data.anexo != ' '){
+							$('#btnAnexo').append('<button class="btn btn-sm btn-anexo" onclick="baixarAnexo('+id+')"><i class="bi bi-paperclip"></i>Baixar</button>&nbsp; &nbsp;');
+							$('#btnAnexo').append('<button class="btn btn-sm btn-anexo" data-bs-toggle="modal" data-bs-target="#modalExibirAnexo" onclick="exibirAnexo('+id+')"><i class="bi bi-paperclip"></i>Visualizar</button>&nbsp; &nbsp;');
+							$('#btnAnexo').append('<button class="btn btn-sm btn-anexo" data-bs-toggle="modal" data-bs-target="#modalArquivo"><i class="bi bi-paperclip"></i>Alterar</button>');
+							$('#inputId').append('<input type="hidden" id="id" name="id" value="'+data.id+'"></input>');
+													
+						}else{
+							$('#btnAnexo').append('<button class="btn btn-sm btn-timesheet" data-bs-toggle="modal" data-bs-target="#modalArquivo"><i class="bi bi-paperclip"></i>Incluir Anexo</button>');
+							$('#inputId').append('<input type="hidden" id="id" name="id" value="'+data.id+'"></input>');
+						}
+						
+						if(data.duracao > 0){
+							$('#btnTimesheet').append('<button class="btn btn-sm btn-timesheet" data-bs-toggle="modal" data-bs-target="#modalTimesheetSolicitacao" onclick="exibeTimesheet('+ id +')"><i class="bi bi-clock-history"></i></button>');
+						}
+						
+						$('#idHistorico').text(data.log_id);
+						$('#idmodal').text(data.id);
+						$('#id_cliente').text(data.clienteId);
+						$('#versaoModal').text(data.versao);
+						$('#descricaomodal').val(data.descricao);
+						$('#resolucaomodal').val(data.resolucao);
+						$('#observacaomodal').val(data.observacao);
+						$('#dataAtualizacaoModal').append('<span style="font-size: 14px"> <i class="bi bi-person-plus"></i> Aberto por: ' + data.abertoPor + '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <i class="bi bi-calendar3"></i> Atualizado em: ' + data.dataAtualizacao+'</span>');
+						$('#nomeFuncionarioModal').append("<option value=" + data.funcionario + ">" + data.funcionario + "</option>");
+						$('#categoriamodal').append("<option value="+ data.categoria +">"+ data.categoria+"</option>");
+						$('#classificacaomodal').append("<option value="+ data.classificacao +">"+ data.classificacao+"</option>");
+						$('#prioridademodal').append("<option value="+ data.prioridade +">"+ data.prioridade+"</option>");
+						$('#localmodal').append("<option value="+ data.local +">"+ data.local+"</option>");
+						$('#formaAberturaModal').append("<option value="+ data.formaAbertura +">"+ data.formaAbertura+"</option>");
+						$('#nomeSolicitanteModal').append('<option value="' + data.solicitante + '">' + data.solicitante + '</option>');
+						$('#nomeAfetadoModal').append('<option value="' + data.afetado + '">' + data.afetado	 + '</option>');
+						$('#statusmodal').append("<option value=" + data.status + ">" + data.status + "</option>");
+					
+				},
+				statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					401: function() { 
+						alert('Realize login novamente!'); 
+						window.location.href = "/sistech/login"; 
+					}
+				}
+			});
+		}
+		
+	</script>
+	
+	
+	
   
 	<script>
 		exibeTodasSolicitacoes();
@@ -248,7 +453,8 @@
 			url: "/cliente/api/v1/solicitacao/short?size="+QtdItens,
 			success: function (data) {
 				$('#totalElementos').text("");
-				$('#totalElementos').text(data.totalElements);
+				$('#totalElementos').text(data.page.totalElements);
+				
 				
 				if(data.totalPages > 1){
 					for(var i=0; i < data.totalPages ; i++ ){

@@ -1,0 +1,71 @@
+package br.com.techgold.app.dto;
+
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.com.techgold.app.model.Solicitacao;
+import br.com.techgold.app.model.enums.Categoria;
+import br.com.techgold.app.model.enums.Classificacao;
+import br.com.techgold.app.model.enums.FormaAbertura;
+import br.com.techgold.app.model.enums.Local;
+import br.com.techgold.app.model.enums.Prioridade;
+import br.com.techgold.app.model.enums.Status;
+
+public record DtoDadosEdicaoRapidaMaisFuncionarios(
+		
+		Long id,
+		String descricao,
+		String resolucao,
+		String observacao,
+		Status status,
+		Categoria categoria,
+		Classificacao classificacao,
+		Prioridade prioridade,
+		Local local,
+		String funcionario,
+		String dataAgendado,
+		String horaAgendado,
+		@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+		LocalDateTime dataAtualizacao,
+		@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+		LocalDateTime dataAbertura,
+		String solicitante,
+		String afetado,
+		FormaAbertura formaAbertura,
+		Integer versao,
+		String abertoPor,
+		Long clienteId,
+		String log_id,
+		Long duracao,
+		String anexo){
+
+	public DtoDadosEdicaoRapidaMaisFuncionarios(Solicitacao dados) {
+		this(
+				dados.getId(),
+				dados.getDescricao(),
+				dados.getResolucao(),
+				dados.getObservacao(),
+				dados.getStatus(),
+				dados.getCategoria(),
+				dados.getClassificacao(),
+				dados.getPrioridade(),
+				dados.getLocal(),
+				dados.getFuncionario().getNomeFuncionario(),
+				(dados.getDataAgendado()!= null) ? dados.getDataAgendado().toLocalDate().toString() : "",
+				(dados.getDataAgendado()!= null) ? dados.getDataAgendado().toLocalTime().toString() : "",
+				dados.getDataAtualizacao(),
+				dados.getDataAbertura(),
+				dados.getSolicitante(),
+				dados.getAfetado(),
+				dados.getFormaAbertura(),
+				dados.getVersao(),
+				dados.getAbertoPor(),
+				dados.getCliente().getId(),
+				(dados.getLog() != null) ? dados.getLog().getId().toString() : " ",
+				(dados.getDuracao() != null) ? dados.getDuracao() : 0,
+				dados.getAnexo()
+				);
+	}
+
+}
