@@ -1,5 +1,7 @@
 package br.com.techgold.app.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,14 @@ public class SolicitacaoService {
 	
 	public Solicitacao buscarPorId(Long id) {
 		return repository.getReferenceById(id);
+	}
+	
+	public Page<SolicitacaoProjecao> listarSolicitacoes(Pageable page, String status, Boolean exluida, Long id) {
+		return repository.listarSolicitacoes(page, status, exluida, id);
+	}
+	
+	public List<SolicitacaoProjecao> listarSolicitacoesFinalizadas(String status, Boolean exluida, Long id) {
+		return repository.listarSolicitacoesFinalizadas(status, exluida, id);
 	}
 
 }

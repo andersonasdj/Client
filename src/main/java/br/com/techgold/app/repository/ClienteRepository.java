@@ -19,9 +19,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 	public Cliente findBynomeCliente(String nomeCliente);
 
 	
-
-	
-
+	@Query(value = "SELECT COUNT(*) FROM solicitacoes s WHERE s.cliente_id=:clienteId AND s.status=:status AND s.excluido=0", nativeQuery = true)
+	public int buscaPorFuncionario(Long clienteId, String status);
 
 
 }

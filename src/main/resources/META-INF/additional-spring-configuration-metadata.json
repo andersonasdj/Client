@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "sistech.security.failedlogin.count",
+    "type": "java.lang.String",
+    "description": "A description for 'sistech.security.failedlogin.count'"
+  },
+  {
+    "name": "sistech.email.copia",
+    "type": "java.lang.String",
+    "description": "A description for 'sistech.email.copia'"
+  },
+  {
+    "name": "upload.dir",
+    "type": "java.lang.String",
+    "description": "A description for 'upload.dir'"
+  }
+]}

@@ -1,5 +1,7 @@
 package br.com.techgold.app.restcontroller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +41,18 @@ public class SolicitacaoRestController {
 	@GetMapping("/busca/{id}") //RETORNA UMA DTO DE UMA SOLICITAÇÃO PARA EDIÇÃO RÁPIDA
 	public ResponseEntity<DtoDadosEdicaoRapidaMaisFuncionarios> buscaPorId(@PathVariable Long id) {
 		return ResponseEntity.ok().body( new DtoDadosEdicaoRapidaMaisFuncionarios(solicitacaoService.buscarPorId(id)));
+	}
+	
+	@GetMapping("/excluido") //RETORNA DTO COM PROJEÇÃO DAS SOLICITAÇÕES EXCLUIDAS-LIXEIRA
+	public Page<SolicitacaoProjecao> excluidas(@PageableDefault(size = 200, sort= {"id"}, direction = Direction.DESC) Pageable page) {
+		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		return solicitacaoService.listarSolicitacoes(page,Status.FINALIZADO.toString(), true, cliente.getId());
+	}
+	
+	@GetMapping("/finalizado") //RETORNA DTO COM PROJEÇÃO DE TODAS AS SOLICITACOES EXCLUÍDAS-LIXEIRA
+	public List<SolicitacaoProjecao> finalizados() {
+		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		return solicitacaoService.listarSolicitacoesFinalizadas(Status.FINALIZADO.toString(), false, cliente.getId());
 	}
 	
 

@@ -61,11 +61,11 @@ public class Solicitacao {
 	private String solicitante;
 	@Column(name="afetado", length = 60)
 	private String afetado;
-	@Column(name="descricao", length = 300)
+	@Column(name="descricao", length = 500)
 	private String descricao;
-	@Column(name="resolucao", length = 300)
+	@Column(name="resolucao", length = 500)
 	private String resolucao;
-	@Column(name="observacao", length = 300)
+	@Column(name="observacao", length = 500)
 	private String observacao;
 	@Column(name="abertoPor", length = 60)
 	private String abertoPor;
@@ -102,6 +102,11 @@ public class Solicitacao {
 	private Long peso;
 	
 	private String anexo;
+	
+	private String conversationId;
+	
+	@Column(name="sugestao_ia", length = 500)
+	private String sugestaoIA;
 	
 	public Solicitacao(DtoCadastroSolicitacao dados, Cliente cliente, Funcionario funcionario) {
 		this.cliente = cliente;

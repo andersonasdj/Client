@@ -32,6 +32,12 @@ public class SolicitacaoController {
 		return "solicitacaoFinalizadas.html";
 	}
 	
+	@GetMapping("/excluidas")
+	public String excluidas() {
+		
+		return "solicitacaoExcluidas.html";
+	}
+	
 	@GetMapping("/dashboard/geral")
 	public String dashboardAtivos() {
 		
@@ -42,6 +48,12 @@ public class SolicitacaoController {
 	public String dashboardCliente() {
 		
 		return "dashboardCliente.html";
+	}
+	
+	@GetMapping("/relatoriosperiodo")
+	public String relatorioPeriodo() {
+		
+		return "solicitacaoRelatorioPorPeriodo.html";
 	}
 	
 }

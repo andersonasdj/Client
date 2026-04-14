@@ -43,9 +43,19 @@ public class Cliente extends Usuario implements UserDetails{
 	private boolean vip;
 	@Column(length = 20)
 	private String bairro;
+	@Column(length = 30)
+	private String dominio;
+	
+	
+	@Column(length = 300)
+	private String token;
+	
+	private Long tempoContratado;
 	
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
+	
+	private String caminhoFoto;
 	
 	public Cliente(DtoCadastroCliente dados) {
 		

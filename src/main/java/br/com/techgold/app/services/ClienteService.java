@@ -1,11 +1,15 @@
 package br.com.techgold.app.services;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import br.com.techgold.app.dto.DtoSolicitacoesCliente;
 import br.com.techgold.app.model.Cliente;
 import br.com.techgold.app.repository.ClienteRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ClienteService {
@@ -22,6 +26,32 @@ public class ClienteService {
 
 	public Cliente buscaClientePorNome(Long dados) {
 		return  repository.getReferenceById(dados);
+	}
+	
+	@Transactional
+	public void atualizaImagem(Long id, String caminhoFoto) {
+		Cliente cliente = repository.getReferenceById(id);
+		cliente.setCaminhoFoto(caminhoFoto);
+	}
+	
+	public DtoSolicitacoesCliente buscaSolicitacoes(Cliente cliente) {
+		
+		int abertas, agendadas, andamento, aguardando, pausado, total;
+		abertas = repository.buscaPorFuncionario(cliente.getId(), "ABERTO");
+		andamento = repository.buscaPorFuncionario(cliente.getId(), "ANDAMENTO");
+		agendadas = repository.buscaPorFuncionario(cliente.getId(), "AGENDADO");
+		aguardando = repository.buscaPorFuncionario(cliente.getId(), "AGUARDANDO");
+		pausado = repository.buscaPorFuncionario(cliente.getId(), "PAUSADO");
+		total = abertas + agendadas + andamento + aguardando + pausado;
+		return new DtoSolicitacoesCliente(abertas, andamento, agendadas, aguardando, pausado, total);
+	}
+	
+	@Transactional
+	public void atualizaIpLogin(Cliente f, String ip, String pais) {
+		Cliente cliente = repository.getReferenceById(f.getId());
+		cliente.setDataUltimoLogin(LocalDateTime.now().withNano(0));
+		cliente.setIp(ip);
+		cliente.setPais(pais);
 	}
 	
 }
