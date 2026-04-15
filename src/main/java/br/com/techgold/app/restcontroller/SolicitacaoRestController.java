@@ -71,16 +71,11 @@ public class SolicitacaoRestController {
 	
 	@PostMapping //SALVA UMA NOVA SOLICITAÇÃO NO BANCO
 	public String cadastrarNova(@RequestBody DtoCadastroSolicitacao dados ) {
-		System.out.println("coNTROLLER SALVAR");
 		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
 		Solicitacao solicitacao = new Solicitacao(dados, cliente);
-		
-			Funcionario funcionario = repositoryFuncionario.buscarPorNome("Suporte");
-			solicitacao.setFuncionario(funcionario);
-		
-		
+		Funcionario funcionario = repositoryFuncionario.buscarPorNome("Suporte");
+		solicitacao.setFuncionario(funcionario);
 		return solicitacaoService.salvarNovaSolicitacao(solicitacao);
-		
 	}
 	
 	@GetMapping("/dashboard/cliente") //RETORNA UMA DTO COM TODOS OS DADOS PARA O DASHBOARD POR CLIENTE

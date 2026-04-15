@@ -27,7 +27,6 @@ public class ColaboradorRestController {
 	@GetMapping("/list") //RETORNA UMA PROJECAO DE COLABORADORES POR ID DE CLIENTE
 	public ResponseEntity<List<ColaboradorProjecao>> listarPorIdCliente( ) {
 		Cliente cliente = clienteService.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
-		System.out.println("AQUI");
 		return ResponseEntity.ok().body(service.listarPorIdCliente(cliente.getId()));
 	}
 	
@@ -41,15 +40,9 @@ public class ColaboradorRestController {
 		return ResponseEntity.ok().body(service.listarCelularColaborador(id, nomeColaborador));
 	}
 	
-	
 	@GetMapping //REVISAR !!!!!
 	public ResponseEntity<List<DtoColaboradorListar>> listar() {
 		return ResponseEntity.ok().body(service.listar());
 	}
-	
-	
-	
-	
-
 	
 }

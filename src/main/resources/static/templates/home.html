@@ -7,175 +7,176 @@
 
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/css/password-generator.css">
 
 <style>
-body { overflow-x: hidden; }
+	
+	body {
+		overflow-x: hidden;
+	    background: #f3f4f6;
+	}
 
-body {
-    background: #f3f4f6;
-}
+	h5 { font-weight: 600; }
 
-h5 {
-    font-weight: 600;
-}
+	.topbar {
+	    background: #fff;
+	    padding: 15px 20px;
+	    border-radius: 10px;
+	}
 
-.sidebar.collapsed { width: 110px; }
+	#fotoTopbar img {
+	    width: 40px;
+	    height: 40px;
+	    border-radius: 50%;
+	    object-fit: cover;
+	    border: 2px solid #e5e7eb;
+		transition: 0.2s;
+	}
 
-.sidebar .menu { list-style: none; padding: 0; }
-.sidebar .menu li { 
-	padding: 10px 0;
-   }
-.sidebar .menu a {
-    color: rgb(36, 31, 49);
-    text-decoration: none;
-    display: flex;
-    gap: 10px;
-}
+	#fotoTopbar img:hover {
+	    opacity: 0.8;
+	    transform: scale(2.05);
+	}
 
-.sidebar .menu li.text-muted {
-    font-size: 11px;
-    text-transform: uppercase;
-    opacity: 0.6;
-}
+	.sidebar {
+	    width: 220px;
+	    height: 100vh;
+		position: sticky;
+		top: 0;
+		background: linear-gradient(200deg, rgb(246, 245, 244), rgb(255, 255, 255));
+		color: rgb(26, 95, 180);
+		flex-shrink: 0;
+		transition: width 0.3s ease;
+		overflow-y: auto;
+		box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+	}
 
-.sidebar .menu a:hover {
-    background: rgb(119, 118, 123);
-    border-radius: 6px;
-}
+	.sidebar.collapsed { width: 70px; }
+	.sidebar.collapsed span { display: none; }
+	.sidebar.collapsed .menu li.text-muted { display: none; }
+	.sidebar.collapsed .menu a {
+	    justify-content: center;
+	}
+	.sidebar.collapsed .menu i {
+	    font-size: 20px;
+	}
+	.sidebar .menu { list-style: none; padding: 0; }
+	.sidebar .menu .text-muted {
+		font-size: 17px;
+	    text-transform: uppercase;
+		color: rgb(26, 95, 180) !important;
+	 }
+	.sidebar .menu li { padding: 10px 0; }
 
-.sidebar.collapsed span { display: none; }
+   	.sidebar .menu a {
+	    display: flex;
+	   	cursor: pointer;
+	   	color: rgb(0, 0, 0);
+	   	padding: 10px 12px;
+	 	border-radius: 8px;
+	    transition: 0.2s;
+	   	text-decoration: none;
+	    gap: 12px;
+   	}
+	.sidebar .menu i {
+	    font-size: 18px;
+	    min-width: 24px;
+	    text-align: center;
+	}
+	   
+	   .sidebar .menu a:hover {
+	       background: rgb(153, 193, 241);
+	       border-radius: 6px;
+	   }
+	   
+	   .sidebar .menu a.active {
+	   		transform: scale(0.97);
+	   		background: #2563eb;
+	   	  	color: #fff;
+	   }
 
-.sidebar {
-    width: 220px;
-    height: 100vh;
-	position: sticky;
-	top: 0;
-	background: linear-gradient(180deg, #1e1b4b, #312e81);
-	color: #fff;
-    transition: 0.3s;
-	overflow-y: auto;
-	box-shadow: 2px 0 10px rgba(0,0,0,0.05);
-}
+	.content {
+		padding: 20px;
+		transition: 0.3s;
+	}
 
-.sidebar .menu a {
-	color: rgb(255, 255, 255);
-    padding: 10px;
-    border-radius: 8px;
-    transition: 0.2s;
-}
+	.card-body ul {
+	    max-height: 250px;
+	    overflow-y: auto;
+	}
 
-.sidebar .menu a.active {
-	background: #2563eb;
-	   color: #fff;
-}
+	.card-time {
+	    background: linear-gradient(135deg, rgb(153, 193, 241), rgb(153, 193, 241));
+	    color: #fff;
+	    border-radius: 12px;
+	}
 
-.sidebar .menu a:hover {
-   background: #374151;
-}
+	.card { transition: all 0.2s ease; }
 
+	.card:hover {
+	    transform: translateY(-4px) scale(1.01);
+		transition: 0.2s;
+	}
 
-.content {
-    padding: 20px;
-    transition: 0.3s;
-}
+	.kpi-card {
+	    border-radius: 12px;
+	    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+	    transition: 0.2s;
+		border: none;
+		border-left: 4px solid transparent;
+	}
 
+	.kpi-card i { transition: all 0.3s ease; }
+	.kpi-card:hover { transform: translateY(-5px); }
+	.kpi-card:hover i { transform: scale(1.2) rotate(5deg); }
+	.kpi-card:nth-child(1) { border-left-color: #3b82f6; }
+	.kpi-card:nth-child(2) { border-left-color: #10b981; }
+	.kpi-card:nth-child(3) { border-left-color: #f59e0b; }
+	.kpi-card:nth-child(4) { border-left-color: #ef4444; }
 
-.card:hover {
-    transform: translateY(-3px);
-    transition: 0.2s;
-}
+	.dropdown > div:hover {
+	    background: #f3f4f6;
+	    padding: 5px 10px;
+	    border-radius: 8px;
+	}
+	.dropdown-menu { transition: all 0.2s ease; }
 
-.card-time {
-    background: linear-gradient(135deg, rgb(153, 193, 241), rgb(153, 193, 241));
-    color: #fff;
-    border-radius: 12px;
-}
-.kpi-card {
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    transition: 0.2s;
-}
+	.avatar-inicial {
+	    width: 36px;
+	    height: 36px;
+	    border-radius: 50%;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    font-weight: 600;
+	    font-size: 14px;
+	    color: #fff;
+	}
+	.form-control, .form-select {
+	    border-radius: 8px;
+	    border: 1px solid #e5e7eb;
+	    transition: 0.2s;
+	}
 
-.kpi-card:hover {
-    transform: translateY(-5px);
-}
+	.form-control:focus, .form-select:focus {
+	    border-color: #3b82f6;
+	    box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+	}
 
-.topbar {
-    background: #fff;
-    padding: 15px 20px;
-    border-radius: 10px;
-}
+	.spin { animation: spin 2s linear infinite; }
+	.pulse { animation: pulse 1.5s infinite; }
 
-.card {
-    transition: all 0.2s ease;
-}
+	@keyframes spin {
+	    from { transform: rotate(0deg); }
+	    to { transform: rotate(360deg); }
+	}
 
-.card:hover {
-    transform: translateY(-4px) scale(1.01);
-}
-
-.kpi-card {
-    border: none;
-    border-left: 4px solid transparent;
-}
-
-.kpi-card:nth-child(1) { border-left-color: #3b82f6; }
-.kpi-card:nth-child(2) { border-left-color: #10b981; }
-.kpi-card:nth-child(3) { border-left-color: #f59e0b; }
-.kpi-card:nth-child(4) { border-left-color: #ef4444; }
-
-.sidebar .menu a {
-    cursor: pointer;
-}
-
-.sidebar .menu a:active {
-    transform: scale(0.97);
-}
-.sidebar.collapsed .menu li.text-muted {
-    display: none;
-}
-
-
-.card-body ul {
-    max-height: 250px;
-    overflow-y: auto;
-}
-
-#fotoTopbar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #e5e7eb;
-}
-.dropdown > div:hover {
-    background: #f3f4f6;
-    padding: 5px 10px;
-    border-radius: 8px;
-}
-.dropdown-menu {
-    transition: all 0.2s ease;
-}
-#fotoTopbar img {
-    transition: 0.2s;
-}
-
-#fotoTopbar img:hover {
-    opacity: 0.8;
-    transform: scale(1.05);
-}
-
-.avatar-inicial {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 14px;
-    color: #fff;
-}
+	@keyframes pulse {
+	    0% { opacity: 1; }
+	    50% { opacity: 0.5; }
+	    100% { opacity: 1; }
+	}
+	
 
 .item-solicitacao {
     padding: 10px 12px;
@@ -192,6 +193,10 @@ h5 {
     transform: translateX(3px);
 }
 
+.item-solicitacao .badge {
+    font-size: 11px;
+}
+
 .item-left {
     display: flex;
     flex-direction: column;
@@ -205,49 +210,30 @@ h5 {
 .item-desc {
     font-size: 12px;
     color: #6b7280;
+	opacity: 0.7;
+}
+.badge.bg-danger { background-color: #ef4444 !important; }
+.badge.bg-primary { background-color: #3b82f6 !important; }
+.badge.bg-success { background-color: #10b981 !important; }
+
+#modalSolicitacao .modal-content {
+    border-radius: 12px;
 }
 
-.kpi-card i {
-    transition: all 0.3s ease;
+#modalSolicitacao hr {
+    opacity: 0.1;
 }
 
-.kpi-card:hover i {
-    transform: scale(1.2) rotate(5deg);
+#modalSolicitacao small {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+#tempoAberto {
+    font-size: 16px;
+    letter-spacing: 1px;
 }
 
-.spin {
-    animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.pulse {
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-
-.kpi-card {
-    animation: fadeUp 0.5s ease;
-}
-
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 </style>
 </head>
 
@@ -346,36 +332,32 @@ h5 {
 
 <div class="d-flex">
 
-    <!-- SIDEBAR -->
+    <!--######################## SIDEBAR ########################-->
     <aside id="sidebar" class="sidebar">
         <div class="p-3 d-flex justify-content-between align-items-center">
-            <strong>Home</strong>
+            <strong></strong>
             <button id="toggleSidebar" class="btn btn-sm btn-light">☰</button>
         </div>
 
-        <ul class="menu">
-            <li><a href="/cliente/home"><i class="bi bi-house"></i><span>Início</span></a></li>
-
-            <li class="text-muted px-3 mt-3">Solicitações</li>
-            <li><a href="/cliente/solicitacao/form">Novo</a></li>
-            <li><a href="/cliente/solicitacao/list">Listar</a></li>
-            <li><a href="/cliente/solicitacao/relatorios">Relatórios</a></li>
-
-            <li class="text-muted px-3 mt-3">Dashboard</li>
-            <li><a href="/cliente/solicitacao/dashboard/geral">Solicitações</a></li>
-
-            <li class="text-muted px-3 mt-3">Ferramentas</li>
-            <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">Password Generator</a></li>
-        </ul>
+		<ul class="menu">
+		    <li> <a href="/cliente/home"> <i class="bi bi-house-door"></i> <span>Início</span> </a> </li>
+		    <li class="text-muted px-3 mt-3">Solicitações</li>
+		    <li> <a href="/cliente/solicitacao/form"> <i class="bi bi-plus-circle"></i> <span>Nova solicitação</span> </a> </li>
+		    <li> <a href="/cliente/solicitacao/list"> <i class="bi bi-list-ul"></i> <span>Listar</span> </a> </li>
+		    <li> <a href="/cliente/solicitacao/relatorios"> <i class="bi bi-bar-chart-line"></i> <span>Relatórios</span> </a> </li>
+		    <li class="text-muted px-3 mt-3">Dashboard</li>
+		    <li> <a href="/cliente/solicitacao/dashboard/geral"> <i class="bi bi-speedometer2"></i> <span>Solicitações</span> </a> </li>
+		    <li class="text-muted px-3 mt-3">Ferramentas</li>
+		    <li> <a href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator"> <i class="bi bi-key"></i> <span>Password Generator</span> </a> </li>
+		</ul>
     </aside>
+	<!--######################## SIDEBAR ########################-->
 
     <!-- CONTENT -->
     <main class="content flex-grow-1">
 
         <!-- HEADER -->
-        <div class="row g-3 mb-4">
-
-        </div>
+        <div class="row g-3 mb-4"> </div>
 
         <!-- CARDS -->
 		<div class="row g-3">
@@ -395,19 +377,16 @@ h5 {
 		        <div class="card shadow-sm border-0 h-100">
 					<div class="card-body">
 					    <h6>Últimas solicitações</h6>
-
 					    <div id="ultimasSolicitacoes" class="d-flex flex-column gap-2"></div>
-
 					</div>
 		        </div>
 		    </div>
-
 		</div>
 
     </main>
 </div>
 
-<!-- ################################################# MODAL FOTO ################################################# -->
+		<!-- ################################################# MODAL FOTO ################################################# -->
 		<div class="modal fade" id="modalFoto" tabindex="-1" aria-labelledby="modalFoto" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -419,7 +398,6 @@ h5 {
 					<div class="container">
 						<div class="Neon Neon-theme-dragdropbox">
 							<form id="uploadForm" enctype="multipart/form-data">
-
 								<div class="Neon-input-dragDrop">
 									<div class="Neon-input-inner">
 										<div class="Neon-input-icon"><i class="fa fa-file-image-o"></i></div>
@@ -438,20 +416,75 @@ h5 {
 				</div>
 			</div>
 		</div>
-	<!-- ################################################# MODAL FOTO ################################################# -->
+		<!-- ################################################# MODAL FOTO ################################################# -->
+		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+			<div class="modal fade" id="modalPasswordGenerator" tabindex="-1" aria-labelledby="modalPasswordGenerator"
+				aria-hidden="true">
+				<div class="modal-dialog modal-md">
+					<div class="modal-content">
+						<div class="container-password">
+							<div class="result">
+								<div class="result__info right">click para copiar</div>
+								<div class="result__info left">copiado</div>
+								<div class="result__viewbox" id="result" style="color: aliceblue; "></div>
+								<a id="copy-btn" style="--x: 0; --y: 0"><i class="far fa-copy"></i></a>
+							</div>
+							<div class="length range__slider" data-min="4" data-max="32">
+								<div class="length__title field-title" data-length='0'>Tamanho:</div>
+								<input id="slider" type="range" min="4" max="32" value="16" />
+							</div>
+							<div class="settings">
+								<span class="settings__title field-title">configurações</span>
+								<div class="setting">
+									<input type="checkbox" id="uppercase" checked />
+									<label for="uppercase">Incluir Maiúsculo</label>
+								</div>
+								<div class="setting">
+									<input type="checkbox" id="lowercase" checked />
+									<label for="lowercase">Incluir Minúsculo</label>
+								</div>
+								<div class="setting">
+									<input type="checkbox" id="number" checked />
+									<label for="number">Incluir Número</label>
+								</div>
+								<div class="setting">
+									<input type="checkbox" id="symbol" />
+									<label for="symbol">Incluir Símbolo</label>
+								</div>
+							</div>
+							<button class="btn generate" id="generate">Gerar Senha</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+		<!-- ################################################# MODAL DETALHES ############################################### -->
+			<div class="modal fade" id="modalSolicitacao" tabindex="-1">
+			    <div class="modal-dialog modal-lg">
+			        <div class="modal-content">
+		
+			            <div class="modal-header">
+			                <h5 class="modal-title">Detalhes da Solicitação</h5>
+			                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			            </div>
+		
+			            <div class="modal-body" id="conteudoSolicitacao">
+			                <!-- carregado via JS -->
+			            </div>
+		
+			        </div>
+			    </div>
+			</div>
+		<!-- ################################################# MODAL DETALHES ############################################### -->
 <script src="assets/js/popper.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/chart.js"></script>
-
+<script src="assets/js/password-generator.js"></script>
 <script>
 	
-	
-	
-	
-	
-document.getElementById("toggleSidebar").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.toggle("collapsed");
-});
+	document.getElementById("toggleSidebar").addEventListener("click", () => {
+	    document.getElementById("sidebar").classList.toggle("collapsed");
+	});
 
 function home() {
     fetch("/cliente/clientes/home")
@@ -473,6 +506,7 @@ function home() {
 		    data: {
 		        labels: ['Abertas','Andamento','Agendados','Aguardando','Pausado'],
 		        datasets: [{
+					label: 'Minhas Solicitações: ',
 		            data: [
 						data.solicitacoes.abertas,
                         data.solicitacoes.andamento,
@@ -491,12 +525,9 @@ function home() {
 		    },
 		    options: {
 		        cutout: '70%',
-		        plugins: {
-		            legend: { position: 'bottom' }
-		        }
+		        plugins: { legend: { position: 'bottom' } }
 		    }
 		});
-
     });
 }
 
@@ -515,9 +546,7 @@ function carregarFotoTopbar(nomeUsuario) {
         container.innerHTML = "";
 
         if (contentType.startsWith('image/')) {
-
             const url = URL.createObjectURL(blob);
-
             container.innerHTML = `
                 <img src="${url}" 
                      data-bs-toggle="modal" 
@@ -526,10 +555,8 @@ function carregarFotoTopbar(nomeUsuario) {
             `;
 
         } else {
-
             const iniciais = gerarIniciais(nomeUsuario);
             const cor = gerarCor(nomeUsuario);
-
             container.innerHTML = `
                 <div class="avatar-inicial"
                      data-bs-toggle="modal"
@@ -542,7 +569,6 @@ function carregarFotoTopbar(nomeUsuario) {
 
     })
     .catch(() => {
-
         const container = document.getElementById("fotoTopbar");
         const iniciais = gerarIniciais(nomeUsuario);
         const cor = gerarCor(nomeUsuario);
@@ -605,32 +631,43 @@ function gerarCor(nome) {
 		
 		function renderUltimasSolicitacoes(lista) {
 
-			    const container = document.getElementById("ultimasSolicitacoes");
-			    container.innerHTML = "";
+		    const container = document.getElementById("ultimasSolicitacoes");
+		    container.innerHTML = "";
 
-			    lista.slice(0, 5).forEach(item => {
+		    lista.slice(0, 5).forEach(item => {
 
-			        const statusClass = getStatusClass(item.status);
+		        const statusClass = getStatusClass(item.status);
+		        const prioridade = getPrioridadeBadge(item.prioridade);
+		        const iconClassificacao = getClassificacaoIcon(item.classificacao);
 
-			        container.innerHTML += `
-			            <div class="item-solicitacao">
-
-			                <div class="item-left">
-			                    <span class="item-id">#${item.id}</span>
-			                    <span class="item-desc">${item.descricao.substring(0, 110)}...</span>
-			                </div>
-
-			                <span class="badge ${statusClass}">
-			                    ${item.status}
-			                </span>
-
-			            </div>
-			        `;
-			    });
-			}
+		        container.innerHTML += `
+				<div class="item-solicitacao"
+				     style="cursor:pointer;"
+				     onclick="abrirModalSolicitacao(${item.id})">
+		                <div class="item-left">
+		                    <span class="item-id">
+		                        <strong>#${item.id}</strong>
+		                    </span>
+		                    <span class="item-desc">
+		                        <i class="bi ${iconClassificacao} me-1"></i>
+		                        ${item.descricao.substring(0, 110)}...
+		                    </span>
+		                    <div class="d-flex gap-2 mt-1 flex-wrap">
+		                        ${prioridade}
+		                        <span class="badge bg-light text-dark">
+		                            ${item.classificacao}
+		                        </span>
+		                    </div>
+		                </div>
+		                <span class="badge ${statusClass}">
+		                    ${item.status}
+		                </span>
+		            </div>
+		        `;
+		    });
+		}
 			
 			function getStatusClass(status) {
-
 			    switch (status) {
 			        case "ABERTO": return "bg-danger";
 			        case "ANDAMENTO": return "bg-primary";
@@ -640,6 +677,205 @@ function gerarCor(nome) {
 			        default: return "bg-light text-dark";
 			    }
 			}
+			
+			function getClassificacaoIcon(classificacao) {
+
+			    switch (classificacao) {
+			        case "PROBLEMA": return "bi-bug";
+			        case "INCIDENTE": return "bi-exclamation-triangle";
+			        case "SOLICITACAO": return "bi-ticket";
+			        case "BACKUP": return "bi-cloud-arrow-down";
+			        case "ACESSO": return "bi-shield-lock";
+			        case "EVENTO": return "bi-calendar-event";
+			        default: return "bi-folder";
+			    }
+			}
+			
+			function getPrioridadeBadge(prioridade) {
+
+			    switch (prioridade) {
+			        case "BAIXA": return `<span class="badge bg-success"><i class="bi bi-arrow-down"></i> Baixa</span>`;
+			        case "MEDIA": return `<span class="badge bg-primary"><i class="bi bi-dash"></i> Média</span>`;
+			        case "ALTA": return `<span class="badge bg-warning text-dark"><i class="bi bi-arrow-up"></i> Alta</span>`;
+			        case "CRITICA": return `<span class="badge bg-danger"><i class="bi bi-fire"></i> Crítica</span>`;
+			        case "PLANEJADA": return `<span class="badge bg-secondary"><i class="bi bi-calendar"></i> Planejada</span>`;
+			        default: return "";
+			    }
+			}
+			let intervalo;
+			function abrirModalSolicitacao(id) {
+				
+				if (intervalo) clearInterval(intervalo);
+
+			    fetch(`/cliente/api/v1/solicitacao/busca/${id}`)
+			        .then(res => res.json())
+			        .then(data => {
+
+			            const prioridade = getPrioridadeBadge(data.prioridade);
+						document.getElementById("conteudoSolicitacao").innerHTML = `
+
+						<div class="d-flex justify-content-between align-items-start mb-3">
+						    <div>
+						        <h5 class="mb-1">
+						            <i class="bi bi-hash"></i> #${data.id}
+						        </h5>
+
+						        <div class="mb-3">
+						            <small class="text-muted d-flex align-items-center gap-1">
+						                <i class="bi bi-stopwatch"></i> Tempo em aberto
+						            </small>
+						            <div id="tempoAberto" class="fw-bold text-danger"></div>
+						        </div>
+
+						        <small class="text-muted d-flex align-items-center gap-1">
+						            <i class="bi bi-tag"></i> ${data.classificacao}
+						        </small>
+						    </div>
+
+						    <div class="d-flex gap-2">
+						        <span class="badge ${getStatusClass(data.status)}">
+						            <i class="bi bi-activity"></i> ${data.status}
+						        </span>
+						        ${getPrioridadeBadge(data.prioridade)}
+						    </div>
+						</div>
+
+						<hr>
+
+						<div class="row g-3">
+
+						    <div class="col-md-6">
+						        <small class="text-muted d-flex align-items-center gap-1">
+						            <i class="bi bi-person"></i> Solicitante
+						        </small>
+						        <div class="fw-semibold">${data.solicitante || '-'}</div>
+						    </div>
+
+						    <div class="col-md-6">
+						        <small class="text-muted d-flex align-items-center gap-1">
+						            <i class="bi bi-person-check"></i> Responsável
+						        </small>
+						        <div class="fw-semibold">${data.funcionario || '-'}</div>
+						    </div>
+
+						    <div class="col-md-6">
+						        <small class="text-muted d-flex align-items-center gap-1">
+						            <i class="bi bi-calendar-plus"></i> Data abertura
+						        </small>
+						        <div>${data.dataAbertura}</div>
+						    </div>
+
+						    <div class="col-md-6">
+						        <small class="text-muted d-flex align-items-center gap-1">
+						            <i class="bi bi-arrow-repeat"></i> Última atualização
+						        </small>
+						        <div>${data.dataAtualizacao}</div>
+						    </div>
+
+						</div>
+
+						<hr>
+
+						<div class="mb-3">
+						    <small class="text-muted d-flex align-items-center gap-1">
+						        <i class="bi bi-card-text"></i> Descrição
+						    </small>
+						    <div class="mt-1">${data.descricao}</div>
+						</div>
+
+						<div class="mb-3">
+						    <small class="text-muted d-flex align-items-center gap-1">
+						        <i class="bi bi-chat-left-text"></i> Observações
+						    </small>
+						    <div class="mt-1">${data.observacao || '-'}</div>
+						</div>
+
+						<div class="mb-3">
+						    <small class="text-muted d-flex align-items-center gap-1">
+						        <i class="bi bi-check2-square"></i> Resolução
+						    </small>
+						    <div class="mt-1">${data.resolucao || '-'}</div>
+						</div>
+						`;
+						
+						if (data.status === "FINALIZADO" || data.status === "CONCLUIDO") {
+
+						    document.getElementById("tempoAberto").innerHTML =
+						        `<span class="text-success fw-bold d-flex align-items-center gap-1">
+						            <i class="bi bi-stopwatch"></i>
+						            ${data.duracao}
+						        </span>`;
+
+						} else {
+
+						    intervalo = iniciarCronometro(data.dataAbertura);
+
+						}
+
+			            const modal = new bootstrap.Modal(document.getElementById('modalSolicitacao'));
+			            modal.show();
+			        });
+			}
+			function formatarData(data) {
+			    if (!data) return '-';
+
+			    const d = new Date(data);
+
+			    return d.toLocaleString('pt-BR', {
+			        day: '2-digit',
+			        month: '2-digit',
+			        year: 'numeric',
+			        hour: '2-digit',
+			        minute: '2-digit'
+			    });
+			}
+			function calcularTempoDecorrido(dataAbertura) {
+
+			    const inicio = parseDataBR(dataAbertura);
+			    const agora = new Date();
+
+			    if (!inicio) return "-";
+
+			    const diff = Math.floor((agora - inicio) / 1000);
+
+			    const horas = Math.floor(diff / 3600);
+			    const minutos = Math.floor((diff % 3600) / 60);
+			    const segundos = diff % 60;
+
+			    return `${String(horas).padStart(2,'0')}h `
+			         + `${String(minutos).padStart(2,'0')}m `
+			         + `${String(segundos).padStart(2,'0')}s`;
+			}
+			function iniciarCronometro(dataAbertura) {
+
+			    const el = document.getElementById("tempoAberto");
+
+			    function atualizar() {
+			        el.innerHTML = `
+			            <span class="text-danger fw-bold d-flex align-items-center gap-1">
+			                <i class="bi bi-stopwatch"></i>
+			                ${calcularTempoDecorrido(dataAbertura)}
+			            </span>
+			        `;
+			    }
+
+			    atualizar();
+			    return setInterval(atualizar, 1000);
+			}
+			function parseDataBR(dataStr) {
+
+			    if (!dataStr) return null;
+
+			    const [data, hora] = dataStr.split(" ");
+			    const [dia, mes, ano] = data.split("/");
+			    const [h, m] = hora.split(":");
+
+			    return new Date(ano, mes - 1, dia, h, m);
+			}
+			document.getElementById('modalSolicitacao')
+			    .addEventListener('hidden.bs.modal', () => {
+			        if (intervalo) clearInterval(intervalo);
+			    });
 </script>
 </body>
 </html>

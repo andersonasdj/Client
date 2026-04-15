@@ -30,7 +30,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 		    SELECT new br.com.techgold.app.dto.DtoUltimasSolicitacoes(
 		        s.id,
 		        s.descricao,
-		        s.status
+		        s.status,
+		        s.prioridade,
+		        s.classificacao
 		    )
 		    FROM Solicitacao s
 		    WHERE s.cliente.id = :id

@@ -42,13 +42,10 @@ public class SolicitacaoService {
 
 	public String salvarNovaSolicitacao(Solicitacao solicitacao) {
 		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
-		
 		solicitacao.setAbertoPor(cliente.getNomeCliente());
 		solicitacao.setPeso(0l);
 		solicitacao.setVersao(0);
-		
 		repository.save(solicitacao);
-		
 		return "Solicitação cadastrada";
 	}
 	
@@ -56,9 +53,7 @@ public class SolicitacaoService {
 	public DtoDashboardCliente geraDashboardCliente(Long id) {
 
 	    LocalDateTime inicioMes = LocalDate.now().withDayOfMonth(1).atStartOfDay();
-
 	    DashboardClienteProjection p = repository.gerarDashboardCliente(id, inicioMes);
-
 	    int totalSolicitacoes = p.getAberto() + p.getAndamento() + p.getAgendado() + p.getAguardando() + p.getPausado() + p.getFinalizado();
 
 	    return new DtoDashboardCliente(

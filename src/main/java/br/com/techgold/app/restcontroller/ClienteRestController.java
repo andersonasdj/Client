@@ -27,8 +27,6 @@ public class ClienteRestController {
 	
 		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
 		
-		
-		
 		return ResponseEntity.ok().body(
 				new DtoClienteHome(
 						cliente.getNomeCliente(), 
