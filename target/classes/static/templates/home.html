@@ -1,185 +1,413 @@
 <!DOCTYPE html>
-<html lang="br">
+<html lang="pt-br">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="assets/img/favicon.ico">
-	<link rel="stylesheet" href="assets/css/defaultStyle.css">
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/stylePerfil.css">
-	<link rel="stylesheet" href="assets/css/password-generator.css">
-	<link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
-<!--	<link rel="stylesheet" href="assets/css/dark.css">-->
-	<title>cliente - TechGold</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cliente - TechGold</title>
+
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+
+<style>
+body { overflow-x: hidden; }
+
+body {
+    background: #f3f4f6;
+}
+
+h5 {
+    font-weight: 600;
+}
+
+.sidebar.collapsed { width: 110px; }
+
+.sidebar .menu { list-style: none; padding: 0; }
+.sidebar .menu li { 
+	padding: 10px 0;
+   }
+.sidebar .menu a {
+    color: rgb(36, 31, 49);
+    text-decoration: none;
+    display: flex;
+    gap: 10px;
+}
+
+.sidebar .menu li.text-muted {
+    font-size: 11px;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+.sidebar .menu a:hover {
+    background: rgb(119, 118, 123);
+    border-radius: 6px;
+}
+
+.sidebar.collapsed span { display: none; }
+
+.sidebar {
+    width: 220px;
+    height: 100vh;
+	position: sticky;
+	top: 0;
+	background: linear-gradient(180deg, #1e1b4b, #312e81);
+	color: #fff;
+    transition: 0.3s;
+	overflow-y: auto;
+	box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+}
+
+.sidebar .menu a {
+	color: rgb(255, 255, 255);
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.sidebar .menu a.active {
+	background: #2563eb;
+	   color: #fff;
+}
+
+.sidebar .menu a:hover {
+   background: #374151;
+}
+
+
+.content {
+    padding: 20px;
+    transition: 0.3s;
+}
+
+
+.card:hover {
+    transform: translateY(-3px);
+    transition: 0.2s;
+}
+
+.card-time {
+    background: linear-gradient(135deg, rgb(153, 193, 241), rgb(153, 193, 241));
+    color: #fff;
+    border-radius: 12px;
+}
+.kpi-card {
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: 0.2s;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+}
+
+.topbar {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+}
+
+.card {
+    transition: all 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px) scale(1.01);
+}
+
+.kpi-card {
+    border: none;
+    border-left: 4px solid transparent;
+}
+
+.kpi-card:nth-child(1) { border-left-color: #3b82f6; }
+.kpi-card:nth-child(2) { border-left-color: #10b981; }
+.kpi-card:nth-child(3) { border-left-color: #f59e0b; }
+.kpi-card:nth-child(4) { border-left-color: #ef4444; }
+
+.sidebar .menu a {
+    cursor: pointer;
+}
+
+.sidebar .menu a:active {
+    transform: scale(0.97);
+}
+.sidebar.collapsed .menu li.text-muted {
+    display: none;
+}
+
+
+.card-body ul {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+#fotoTopbar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e5e7eb;
+}
+.dropdown > div:hover {
+    background: #f3f4f6;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+.dropdown-menu {
+    transition: all 0.2s ease;
+}
+#fotoTopbar img {
+    transition: 0.2s;
+}
+
+#fotoTopbar img:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.avatar-inicial {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+}
+
+.item-solicitacao {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #f9fafb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.item-solicitacao:hover {
+    background: #f3f4f6;
+    transform: translateX(3px);
+}
+
+.item-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-id {
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.item-desc {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.kpi-card i {
+    transition: all 0.3s ease;
+}
+
+.kpi-card:hover i {
+    transform: scale(1.2) rotate(5deg);
+}
+
+.spin {
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.kpi-card {
+    animation: fadeUp 0.5s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
 </head>
+
 <body>
-	<div class="container-fluid">
-		<!-- ############################################## BARRA DE NAVEGAÇÃO ################################################### -->
-		<nav class="navbar navbar-expand-lg bg-light">
-			<div class="container-fluid">
-				<a class="navbar-brand color-text" href="/cliente/home"><img src="./assets/img/key.png" style="height: 18px;"> cliente</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-					aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a class="nav-link active color-text" aria-current="page" href="/cliente/home">Início</a></li>
-							<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown"aria-expanded="false">Solicitações</a>
-							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/cliente/solicitacao/form">Novo</a></li>
-								<li><a class="dropdown-item" href="/cliente/solicitacao/list">Listar</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="/cliente/solicitacao/relatorios">Relatórios</a></li>
-							</ul>
-						</li>
-						
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown"aria-expanded="false">Dashboard</a>
-							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/cliente/solicitacao/dashboard/geral">Solicitações ativas</a></li>
-							</ul>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ferramentas</a>
-							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">Password Generator</a></li>
-							</ul>
-						</li>
-					</ul>
-					<ul class="navbar-nav mb-3 mb-lg-0">
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle color-text" id="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/cliente/cliente/perfil">Perfil</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="/cliente/sobre">Sobre</a></li>
-							</ul>
-						</li>
-							<a href="/cliente/logout"><i class="bi bi-power"style="font-size: 2rem; color: red;"></i></a>
-					</ul>
-					
-				</div>
-			</div>
-		</nav>
-		<!-- ############################################## BARRA DE NAVEGAÇÃO ################################################### -->
+	<div class="topbar mb-4 d-flex justify-content-between align-items-center">
 
-		<hr class="bg-danger border-2 border-top border-danger">
-			
-			<div class="container-fluid mb-4">
-					<div class="card shadow-sm border-0">
-						<div class="card-body">
-							<div class="row justify-content-between align-items-center">
+	    <h5 class="mb-0 fw-bold">Dashboard</h5>
 
-								<div class="container-fluid">
-									<div class="row justify-content-between align-items-center">
+	    <div class="d-flex align-items-center gap-3">
 
-										<!-- Foto de Perfil + Informações -->
-										<div class="col-9 d-flex align-items-center">
-											<!-- Foto de Perfil -->
-											<div class="me-4 text-center ocultar-link" style="min-width: 80px;">
-												<span id="fotoDePerfil"></span>
-												<br />
-												<span class="ocultar-link" style="font-size: 9px;" data-bs-toggle="modal"
-													data-bs-target="#modalFoto">
-													<a href="#">Alterar imagem</a>
-												</span>
-											</div>
+	        <i class="bi bi-search"></i>
+	        <i class="bi bi-bell"></i>
 
-											<!-- Dados do Funcionário -->
-											<div>
-												<h5 class="mb-1">
-													<span id="saudacao"></span>
-													<strong class="text-primary">
-														<span id="nomeFuncionario"></span>
-													</strong>
-												</h5>
+	        <!-- USUÁRIO -->
+	        <div class="dropdown">
 
-												<p class="mb-2"><span id="dataUltimoLogin"></span></p>
-												<div class="d-flex flex-wrap gap-2">
-													<a id="btnRefeicao" href="#" onclick="refeicao()" role="button"
-														aria-expanded="false"></a>
-													&nbsp &nbsp <span id="btnAvisos" class="ms-2"></span>
+	            <!-- TRIGGER -->
+	            <div class="d-flex align-items-center gap-2"
+	                 style="cursor:pointer;"
+	                 data-bs-toggle="dropdown"
+	                 aria-expanded="false">
 
-												</div>
-											</div>
-										</div>
+	                <div id="fotoTopbar"></div>
+	                <span id="nomeTopbar" class="fw-semibold"></span>
+	                <i class="bi bi-chevron-down"></i>
 
-										<!-- Calendário -->
-										<div class="col-3 col-s-6">
-											<a href="/sistech/calendario" style="all: unset; cursor: pointer; display: block;">
-												<div class="calender">
-													<div class="top">
-														<span id="months">Janeiro</span>
-													</div>
-													<span id="days">Sabado</span>
-													<span id="dates">01</span>
-													<span id="years">2024</span>
-												</div>
-												<p class="time-title">Hoje</p>
-												<div class="time">
-													<div id="hours">00</div>
-													<div id="minutes">00</div>
-													<div id="seconds">00</div>
-													<div id="ampm">00</div>
-												</div>
-											</a>
-										</div>
+	            </div>
 
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-		
-		
-		
-		</div>
-		
-		<div id="resultados-graficos">
-			<br/>
-				<div class="container-fluid">
-					<div class="row justify-content-between">
-						<div class="col-4">
-							<div class="card shadow-sm border-0">
-								<div class="card-body">
-									<h6 class="text-muted mb-3">
-										<i class="bi bi-bar-chart"></i> Minhas Solicitações
-									</h6>
-									<canvas id="minhasSolicitacoes" style="height:50vh; width:40vw"></canvas>
-								</div>
-							</div>
+	            <!-- MENU -->
+	            <ul class="dropdown-menu dropdown-menu-end">
+	                <li><a class="dropdown-item" href="/cliente/cliente/perfil">Perfil</a></li>
+	                <li><a class="dropdown-item" href="/cliente/sobre">Sobre</a></li>
+	                <li><hr class="dropdown-divider"></li>
+	                <li><a class="dropdown-item text-danger" href="/cliente/logout">Sair</a></li>
+	            </ul>
+	        </div>
+	    </div>
 
-						</div>
-						<div class="col-4">
-							<div class="card shadow-sm border-0">
-								<div class="card-body">
-									<h6 class="text-muted mb-3">
-										
-									</h6>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-			
-		<br /><br /><br />
-		<footer class="container-fluid fixed-bottom text-center text-white">
-			<!-- Copyright -->
-			<div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
-				© 2026 Copyright:
-				<a class="text-white" href="#">TechGold</a>
-			</div>
-			<!-- Copyright -->
-			</footer>
-		</footer>
 	</div>
-	<!-- ################################################# MODAL FOTO ################################################# -->
+	
+	<div class="row g-3 mb-4">
+
+		    <!-- TOTAL -->
+		    <div class="col-md-3">
+		        <div class="card kpi-card">
+		            <div class="card-body d-flex justify-content-between align-items-center">
+		                <div>
+		                    <small>Total</small>
+		                    <h4 id="kpiTotal">0</h4>
+		                </div>
+		                <i class="bi bi-bar-chart fs-2 text-primary"></i>
+		            </div>
+		        </div>
+		    </div>
+
+		    <!-- ANDAMENTO -->
+		    <div class="col-md-3">
+		        <div class="card kpi-card">
+		            <div class="card-body d-flex justify-content-between align-items-center ">
+		                <div>
+		                    <small>Andamento</small>
+		                    <h4 id="kpiAndamento">0</h4>
+		                </div>
+		                <i class="bi bi-arrow-repeat fs-2 text-success spin"></i>
+		            </div>
+		        </div>
+		    </div>
+
+		    <!-- ABERTAS -->
+		    <div class="col-md-3">
+		        <div class="card kpi-card">
+		            <div class="card-body d-flex justify-content-between align-items-center">
+		                <div>
+		                    <small>Abertas</small>
+		                    <h4 id="kpiAbertas">0</h4>
+		                </div>
+		                <i class="bi bi-folder2-open fs-2 text-warning"></i>
+		            </div>
+		        </div>
+		    </div>
+
+		    <!-- AGUARDANDO -->
+		    <div class="col-md-3">
+		        <div class="card kpi-card">
+		            <div class="card-body d-flex justify-content-between align-items-center">
+		                <div>
+		                    <small>Aguardando</small>
+		                    <h4 id="kpiAguardando">0</h4>
+		                </div>
+		                <i class="bi bi-hourglass-split fs-2 text-secondary pulse"></i>
+		            </div>
+		        </div>
+		    </div>
+
+		</div>
+
+<div class="d-flex">
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
+        <div class="p-3 d-flex justify-content-between align-items-center">
+            <strong>Home</strong>
+            <button id="toggleSidebar" class="btn btn-sm btn-light">☰</button>
+        </div>
+
+        <ul class="menu">
+            <li><a href="/cliente/home"><i class="bi bi-house"></i><span>Início</span></a></li>
+
+            <li class="text-muted px-3 mt-3">Solicitações</li>
+            <li><a href="/cliente/solicitacao/form">Novo</a></li>
+            <li><a href="/cliente/solicitacao/list">Listar</a></li>
+            <li><a href="/cliente/solicitacao/relatorios">Relatórios</a></li>
+
+            <li class="text-muted px-3 mt-3">Dashboard</li>
+            <li><a href="/cliente/solicitacao/dashboard/geral">Solicitações</a></li>
+
+            <li class="text-muted px-3 mt-3">Ferramentas</li>
+            <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">Password Generator</a></li>
+        </ul>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content flex-grow-1">
+
+        <!-- HEADER -->
+        <div class="row g-3 mb-4">
+
+        </div>
+
+        <!-- CARDS -->
+		<div class="row g-3">
+
+		    <!-- GRÁFICO -->
+		    <div class="col-lg-6">
+		        <div class="card shadow-sm border-0 h-100">
+		            <div class="card-body">
+		                <h6>Minhas Solicitações</h6>
+		                <canvas id="minhasSolicitacoes"></canvas>
+		            </div>
+		        </div>
+		    </div>
+
+		    <!-- ÚLTIMAS SOLICITAÇÕES -->
+		    <div class="col-lg-6">
+		        <div class="card shadow-sm border-0 h-100">
+					<div class="card-body">
+					    <h6>Últimas solicitações</h6>
+
+					    <div id="ultimasSolicitacoes" class="d-flex flex-column gap-2"></div>
+
+					</div>
+		        </div>
+		    </div>
+
+		</div>
+
+    </main>
+</div>
+
+<!-- ################################################# MODAL FOTO ################################################# -->
 		<div class="modal fade" id="modalFoto" tabindex="-1" aria-labelledby="modalFoto" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -211,158 +439,154 @@
 			</div>
 		</div>
 	<!-- ################################################# MODAL FOTO ################################################# -->
-	<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
-		<div class="modal fade" id="modalPasswordGenerator" tabindex="-1" aria-labelledby="modalPasswordGenerator"
-			aria-hidden="true">
-			<div class="modal-dialog modal-md">
-				<div class="modal-content">
-					<div class="container-password">
-						<div class="result">
-							<div class="result__info right">click para copiar</div>
-							<div class="result__info left">copiado</div>
-							<div class="result__viewbox" id="result" style="color: aliceblue; "></div>
-							<a id="copy-btn" style="--x: 0; --y: 0"><i class="far fa-copy"></i></a>
-						</div>
-						<div class="length range__slider" data-min="4" data-max="32">
-							<div class="length__title field-title" data-length='0'>Tamanho:</div>
-							<input id="slider" type="range" min="4" max="32" value="16" />
-						</div>
-						<div class="settings">
-							<span class="settings__title field-title">configurações</span>
-							<div class="setting">
-								<input type="checkbox" id="uppercase" checked />
-								<label for="uppercase">Incluir Maiúsculo</label>
-							</div>
-							<div class="setting">
-								<input type="checkbox" id="lowercase" checked />
-								<label for="lowercase">Incluir Minúsculo</label>
-							</div>
-							<div class="setting">
-								<input type="checkbox" id="number" checked />
-								<label for="number">Incluir Número</label>
-							</div>
-							<div class="setting">
-								<input type="checkbox" id="symbol" />
-								<label for="symbol">Incluir Símbolo</label>
-							</div>
-						</div>
-						<button class="btn generate" id="generate">Gerar Senha</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/chart.js"></script>
 
-	<script src="assets/js/jquery-3.6.3.js"></script>
-	<script src="assets/js/popper.min.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
-	<script src="assets/js/chart.js"></script>
-	<script src="assets/js/password-generator.js"></script>
-	<script>
-		home()
+<script>
+	
+	
+	
+	
+	
+document.getElementById("toggleSidebar").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.toggle("collapsed");
+});
+
+function home() {
+    fetch("/cliente/clientes/home")
+    .then(res => res.json())
+    .then(data => {
+
+		carregarFotoTopbar(data.nomeFuncionario);
+		renderUltimasSolicitacoes(data.ultimas);
+		document.getElementById('kpiTotal').innerText = data.solicitacoes.total;
+		document.getElementById('kpiAndamento').innerText = data.solicitacoes.andamento;
+		document.getElementById('kpiAbertas').innerText = data.solicitacoes.abertas;
+		document.getElementById('kpiAguardando').innerText = data.solicitacoes.aguardando;
+		document.getElementById('nomeTopbar').innerText = data.nomeFuncionario;
 		
-		function insereFoto() {
-			$.ajax({
-				url: "/cliente/api/file/perfil",
-				type: "GET",
-				xhrFields: {
-					responseType: 'blob' // força a resposta como binário (imagem ou não)
-				},
-				success: function (blob) {
-					const contentType = blob.type;
+		const ctx = document.getElementById('minhasSolicitacoes');
 
-					$('#fotoDePerfil').empty();
+		new Chart(ctx, {
+		    type: 'bar',
+		    data: {
+		        labels: ['Abertas','Andamento','Agendados','Aguardando','Pausado'],
+		        datasets: [{
+		            data: [
+						data.solicitacoes.abertas,
+                        data.solicitacoes.andamento,
+                        data.solicitacoes.agendados,
+                        data.solicitacoes.aguardando,
+                        data.solicitacoes.pausado
+					],
+		            backgroundColor: [
+		                '#ef4444',
+		                '#3b82f6',
+		                '#f59e0b',
+		                '#6b7280',
+		                '#10b981'
+		            ]
+		        }]
+		    },
+		    options: {
+		        cutout: '70%',
+		        plugins: {
+		            legend: { position: 'bottom' }
+		        }
+		    }
+		});
 
-					if (contentType.startsWith('image/')) {
-						// Cria URL da imagem recebida
-						const imageUrl = URL.createObjectURL(blob);
-						$('#fotoDePerfil').append(
-							'<img src="' + imageUrl + '" style="width: 180px" class="img-fluid img-thumbnail" alt="Foto de perfil" data-bs-toggle="modal" data-bs-target="#modalFoto">'
-						);
-					} else {
-						// Caso não seja imagem, exibe uma imagem padrão
-						$('#fotoDePerfil').append(
-							'<img id="" src="./assets/img/login.png" style="width: 180px" class="img-fluid img-thumbnail" alt="..." data-bs-toggle="modal" data-bs-target="#modalFoto">'
-						);
-					}
-				},
-				error: function (xhr) {
-					$('#fotoDePerfil').empty();
-					$('#fotoDePerfil').append(
-						'<img id="" src="./assets/img/login.png" style="width: 180px" class="img-fluid img-thumbnail" alt="..." data-bs-toggle="modal" data-bs-target="#modalFoto">'
-					);
+    });
+}
 
-					if (xhr.status === 500) {
-						alert('Erro! Contate o desenvolvedor!');
-					} else if (xhr.status === 401) {
-						alert('Realize login novamente!');
-						window.location.href = "/sistech/login";
-					}
-				}
-			});
-		}
-		
-		
-		function home() {
-			$.ajax({
-				url: "/cliente/clientes/home",
-				type: "GET",
-				success: function (data) {
+document.addEventListener("DOMContentLoaded", function () {
+    home();
+});
 
-					insereFoto();
+function carregarFotoTopbar(nomeUsuario) {
+    fetch("/cliente/api/file/perfil")
+    .then(res => res.blob())
+    .then(blob => {
 
-					$('#inputId').append('<input type="hidden" id="id" name="id" value="' + data.id + '"></input>');
+        const contentType = blob.type;
+        const container = document.getElementById("fotoTopbar");
 
-					$('#saudacao').text(data.saudacao);
-					$('#nomeFuncionario').text(data.nomeFuncionario);
-					$('#dataUltimoLogin').text("Ultimo login: " + data.dataUltimoLogin);
+        container.innerHTML = "";
 
-					const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+        if (contentType.startsWith('image/')) {
 
-					const ctx = document.getElementById('minhasSolicitacoes');
-					new Chart(ctx, {
-						type: 'bar',
-						data: {
-							labels: ['Abertas', 'Andamento', 'Agendados', 'Aguardando', 'Pausado'],
-							datasets: [{
-								label: 'Minhas Solicitações: ' + data.solicitacoes.total,
-								data: [data.solicitacoes.abertas, data.solicitacoes.andamento, data.solicitacoes.agendados, data.solicitacoes.aguardando, data.solicitacoes.pausado],
-								backgroundColor: [
-									'rgba(255, 99, 132, 0.2)',
-									'rgba(0, 150, 255, 0.2)',
-									'rgba(255, 205, 86, 0.2)',
-									'rgba(121, 125, 127, 0.2)',
-									'rgba(54, 162, 235, 0.2)'
-								],
-								borderColor: [
-									'rgb(255, 99, 132)',
-									'rgb(0, 150, 255)',
-									'rgb(255, 205, 86)',
-									'rgb(121, 125, 127)',
-									'rgb(54, 162, 235)'
-								],
-								borderWidth: 1
-							}]
-						},
-						options: {
-							responsive: true,
-							scales: {y: {min: 0, max: data.solicitacoes.total}}
-						}
-					});
-					
-				},
-				statusCode: {
-					500: function () {alert('Erro! Contate o desenvolvedor!');},
-					401: function () {
-						alert('Realize login novamente!');
-						window.location.href = "/clientes/login";
-					}
-				},
-				complete: function (data) { }
-			})
-		}
-	</script>
-	<script>
+            const url = URL.createObjectURL(blob);
+
+            container.innerHTML = `
+                <img src="${url}" 
+                     data-bs-toggle="modal" 
+                     data-bs-target="#modalFoto"
+                     style="cursor:pointer;">
+            `;
+
+        } else {
+
+            const iniciais = gerarIniciais(nomeUsuario);
+            const cor = gerarCor(nomeUsuario);
+
+            container.innerHTML = `
+                <div class="avatar-inicial"
+                     data-bs-toggle="modal"
+                     data-bs-target="#modalFoto"
+                     style="background:${cor}; cursor:pointer;">
+                    ${iniciais}
+                </div>
+            `;
+        }
+
+    })
+    .catch(() => {
+
+        const container = document.getElementById("fotoTopbar");
+        const iniciais = gerarIniciais(nomeUsuario);
+        const cor = gerarCor(nomeUsuario);
+
+        container.innerHTML = `
+            <div class="avatar-inicial"
+                 data-bs-toggle="modal"
+                 data-bs-target="#modalFoto"
+                 style="background:${cor}; cursor:pointer;">
+                ${iniciais}
+            </div>
+        `;
+    });
+}
+
+function gerarIniciais(nome) {
+    if (!nome) return "U";
+
+    const partes = nome.trim().split(" ");
+
+    if (partes.length === 1) {
+        return partes[0][0].toUpperCase();
+    }
+
+    return (
+        partes[0][0] + partes[partes.length - 1][0]
+    ).toUpperCase();
+}
+
+function gerarCor(nome) {
+    const cores = [
+        "#3b82f6", "#10b981", "#f59e0b",
+        "#ef4444", "#8b5cf6", "#14b8a6"
+    ];
+
+    let hash = 0;
+    for (let i = 0; i < nome.length; i++) {
+        hash = nome.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    return cores[Math.abs(hash) % cores.length];
+}
+</script>
+<script>
 		document.getElementById("uploadForm").addEventListener("submit", function (e) {
 			e.preventDefault();
 
@@ -375,79 +599,47 @@
 			})
 				.then(res => res.text())
 				.then(data => {
-					alert("Aviso: " + data);
-					window.location.reload();
+					 carregarFotoTopbar();
 				});
 		});
-	</script>
-	<script>
-			document.getElementById("uploadForm").addEventListener("submit", function (e) {
-				e.preventDefault();
+		
+		function renderUltimasSolicitacoes(lista) {
 
-				const form = document.getElementById("uploadForm");
-				const formData = new FormData(form);
+			    const container = document.getElementById("ultimasSolicitacoes");
+			    container.innerHTML = "";
 
-				fetch("/cliente/api/file/perfil/upload", {
-					method: "POST",
-					body: formData
-				})
-					.then(res => res.text())
-					.then(data => {
-						alert("Aviso: " + data);
-						window.location.reload();
-					});
-			});
-	</script>
-	<script>
-		setInterval(() => {
-		  const month = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
-		  const weekday = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sabado"];
-		
-		  // Day
-		  let months = document.getElementById("months");
-		  let days = document.getElementById("days");
-		  let dates = document.getElementById("dates");
-		  let years = document.getElementById("years");
-		
-		  // time
-		  let hours = document.getElementById("hours");
-		  let minutes = document.getElementById("minutes");
-		  let seconds = document.getElementById("seconds");
-		  let ampm = document.getElementById("ampm");
-		
-		  //Date
-		  let ma = month[new Date().getMonth()];
-		  let dy = weekday[new Date().getUTCDay()];
-		  let dt = new Date().getDate();
-		  let yr = new Date().getFullYear();
-		
-		  //time
-		  let h = new Date().getHours();
-		  let m = new Date().getMinutes();
-		  let s = new Date().getSeconds();
-		  let am = h >= 12 ? "PM" : "AM";
-		
-		  //convart time 12 hours
-		  if (h > 12){ h = h - 12; }
-		
-		  // add zero
-		  h = (h < 10) ? "0" + h : h;
-		  m = (m < 10) ? "0" + m : m;
-		  s = (s < 10) ? "0" + s : s;
-		  dt = (dt < 10) ? "0" + dt : dt;
-		
-		  // date
-		  months.innerHTML = ma;
-		  days.innerHTML = dy;
-		  dates.innerHTML = dt;
-		  years.innerHTML = yr;
-		
-		  // time
-		  hours.innerHTML = h;
-		  minutes.innerHTML = m;
-		  seconds.innerHTML = s;
-		  ampm.innerHTML = am;
-		})
-	</script>
+			    lista.slice(0, 5).forEach(item => {
+
+			        const statusClass = getStatusClass(item.status);
+
+			        container.innerHTML += `
+			            <div class="item-solicitacao">
+
+			                <div class="item-left">
+			                    <span class="item-id">#${item.id}</span>
+			                    <span class="item-desc">${item.descricao.substring(0, 110)}...</span>
+			                </div>
+
+			                <span class="badge ${statusClass}">
+			                    ${item.status}
+			                </span>
+
+			            </div>
+			        `;
+			    });
+			}
+			
+			function getStatusClass(status) {
+
+			    switch (status) {
+			        case "ABERTO": return "bg-danger";
+			        case "ANDAMENTO": return "bg-primary";
+			        case "AGUARDANDO": return "bg-secondary";
+			        case "PAUSADO": return "bg-dark";
+			        case "CONCLUIDO": return "bg-success";
+			        default: return "bg-light text-dark";
+			    }
+			}
+</script>
 </body>
 </html>

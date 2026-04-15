@@ -11,11 +11,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.techgold.app.dto.DtoCadastroSolicitacao;
 import br.com.techgold.app.dto.DtoDadosEdicaoRapidaMaisFuncionarios;
+import br.com.techgold.app.dto.DtoDadosParaSolicitacao;
+import br.com.techgold.app.dto.DtoDashboardCliente;
+import br.com.techgold.app.dto.DtoSolicitacaoRelatorios;
 import br.com.techgold.app.model.Cliente;
+import br.com.techgold.app.model.Funcionario;
+import br.com.techgold.app.model.Solicitacao;
 import br.com.techgold.app.model.enums.Status;
 import br.com.techgold.app.orm.SolicitacaoProjecao;
 import br.com.techgold.app.repository.FuncionarioRepository;
@@ -55,5 +63,40 @@ public class SolicitacaoRestController {
 		return solicitacaoService.listarSolicitacoesFinalizadas(Status.FINALIZADO.toString(), false, cliente.getId());
 	}
 	
+	@GetMapping("/getData") //RETORNA LISTAGEM DE CLIENTES E FUNCIONARIOS ATIVOS PARA LISTAGEM DO SELECTBOX ### CACHE ###
+	private DtoDadosParaSolicitacao coletaDadosParaSolicitacao() {
+		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		return new DtoDadosParaSolicitacao(cliente.getNomeCliente(), cliente.getId().toString());
+	}
+	
+	@PostMapping //SALVA UMA NOVA SOLICITAÇÃO NO BANCO
+	public String cadastrarNova(@RequestBody DtoCadastroSolicitacao dados ) {
+		System.out.println("coNTROLLER SALVAR");
+		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		Solicitacao solicitacao = new Solicitacao(dados, cliente);
+		
+			Funcionario funcionario = repositoryFuncionario.buscarPorNome("Suporte");
+			solicitacao.setFuncionario(funcionario);
+		
+		
+		return solicitacaoService.salvarNovaSolicitacao(solicitacao);
+		
+	}
+	
+	@GetMapping("/dashboard/cliente") //RETORNA UMA DTO COM TODOS OS DADOS PARA O DASHBOARD POR CLIENTE
+	public DtoDashboardCliente dashboardCliente() {
+		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		return solicitacaoService.geraDashboardCliente(cliente.getId());
+	}
+	
+	@GetMapping("/relatorio") //RETORNA UMA DTO COM TODOS OS DADOS PARA A VIEWER DE RELATORIOS
+	public DtoSolicitacaoRelatorios relatorios() {
+		return solicitacaoService.geraRelatorios();
+	}
+	
+	@GetMapping("/relatorio/{status}/hoje")
+	public Page<SolicitacaoProjecao> listarRelatorioAtualizadasHoje(@PathVariable String status, @PageableDefault(size = 50, sort= {"id"}, direction = Direction.DESC) Pageable page) {
+		return solicitacaoService.listarSolicitacoesRelatorioHoje(page, status);
+	}
 
 }

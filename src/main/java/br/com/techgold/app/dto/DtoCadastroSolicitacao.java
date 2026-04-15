@@ -6,30 +6,18 @@ import br.com.techgold.app.model.enums.FormaAbertura;
 import br.com.techgold.app.model.enums.Local;
 import br.com.techgold.app.model.enums.Prioridade;
 import br.com.techgold.app.model.enums.Status;
-import jakarta.validation.constraints.NotBlank;
 
 public record DtoCadastroSolicitacao(
 		String solicitante,
 		String afetado,
 		String descricao,
 		String observacao,
-		String abertoPor,
-		String resolucao,
 		Prioridade prioridade,
 		FormaAbertura formaAbertura,
 		Categoria categoria,
 		Classificacao classificacao,
 		Local local,
-		Status status,
-		@NotBlank
-		Long nomeCliente,
-		Long nomeFuncionario,
-		String dataAgendado,
-		String horaAgendado,
-		String dataAndamento,
-		String horaAndamento,
-		String dataFinalizado,
-		String horaFinalizado
+		Status status
 		
 		) {
 		

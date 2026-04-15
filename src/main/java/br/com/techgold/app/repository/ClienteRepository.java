@@ -2,10 +2,13 @@ package br.com.techgold.app.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.techgold.app.dto.DtoUltimasSolicitacoes;
 import br.com.techgold.app.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
@@ -23,4 +26,15 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 	public int buscaPorFuncionario(Long clienteId, String status);
 
 
+	@Query("""
+		    SELECT new br.com.techgold.app.dto.DtoUltimasSolicitacoes(
+		        s.id,
+		        s.descricao,
+		        s.status
+		    )
+		    FROM Solicitacao s
+		    WHERE s.cliente.id = :id
+		    ORDER BY s.dataAbertura DESC
+		""")
+		List<DtoUltimasSolicitacoes> buscarUltimas(@Param("id") Long id, Pageable pageable);
 }

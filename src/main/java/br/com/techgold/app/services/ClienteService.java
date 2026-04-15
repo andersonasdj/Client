@@ -1,12 +1,15 @@
 package br.com.techgold.app.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import br.com.techgold.app.dto.DtoSolicitacoesCliente;
+import br.com.techgold.app.dto.DtoUltimasSolicitacoes;
 import br.com.techgold.app.model.Cliente;
 import br.com.techgold.app.repository.ClienteRepository;
 import jakarta.transaction.Transactional;
@@ -53,5 +56,12 @@ public class ClienteService {
 		cliente.setIp(ip);
 		cliente.setPais(pais);
 	}
+
+	public List<DtoUltimasSolicitacoes> buscaUltimasSolicitacoes(Long id) {
+		
+		return repository.buscarUltimas(id, PageRequest.of(0, 5));
+	}
+	
+	
 	
 }

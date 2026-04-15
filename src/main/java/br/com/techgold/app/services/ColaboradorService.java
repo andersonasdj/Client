@@ -16,7 +16,6 @@ import br.com.techgold.app.orm.ColaboradorProjecao;
 import br.com.techgold.app.orm.ColaboradorProjecaoSimples;
 import br.com.techgold.app.repository.ClienteRepository;
 import br.com.techgold.app.repository.ColaboradorRepository;
-import jakarta.transaction.Transactional;
 
 @Service
 public class ColaboradorService {
@@ -35,21 +34,6 @@ public class ColaboradorService {
 	@CacheEvict(value = {"listaNomeColaboradoresPorIdCliente"}, allEntries = true)
 	public void excluirColaborador(Long id) {
 		repository.deleteById(id);
-	}
-	
-	@Transactional
-	@CacheEvict(value = {"listaNomeColaboradoresPorIdCliente"}, allEntries = true)
-	public String editar(DtoColaboradorEdit dados) {
-		if(repository.existsById(dados.id())) {
-			Colaborador colaborador = repository.getReferenceById(dados.id());
-				colaborador.setCelular(dados.celular());
-				colaborador.setNomeColaborador(dados.nomeColaborador());
-				colaborador.setVip(dados.vip());
-				colaborador.setEmail(dados.email());
-				return "Editado com sucesso!!";
-		}else {
-			return "Colaborador não encontrado!";
-		}
 	}
 	
 	public List<ColaboradorProjecao> listarPorIdCliente(Long id) {

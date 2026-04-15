@@ -1,9 +1,6 @@
 package br.com.techgold.app.restcontroller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,31 +26,16 @@ public class ClienteRestController {
 	public ResponseEntity<DtoClienteHome> funcionarioHome() {
 	
 		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
-		Date dataHoje = new Date();
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		DateFormat dateFormatNumber = new SimpleDateFormat("HH");
 		
-		System.out.println("CLIENTE : " + cliente.getNomeCliente() + cliente.getDataUltimoLogin() + cliente.getId());
 		
-		int hora = Integer.valueOf( dateFormatNumber.format(dataHoje)); 
-		String saudacao;
-		
-		if(hora >= 0 && hora < 12) {
-			saudacao = "Bom dia, ";
-		} else if (hora >= 12 && hora < 18) {
-			saudacao = "Boa tarde, ";
-		} else {
-			saudacao = "Boa noite, ";
-		}
 		
 		return ResponseEntity.ok().body(
 				new DtoClienteHome(
-						saudacao, 
 						cliente.getNomeCliente(), 
-						dateFormat.format(dataHoje).toString(),
 						cliente.getDataUltimoLogin().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
 						service.buscaSolicitacoes(cliente),
-						cliente.getId()
+						cliente.getId(),
+						service.buscaUltimasSolicitacoes(cliente.getId())
 				));
 	}
 	

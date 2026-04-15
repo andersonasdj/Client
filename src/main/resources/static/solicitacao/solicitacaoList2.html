@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="../assets/img/favicon.ico">
+	<link rel="stylesheet" href="../assets/css/defaultStyle.css">
+	<link rel="stylesheet" href="../assets/css/styleBusca.css">
+	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../assets/css/password-generator.css">
+	<link rel="stylesheet" href="../assets/css/StyleSolicitacao.css">
+	<link rel="stylesheet" href="../assets/css/bootstrap-icons.min.css">
+	<title>Sistech - Solicitações</title>
+</head>
+<body>
+	<div class="container-fluid">
+		<!-- ############################################## BARRA DE NAVEGAÇÃO ################################################### -->
+				<nav class="navbar navbar-expand-lg bg-light">
+					<div class="container-fluid">
+						<a class="navbar-brand color-text" href="/cliente/home"><img src="./../assets/img/key.png" style="height: 18px;"> cliente</a>
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+							data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+							aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+							<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+								<li class="nav-item"><a class="nav-link active color-text" aria-current="page" href="/cliente/home">Início</a></li>
+									<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown"aria-expanded="false">Solicitações</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="/cliente/solicitacao/form">Novo</a></li>
+										<li><a class="dropdown-item" href="/cliente/solicitacao/list">Listar</a></li>
+										<li><hr class="dropdown-divider"></li>
+										<li><a class="dropdown-item" href="/cliente/solicitacao/relatorios">Relatórios</a></li>
+									</ul>
+								</li>
+								
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown"aria-expanded="false">Dashboard</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="/cliente/solicitacao/dashboard/geral">Solicitações ativas</a></li>
+									</ul>
+								</li>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ferramentas</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">Password Generator</a></li>
+									</ul>
+								</li>
+							</ul>
+							<ul class="navbar-nav mb-3 mb-lg-0">
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle color-text" id="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="/cliente/cliente/perfil">Perfil</a></li>
+										<li><hr class="dropdown-divider"></li>
+										<li><a class="dropdown-item" href="/cliente/sobre">Sobre</a></li>
+									</ul>
+								</li>
+									<a href="/cliente/logout"><i class="bi bi-power"style="font-size: 2rem; color: red;"></i></a>
+							</ul>
+							
+						</div>
+					</div>
+				</nav>
+				<!-- ############################################## BARRA DE NAVEGAÇÃO ################################################### -->
+
+		<hr class="bg-danger border-2 border-top border-danger">
+		<div class="container-fluid mb-2">
+
+				    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+
+				        <!-- ESQUERDA -->
+				        <div class="d-flex align-items-center gap-3">
+
+				            <!-- ITENS POR PÁGINA -->
+				            <div class="d-flex align-items-center gap-1">
+				                <small class="text-muted">Itens:</small>
+				                <select id="qtdItensPage" class="form-select form-select-sm" style="width: 80px;">
+				                    <option>100</option>
+				                    <option>150</option>
+				                    <option>200</option>
+				                    <option>250</option>
+				                    <option selected>300</option>
+				                    <option>350</option>
+				                    <option>400</option>
+				                    <option>450</option>
+				                    <option>500</option>
+				                </select>
+				            </div>
+
+							<div class="d-flex align-items-center gap-2 px-3 py-2 bg-light rounded shadow-sm">
+
+							    <i class="bi bi-bar-chart-fill text-primary fs-5"></i>
+
+							    <div class="d-flex flex-column lh-1">
+							        <small class="text-muted">Total</small>
+							        <strong class="fs-6">
+							            <span id="totalElementos">0</span> chamados
+							        </strong>
+							    </div>
+
+							</div>
+
+				        </div>
+
+				        <!-- DIREITA (FILTROS) -->
+				        <div class="d-flex flex-wrap gap-2">
+
+							<button class="btn btn-outline-primary btn-sm rederizaBtn"
+							    onclick="btnStatus('TRIAGEM', event)">
+							    <i class="bi bi-envelope-exclamation"></i> Triagem
+							</button>
+
+				            <button class="btn btn-outline-danger btn-sm rederizaBtn"
+				                onclick="btnStatus('ABERTO')">
+				                🔴 Aberto
+				            </button>
+
+				            <button class="btn btn-outline-info btn-sm rederizaBtn"
+				                onclick="btnStatus('ANDAMENTO')">
+				                ⚙️ Andamento
+				            </button>
+
+				            <button class="btn btn-outline-warning btn-sm rederizaBtn"
+				                onclick="btnStatus('AGENDADO')">
+				                📅 Agendado
+				            </button>
+
+				            <button class="btn btn-outline-light btn-sm rederizaBtn border text-dark"
+				                onclick="btnStatus('PAUSADO')">
+				                ⏸️ Pausado
+				            </button>
+
+				            <button class="btn btn-outline-secondary btn-sm rederizaBtn"
+				                onclick="btnStatus('AGUARDANDO')">
+				                ⏳ Aguardando
+				            </button>
+
+				            <button class="btn btn-dark btn-sm rederizaBtn"
+				                onclick="exibeTodas()">
+				                📋 Todas
+				            </button>
+
+				        </div>
+
+				    </div>
+
+				</div>
+
+				<hr class="bg-danger border-2 border-top border">
+				<span id="update" hidden> </span>
+				<div class="container-fluid mb-2">
+
+				    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+
+				        <!-- ESQUERDA (AÇÕES) -->
+				        <div class="d-flex align-items-center gap-2">
+
+				            <a href="/cliente/solicitacao/form" class="btn btn-success btn-sm">
+				                <i class="bi bi-plus-circle"></i> Novo chamado
+				            </button>
+
+				            <a href="#"
+				               class="btn btn-outline-primary btn-sm"
+				               title="Exportar CSV">
+				                <i class="bi bi-filetype-csv"></i>
+				            </a>
+
+				            <button onclick="generatePDF()"
+				                    class="btn btn-outline-danger btn-sm"
+				                    title="Exportar PDF">
+				                <i class="bi bi-filetype-pdf"></i>
+				            </button>
+
+				        </div>
+
+				        <!-- DIREITA (BUSCA) -->
+				        <div class="d-flex align-items-center gap-2">
+
+				            <div class="input-group input-group-sm" style="width: 450px;">
+				                <span class="input-group-text">
+				                    <i class="bi bi-search"></i>
+				                </span>
+				                <input id="boxBusca"
+				                       type="text"
+				                       class="form-control search"
+				                       placeholder="Buscar chamado...">
+				            </div>
+
+				            <span class="badge bg-light text-dark border">
+				                <span class="counter"></span>
+				            </span>
+
+				        </div>
+
+				    </div>
+
+				</div>
+				<hr class="bg-danger border-2 border-top border">
+		<div class="table-responsive mt-2">
+			<table class="table table-bordered results sortable table-action" id="tabela-usuarios">
+				<thead>
+					<tr>
+						<th data-field="id">ID</th>
+						<th data-field="abertura">Data Abertura</th>
+						<th data-field="cliente">Cliente</th>
+						<th data-field="solicitante">Solicitante</th>
+						<th data-field="afetado">Afetado</th>
+						<th data-field="classificacoes" class="escondeClassificacoes">Classificações</th>
+						<th data-field="descricao">Descrição</th>
+						<th data-field="criticidade">Criticidade</th>
+						<th data-field="classificacao">Classificação</th>
+						<th data-field="responsavel">Responsável</th>
+						<th data-field="status">Status</th>
+						<th data-field="duracao">Duração <span style="font-size: 10px;"> (minutos)</span></th>
+						<th data-field="versao" class="escondeVersao">Versão</th>
+					</tr>
+				</thead>
+				<tbody id="corpoSolicitacoes">
+					<tr> </tr>
+				</tbody>
+			</table>
+		</div>	
+		<nav aria-label="Page navigation example">
+		  <ul id="paginas" class="pagination"> </ul>
+		</nav>
+
+		<br /><br />
+		<footer class="container-fluid fixed-bottom text-center text-white">
+				<!-- Copyright -->
+				<div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+					© 2025 Copyright:
+					<a class="text-white" href="#">TechGold</a>
+				</div>
+				<!-- Copyright -->
+		</footer>
+			
+		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+		<div class="modal fade" id="modalPasswordGenerator" tabindex="-1" aria-labelledby="modalPasswordGenerator"
+			aria-hidden="true">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="container-password">
+						<div class="result">
+							<div class="result__info right">click para copiar</div>
+							<div class="result__info left">copiado</div>
+							<div class="result__viewbox" id="result" style="color: aliceblue; "></div>
+							<a id="copy-btn" style="--x: 0; --y: 0"><i class="far fa-copy"></i></a>
+						</div>
+						<div class="length range__slider" data-min="4" data-max="32">
+							<div class="length__title field-title" data-length='0'>Tamanho:</div>
+							<input id="slider" type="range" min="4" max="32" value="16" />
+						</div>
+						<div class="settings">
+							<span class="settings__title field-title">configurações</span>
+							<div class="setting">
+								<input type="checkbox" id="uppercase" checked />
+								<label for="uppercase">Incluir Maiúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="lowercase" checked />
+								<label for="lowercase">Incluir Minúsculo</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="number" checked />
+								<label for="number">Incluir Número</label>
+							</div>
+							<div class="setting">
+								<input type="checkbox" id="symbol" />
+								<label for="symbol">Incluir Símbolo</label>
+							</div>
+						</div>
+						<button class="btn generate" id="generate">Gerar Senha</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
+		<!-- ##################################################  MODAL EDIÇÃO ############################################### -->
+		<div class="modal fade" id="modalEdicao" tabindex="-1" aria-labelledby="modalEdicao" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-6" id="modalEdicao">Edição ID: <span id="idmodal"> </span></h1> &nbsp; &nbsp;
+						<button class="btn btn-sm btn-historico" data-bs-toggle="modal" data-bs-target="#modalHistorico" onclick="exibeHistorico()">Histórico</button>
+						&nbsp; &nbsp;
+						<span id="btnTimesheet"> </span>
+						<span hidden id="idHistorico"> </span>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+					</div>
+					<div class="modal-body">
+						<span id="id_cliente" style="display: none;" > </span>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="controls">
+									<label class="form-label mt-2" for="localmodal"><b>Local</b></label>
+									<select class="form-select" id="localmodal" aria-label="" disabled> </select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<label class="form-label mt-2" for="nomeFuncionarioModal"><b>Técnico</b></label>
+								<div class="controls">
+									<select class="form-select" id="nomeFuncionarioModal" name="nomeFuncionarioModal" disabled>
+										<option> </option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4 ms-auto" id="divstatusmodal">
+								<label class="form-label mt-2" for="statusmodal"><b>Status</b></label>
+								<div class="controls">
+									<select class="form-select" id="statusmodal" aria-label="" disabled> </select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-8-auto" id="agendamentosmodal" style="display: none">
+								<div class="control-group">
+									<label class="form-label mt-4"><b>Data Agendamento</b></label>
+									<div class="datetimepickerModal">
+										<input type="date" id="dateModal" name="dateModal" value="" disabled>
+										<span> </span>
+										<input type="time" id="timeModal" name="timeModal" value="" disabled>
+									</div>
+									<div class="info">
+										<strong>Compatibility check:</strong>
+										Date "<span id="date-output"></span>",
+										Time "<span id="time-output"></span>"
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group mt-3">
+									<label class="control-label" for="solicitante"><b>Solicitante</b>
+										<span id="botaoColaboradores"></span>
+									</label>
+									<div class="controls">
+										<select class="form-control solicitante mt-3" name="nomeSolicitanteModal" id="nomeSolicitanteModal" disabled> </select>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="control-group mt-3">
+									<label class="form-label" for="afetado"><b>Usuário Afetado</b></label>
+									<div class="controls">
+										<select class="form-control usuario mt-2" name="nomeAfetadoModal" id="nomeAfetadoModal" disabled> </select>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="control-group mt-3">
+									<label class="form-label" for="formaAberturaModal"><b>Canal de Abertura</b></label>
+									<div class="controls">
+										<select class="form-control usuario mt-2" name="formaAberturaModal" id="formaAberturaModal" disabled> </select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 ms-auto">
+								<label class="form-label mt-3" for="categoriamodal"><b>Categoria</b></label>
+								<div class="controls">
+									<div class="controls">
+										<select class="form-select" id="categoriamodal" name="categoriamodal" disabled>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 ms-auto">
+								<label class="form-label mt-3" for="classificacaomodal"><b>Classificação</b></label>
+								<div class="controls">
+									<select class="form-select" id="classificacaomodal" name="classificacaomodal" disabled>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4 ms-auto">
+								<label class="form-label mt-3" for="prioridademodal"><b>Criticidade</b></label>
+								<div class="controls">
+									<select class="form-select" id="prioridademodal" name="prioridademodal" disabled>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 ms-auto">
+								<label class="form-label mt-3" for="descricaomodal"><b>Descrição</b></label>
+								<div class="controls">
+									<textarea class="form-control" rows="4" id="descricaomodal" class="form-control" spellcheck="true" disabled></textarea>
+								</div>
+							</div>
+							<div class="col-md-6 ms-auto">
+								<label class="form-label mt-3" for="observacaomodal"><b>Observação</b></label>
+								<div class="controls">
+									<textarea class="form-control" rows="4" id="observacaomodal" spellcheck="true" disabled></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<label class="form-label mt-3" for="resolucaomodal"><b>Resolução</b></label>
+							<div class="controls">
+								<textarea class="form-control" rows="4" id="resolucaomodal" spellcheck="true" disabled></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-10 mt-3">
+								<div class="controls">
+									<b><span id="dataAtualizacaoModal"> </span></b>
+								</div>
+							</div>
+							<div class="col-md-2 mt-3">
+								<div class="controls" style="color: darkblue; font-weight: bold;">Versão <span id="versaoModal"> </span></div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Imprimir a solicitação" onclick=print()><i class="bi bi-printer"> </i></button>
+						<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Fechar o quadro de edição" data-bs-dismiss="modal">Fechar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #################################  MODAL EDIÇÃO ######################################################## -->
+	</div>
+	<script src="../assets/js/jquery-3.6.3.js"></script>
+	<script src="../assets/js/popper.min.js"></script>
+	<script src="../assets/js/bootstrap.min.js"></script>
+	<script src="../assets/js/sorttable.js"></script>
+  	<script src="../assets/js/jspdf.min.js"></script>
+  	<script src="../assets/js/password-generator.js"></script>
+ 	<script src="../assets/js/jspdf.plugin.autotable.js"></script>
+	
+	<script>
+		function editar(id) {
+			$.ajax({
+				type: "GET",
+				contentType: "application/json",
+				url: "/cliente/api/v1/solicitacao/busca/" + id,
+				success: function (data) {
+						
+						$('#inputId').empty();
+						$('#btnTimesheet, #btnAnexo').text("");
+						$('#idmodal, #idHistorico, #versaoModal, #id_cliente').text('');
+						$('#dataAtualizacaoModal, #statusmodal, #categoriamodal, #classificacaomodal, #prioridademodal, #localmodal, #nomeFuncionarioModal, #nomeSolicitanteModal, #nomeAfetadoModal, #formaAberturaModal').empty();
+						$('#descricaomodal, #resolucaomodal, #observacaomodal, #dateModal, #timeModal').val('');
+						
+						if(data.anexo != null && data.anexo != ' '){
+							$('#btnAnexo').append('<button class="btn btn-sm btn-anexo" onclick="baixarAnexo('+id+')"><i class="bi bi-paperclip"></i>Baixar</button>&nbsp; &nbsp;');
+							$('#btnAnexo').append('<button class="btn btn-sm btn-anexo" data-bs-toggle="modal" data-bs-target="#modalExibirAnexo" onclick="exibirAnexo('+id+')"><i class="bi bi-paperclip"></i>Visualizar</button>&nbsp; &nbsp;');
+							$('#btnAnexo').append('<button class="btn btn-sm btn-anexo" data-bs-toggle="modal" data-bs-target="#modalArquivo"><i class="bi bi-paperclip"></i>Alterar</button>');
+							$('#inputId').append('<input type="hidden" id="id" name="id" value="'+data.id+'"></input>');
+													
+						}else{
+							$('#btnAnexo').append('<button class="btn btn-sm btn-timesheet" data-bs-toggle="modal" data-bs-target="#modalArquivo"><i class="bi bi-paperclip"></i>Incluir Anexo</button>');
+							$('#inputId').append('<input type="hidden" id="id" name="id" value="'+data.id+'"></input>');
+						}
+						
+						if(data.duracao > 0){
+							$('#btnTimesheet').append('<button class="btn btn-sm btn-timesheet" data-bs-toggle="modal" data-bs-target="#modalTimesheetSolicitacao" onclick="exibeTimesheet('+ id +')"><i class="bi bi-clock-history"></i></button>');
+						}
+						
+						$('#idHistorico').text(data.log_id);
+						$('#idmodal').text(data.id);
+						$('#id_cliente').text(data.clienteId);
+						$('#versaoModal').text(data.versao);
+						$('#descricaomodal').val(data.descricao);
+						$('#resolucaomodal').val(data.resolucao);
+						$('#observacaomodal').val(data.observacao);
+						$('#dataAtualizacaoModal').append('<span style="font-size: 14px"> <i class="bi bi-person-plus"></i> Aberto por: ' + data.abertoPor + '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <i class="bi bi-calendar3"></i> Atualizado em: ' + data.dataAtualizacao+'</span>');
+						$('#nomeFuncionarioModal').append("<option value=" + data.funcionario + ">" + data.funcionario + "</option>");
+						$('#categoriamodal').append("<option value="+ data.categoria +">"+ data.categoria+"</option>");
+						$('#classificacaomodal').append("<option value="+ data.classificacao +">"+ data.classificacao+"</option>");
+						$('#prioridademodal').append("<option value="+ data.prioridade +">"+ data.prioridade+"</option>");
+						$('#localmodal').append("<option value="+ data.local +">"+ data.local+"</option>");
+						$('#formaAberturaModal').append("<option value="+ data.formaAbertura +">"+ data.formaAbertura+"</option>");
+						$('#nomeSolicitanteModal').append('<option value="' + data.solicitante + '">' + data.solicitante + '</option>');
+						$('#nomeAfetadoModal').append('<option value="' + data.afetado + '">' + data.afetado	 + '</option>');
+						$('#statusmodal').append("<option value=" + data.status + ">" + data.status + "</option>");
+					
+				},
+				statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					401: function() { 
+						alert('Realize login novamente!'); 
+						window.location.href = "/sistech/login"; 
+					}
+				}
+			});
+		}
+		
+	</script>
+	
+	
+	
+  
+	<script>
+		exibeTodasSolicitacoes();
+						
+		function exibeTodas(){
+			$('#corpoSolicitacoes, #paginas').empty();
+			exibeTodasSolicitacoes();
+		}
+		
+		function btnStatus(status){
+			var QtdItens = $("#qtdItensPage").val();
+			$.ajax({
+				type: "GET",
+				contentType: "application/json",
+				url: "/sistech/solicitacao/short/"+status+"?size="+QtdItens,
+				success: function (data) {
+					exibeItens(data);
+				},
+				statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					401: function() { 
+						alert('Realize login novamente!');
+						window.location.href = "/sistech/login"; 
+					}
+				}
+			});
+		}
+		
+		function exibeTodasSolicitacoes(){
+			var QtdItens = $("#qtdItensPage").val();
+			$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			url: "/cliente/api/v1/solicitacao/short?size="+QtdItens,
+			success: function (data) {
+				$('#totalElementos').text("");
+				$('#totalElementos').text(data.page.totalElements);
+				
+				
+				if(data.totalPages > 1){
+					for(var i=0; i < data.totalPages ; i++ ){
+						$('#paginas').append('<li class="page-item" id=numPag'+ i+'"><a id=numPag'+ i+' class="page-link" onclick="paginacao('+ i +')">'+ (i + 1) +'</a></li>');
+					}
+					$("#numPag0").attr("style","color:red");
+				}
+				
+				data.content.map(i => {
+					var status,
+						vip,
+						redFlag,
+						alertaPeso,
+						alertaPrioridade,
+						tempo,
+						alerta,
+						dataStatus="";
+					if(i.peso > 7){alertaPeso = "class='blink' style='color: red; font-weight: bold;'";}
+					else if(i.peso > 3 && i.peso <= 7 ){alertaPeso = "style='color: orange; font-weight: bold;'";}
+					else{alertaPeso = "style='color: blue; font-weight: bold;'";}
+					
+					if(i.status == "ABERTO"){ status = "class='table-danger'" }
+					if(i.status == "AGENDADO"){ status = "class='table-warning'"; dataStatus = i.dataAgendado; }
+					if(i.status == "ANDAMENTO"){ status = "class='table-info'"; dataStatus = i.dataAndamento; }
+					if(i.status == "AGUARDANDO"){ status = "class='table-secondary'" }
+					if(i.status == "PAUSADO"){ status = "class='table-light'" }
+					if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><p><b> VIP </span>" }else{vip =""}
+					if(i.redFlag == true){ 
+						if(i.vip == true){
+							redFlag = "-<span class='blink' style='color: red; font-size: 15px'><b> REDFLAG</b></p></span>" }
+						else{
+							redFlag = "<span class='blink' style='color: red; font-size: 15px'><p><b>REDFLAG</b></p></span>" }
+					} else{redFlag =""}
+					
+					if(i.prioridade == "CRITICA"){
+						alertaPrioridade ="class='blink' style='color: red; font-weight: bold;'";
+					}else if(i.prioridade == "ALTA"){
+						alertaPrioridade ="style='color: orange; font-weight: bold;'";
+					}else{
+						alertaPrioridade ="class='' style=''";
+					}
+					if(i.duracao != null){
+						if(i.duracao <= 240 ){ alerta = "style='color: green; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 240 && i.duracao < 420){ alerta = "style='color: Chocolate; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 420){  alerta = "style='color: red; font-size: 19px'" ; tempo = i.duracao;}
+					}else {tempo = " "; alerta = " "}
+					
+					var itens = 
+					'<tr '+ status + ' id=linha' + i.id + ' data-bs-toggle="modal" data-bs-target="#modalEdicao" onclick=editar(' + i.id + ')>'
+					+ '<td id=name' + i.id + '>' + i.id + '</td>'
+					+ '<td>' + i.dataAbertura + '</td>'
+					+ '<td class=nome-do-cliente>' + i.nomeCliente  + vip + redFlag + '</td>'
+					+ '<td id=solicitante' + i.id + '>' + i.solicitante + '</td>'
+					+ '<td id=afetado' + i.id + '>' + i.afetado + '</td>'
+					+ '<td id=local'+ i.id+' style="font-size: 12px;" class=escondeClassificacoes><p> Local: ' + i.local + '</p>Categoria: ' + i.categoria +'</td>'
+					+ '<td class=descricao-problema id=descricao' + i.id + '>' + i.descricao + '</td>'
+					+ '<td id=prioridade' + i.id+'><span '+alertaPrioridade+' >' + i.prioridade + '</span></td>'
+					+ '<td id=classificacao' + i.id + '><p>' + i.classificacao + '</p> Peso: <span '+ alertaPeso + '>' + i.peso +'</span></td>'
+					+ '<td class=funcionario-responsavel id=nomeFuncionario' + i.id + '>' + i.nomeFuncionario + '</td>'
+					+ '<td id=status' + i.id + ' ><p>' + i.status + '</p><span style="font-size:12px ; color: blue; font-weight: bold">'+ dataStatus +'<p> ' + ((dataStatus != null && dataStatus != '') ? atualizaContador(dataStatus, i.status): atualizaContador(i.dataAtualizacao, i.status)) + '</p></span></td>'
+					+ '<td id=duracao' + i.id + '><span '+alerta+'><b>' + tempo + '</b></span></td>'
+					+ '<td id=versao' + i.id + ' class=escondeVersao>' + i.versao + '</td>'
+					+ '</tr>'
+					$('#tabela-usuarios').append(itens);
+					}
+				);
+				var box = $('#boxBusca').val();
+				$('#boxBusca').val("");
+			},
+			statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					401: function() { 
+						alert('Realize login novamente!');
+						window.location.href = "/sistech/login"; 
+					}
+			}
+			});
+		}
+		
+		function paginacao(num){
+			var QtdItens = $("#qtdItensPage").val();
+			$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			url: "/sistech/solicitacao/short?page="+num+"&size="+QtdItens,
+			success: function (data) {
+				$('#corpoSolicitacoes').empty();
+				$('#paginas').empty();
+				
+				$('#totalElementos').text("");
+				$('#totalElementos').text(data.totalElements);
+				
+				for(var i=0; i < data.totalPages ; i++ ){
+					$('#paginas').append('<li class="page-item"><a id=numPag'+ i+' class="page-link" onclick="paginacao('+ i +')">'+ (i + 1) +'</a></li>');
+				}
+				$("#numPag"+num).attr("style","color:red");
+				
+				data.content.map(i => {
+					var status, vip, redFlag, tempo, alerta, dataStatus = "", alertaPeso;
+					
+					if(i.peso > 7){ alertaPeso = "class='blink' style='color: red; font-weight: bold;'"; }
+					else if(i.peso > 3 && i.peso <= 7 ){ alertaPeso = "style='color: orange; font-weight: bold;'"; }
+					else{ alertaPeso = "style='color: blue; font-weight: bold;'"; }
+					
+					if(i.status == "ABERTO"){ status = "class='table-danger'" }
+					if(i.status == "AGENDADO"){ status = "class='table-warning'"; dataStatus = i.dataAgendado; }
+					if(i.status == "ANDAMENTO"){ status = "class='table-info'"; dataStatus = i.dataAndamento; }
+					if(i.status == "AGUARDANDO"){ status = "class='table-secondary'" }
+					if(i.status == "PAUSADO"){ status = "class='table-light'" }
+					if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><p><b> VIP </span>" }else{vip =""}
+					if(i.redFlag == true){ 
+						if(i.vip == true){
+							redFlag = "-<span class='blink' style='color: red; font-size: 15px'><b> REDFLAG</b></p></span>" }
+						else{
+							redFlag = "<span class='blink' style='color: red; font-size: 15px'><p><b>REDFLAG</b></p></span>" }
+					} else{redFlag =""}
+					
+					if(i.prioridade == "CRITICA"){
+						alertaPrioridade ="class='blink' style='color: red; font-weight: bold;'";
+					}else if(i.prioridade == "ALTA"){
+						alertaPrioridade ="style='color: orange; font-weight: bold;'";
+					}else{
+						alertaPrioridade ="class='' style=''";
+					}
+					if(i.duracao != null){
+						if(i.duracao <= 240 ){ alerta = "style='color: green; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 240 && i.duracao < 420){ alerta = "style='color: Chocolate; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 420){  alerta = "style='color: red; font-size: 19px'" ; tempo = i.duracao;}
+					}else {tempo = " "; alerta = " "}
+					
+					var itens = 
+					'<tr '+ status + ' id=linha' + i.id + ' data-bs-toggle="modal" data-bs-target="#modalEdicao" onclick=editar(' + i.id + ')>'
+					+ '<td id=name' + i.id + '>' + i.id + '</td>'
+					+ '<td>' + i.dataAbertura + '</td>'
+					+ '<td class=nome-do-cliente>' + i.nomeCliente  + vip + redFlag + '</td>'
+					+ '<td id=solicitante' + i.id + '>' + i.solicitante + '</td>'
+					+ '<td id=afetado' + i.id + '>' + i.afetado + '</td>'
+					+ '<td id=local'+ i.id+' style="font-size: 12px;" class=escondeClassificacoes><p> Local: ' + i.local + '</p>Categoria: ' + i.categoria +'</td>'
+					+ '<td class=descricao-problema id=descricao' + i.id + '>' + i.descricao + '</td>'
+					+ '<td id=prioridade' + i.id+'><span '+alertaPrioridade+' >' + i.prioridade + '</span></td>'
+					+ '<td id=classificacao' + i.id + '><p>' + i.classificacao + '</p> Peso: <span '+ alertaPeso + '>' + i.peso +'</span></td>'
+					+ '<td class=funcionario-responsavel id=nomeFuncionario' + i.id + '>' + i.nomeFuncionario + '</td>'
+					+ '<td id=status' + i.id + ' ><p>' + i.status + '</p><span style="font-size:12px ; color: red; font-weight: bold">'+ dataStatus +'</span></td>'
+					+ '<td id=duracao' + i.id + '><span '+alerta+'><b>' + tempo + '</b></span></td>'
+					+ '<td id=versao' + i.id + ' class=escondeVersao>' + i.versao + '</td>'
+					+ '</tr>'
+					$('#tabela-usuarios').append(itens);
+					}
+				);
+				var box = $('#boxBusca').val();
+				$('#boxBusca').val("");
+			},
+			statusCode: {
+				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+					401: function() { 
+						alert('Realize login novamente!'); 
+						window.location.href = "/sistech/login"; 
+					}
+				}
+			});
+		}
+		
+		$(document).ready(function () {
+			var divQtdItens = $("#qtdItensPage");
+			divQtdItens.on("change", function () {
+				var quantidade = divQtdItens.val();
+				
+				$.ajax({
+					type: "GET",
+					contentType: "application/json",
+					url: "/sistech/solicitacao/short?size="+quantidade,
+					success: function (data) {
+						exibeItens(data);
+					},
+					statusCode: {
+					    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+						401: function() { 
+							alert('Realize login novamente!');
+							window.location.href = "/sistech/login"; 
+						}
+					}
+				});
+			});
+		});
+
+		function exibeItens(data){
+				$('#corpoSolicitacoes, #paginas').empty();
+				
+				$('#totalElementos').text("");
+				$('#totalElementos').text(data.totalElements);
+				
+				for(var i=0; i < data.totalPages ; i++ ){
+					$('#paginas').append('<li class="page-item"><a id=numPag'+ i+' class="page-link" onclick="paginacao('+ i +')">'+ (i + 1) +'</a></li>');
+				}
+				
+				data.content.map(i => {
+					var status, vip, redFlag, tempo, alerta, alertaPeso, dataStatus = "";
+						
+					if(i.peso > 7){
+						alertaPeso = "class='blink' style='color: red; font-weight: bold;'";
+					}else if(i.peso > 3 && i.peso <= 7 ){
+						alertaPeso = "style='color: orange; font-weight: bold;'";
+					}else{
+						alertaPeso = "style='color: blue; font-weight: bold;'";
+					}
+					if(i.status == "ABERTO"){ status = "class='table-danger'" }
+					if(i.status == "AGENDADO"){ status = "class='table-warning'"; dataStatus = i.dataAgendado; }
+					if(i.status == "ANDAMENTO"){ status = "class='table-info'"; dataStatus = i.dataAndamento; }
+					if(i.status == "AGUARDANDO"){ status = "class='table-secondary'" }
+					if(i.status == "PAUSADO"){ status = "class='table-light'" }
+					if(i.vip == true){ vip = "<span style='color: RoyalBlue; font-size: 15px'><p><b> VIP </span>" }else{vip =""}
+					if(i.redFlag == true){ 
+						if(i.vip == true){
+							redFlag = "-<span class='blink' style='color: red; font-size: 15px'><b> REDFLAG</b></p></span>" }
+						else{
+							redFlag = "<span class='blink' style='color: red; font-size: 15px'><p><b>REDFLAG</b></p></span>" }
+					} else{redFlag =""}
+					
+					if(i.prioridade == "CRITICA"){
+						alertaPrioridade ="class='blink' style='color: red; font-weight: bold;'";
+					}else if(i.prioridade == "ALTA"){
+						alertaPrioridade ="style='color: orange; font-weight: bold;'";
+					}else{
+						alertaPrioridade ="class='' style=''";
+					}
+					if(i.duracao != null){
+						if(i.duracao <= 240 ){ alerta = "style='color: green; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 240 && i.duracao < 420){ alerta = "style='color: Chocolate; font-size: 19px'" ; tempo = i.duracao;}
+						if(i.duracao > 420){  alerta = "style='color: red; font-size: 19px'" ; tempo = i.duracao;}
+					}else {tempo = " "; alerta = " "}
+					
+					var itens = 
+					'<tr '+ status + ' id=linha' + i.id + ' data-bs-toggle="modal" data-bs-target="#modalEdicao" onclick=editar(' + i.id + ')>'
+					+ '<td id=name' + i.id + '>' + i.id + '</td>'
+					+ '<td>' + i.dataAbertura + '</td>'
+					+ '<td class=nome-do-cliente>' + i.nomeCliente  + vip + redFlag + '</td>'
+					+ '<td id=solicitante' + i.id + '>' + i.solicitante + '</td>'
+					+ '<td id=afetado' + i.id + '>' + i.afetado + '</td>'
+					+ '<td id=local'+ i.id+' style="font-size: 12px;" class=escondeClassificacoes><p> Local: ' + i.local + '</p> Categoria: ' + i.categoria +'</td>'
+					+ '<td class=descricao-problema id=descricao' + i.id + '>' + i.descricao + '</td>'
+					+ '<td id=prioridade' + i.id+'><span '+alertaPrioridade+' >' + i.prioridade + '</span></td>'
+					+ '<td id=classificacao' + i.id + '><p>' + i.classificacao + '</p> Peso: <span '+ alertaPeso + '>' + i.peso +'</span></td>'
+					+ '<td class=funcionario-responsavel id=nomeFuncionario' + i.id + '>' + i.nomeFuncionario + '</td>'
+					+ '<td id=status' + i.id + ' ><p>' + i.status + '</p><span style="font-size:12px ; color: blue; font-weight: bold">'+ dataStatus +'<p> ' + ((dataStatus != null && dataStatus != '') ? atualizaContador(dataStatus, i.status): atualizaContador(i.dataAtualizacao, i.status)) + '</p></span></td>'
+					+ '<td id=duracao' + i.id + '><span '+alerta+'><b>' + tempo + '</b></span></td>'
+					+ '<td id=versao' + i.id + ' class=escondeVersao>' + i.versao + '</td>'
+					+ '</tr>'
+					$('#tabela-usuarios').append(itens);
+					}
+				);
+				var box = $('#boxBusca').val();
+				$('#boxBusca').val("");
+		}
+												
+	</script>
+	<script>
+		function converteData(dataStr){
+			const [data, hora] = dataStr.split(' ');
+			const [dia, mes, ano] = data.split('/').map(Number);
+			const [horas, minutos] = hora.split(':').map(Number);
+			return new Date(ano, mes -1, dia, horas, minutos);
+		}
+		
+		function atualizaContador(dataInicial, status){
+			const agora = new Date();
+			const outraData = converteData(dataInicial);
+			var diferenca = 0;
+			
+			if(outraData >= agora){ diferenca = outraData - agora; } else { diferenca = agora - outraData; }
+			
+			const segundosTotais = Math.floor(diferenca / 1000);
+			const dias = Math.floor(segundosTotais / 86400);
+			const horas = Math.floor((segundosTotais % 86400) / 3600);
+			const minutos = Math.floor((segundosTotais % 3600) / 60);
+			const segundos = segundosTotais % 60;
+			
+			if(outraData >= agora){
+				return `<span style="color : #227900"><b>Faltan: ${dias}d ${horas}h ${minutos}m</b></span>`;
+			}else{
+				if(status == 'PAUSADO' || status == 'AGUARDANDO' || status == 'ABERTO'){
+					return `<span style="color : #ff6000"><b>Atualização: ${dias}d ${horas}h ${minutos}m</b></span>`;	
+				}else{
+					return `<span style="color : red"><b>Passaram: ${dias}d ${horas}h ${minutos}m</b></span>`;	
+				}
+			}
+		}
+				
+		function generatePDF() {
+		  var doc = new jsPDF('l', 'pt');
+		
+		  var elem = document.getElementById('tabela-usuarios');
+		  var data = doc.autoTableHtmlToJson(elem);
+		  doc.autoTable(data.columns, data.rows, {
+		    margin: {left: 35},
+		    theme: 'grid',
+		    tableWidth: 'auto',
+		    fontSize: 7,
+		    overflow: 'linebreak',
+		    }
+		  );
+		  doc.save('Solicotacoes.pdf');
+		}
+		
+		$(document).ready(function() {
+		  $(".search").keyup(function () {
+		    var searchTerm = $(".search").val();
+		    var listItem = $('.results tbody').children('tr');
+		    var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+		    
+		  $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+		        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+		    }
+		  });
+		    
+		  $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+		    $(this).attr('visible','false');
+		  });
+		
+		  $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+		    $(this).attr('visible','true');
+		  });
+		
+		  var jobCount = $('.results tbody tr[visible="true"]').length;
+		    $('.counter').text(jobCount + ' item');
+		
+		  if(jobCount == '0') {$('.no-result').show();}
+		    else {$('.no-result').hide();}
+				  });
+		});
+	</script>
+</body>
+</html>

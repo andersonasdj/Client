@@ -1,11 +1,12 @@
 package br.com.techgold.app.dto;
 
+import java.util.List;
+
 public record DtoClienteHome(
-		String saudacao,
 		String nomeFuncionario,
-		String dataHoje,
 		String dataUltimoLogin,
 		DtoSolicitacoesCliente solicitacoes,
-		Long id
+		Long id,
+		List<DtoUltimasSolicitacoes> ultimas
 		) {
 }
