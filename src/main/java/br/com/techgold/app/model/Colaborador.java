@@ -32,9 +32,14 @@ public class Colaborador {
 	
 	private String email;
 	
+	private String username;
+	
+	private String password;
+	
+	private String caminhoFoto;
+	
 	@ManyToOne
 	private Cliente cliente;
-	
 	
 	public Colaborador(DtoColaboradorCadastrar dados, Cliente cliente) {
 		this.nomeColaborador = dados.nomeColaborador();

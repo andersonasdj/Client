@@ -20,7 +20,7 @@ public class AuthorizationService implements UserDetailsService{
 		if(user == null) {
 			throw new Error("User does not exists!");
 		}else {
-			return user;
+			return null;//user;
 		}
 	}
 

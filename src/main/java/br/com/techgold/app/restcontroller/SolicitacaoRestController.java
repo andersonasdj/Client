@@ -22,6 +22,8 @@ import br.com.techgold.app.dto.DtoDadosParaSolicitacao;
 import br.com.techgold.app.dto.DtoDashboardCliente;
 import br.com.techgold.app.dto.DtoSolicitacaoRelatorios;
 import br.com.techgold.app.model.Cliente;
+import br.com.techgold.app.model.Colaborador;
+import br.com.techgold.app.model.CustomUserDetails;
 import br.com.techgold.app.model.Funcionario;
 import br.com.techgold.app.model.Solicitacao;
 import br.com.techgold.app.model.enums.Status;
@@ -42,7 +44,7 @@ public class SolicitacaoRestController {
 	
 	@GetMapping("short") //RETORNA DTO COM PROJEÇÃO DOS DADOS NECESSÀRIO COM NATIVE QUERY
 	public Page<SolicitacaoProjecao> listaResumidaNaoFinalizados(@PageableDefault(size = 100, sort= {"peso"}, direction = Direction.DESC) Pageable page) {
-		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		Cliente cliente = getClienteLogado();
 		return solicitacaoService.listarSolicitacoes(Status.FINALIZADO.toString(), false, cliente.getId(),page);
 	}
 	
@@ -53,7 +55,7 @@ public class SolicitacaoRestController {
 	
 	@GetMapping("/excluido") //RETORNA DTO COM PROJEÇÃO DAS SOLICITAÇÕES EXCLUIDAS-LIXEIRA
 	public Page<SolicitacaoProjecao> excluidas(@PageableDefault(size = 200, sort= {"id"}, direction = Direction.DESC) Pageable page) {
-		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		Cliente cliente = getClienteLogado();
 		return solicitacaoService.listarSolicitacoes(page,Status.FINALIZADO.toString(), true, cliente.getId());
 	}
 	
@@ -65,13 +67,13 @@ public class SolicitacaoRestController {
 	
 	@GetMapping("/getData") //RETORNA LISTAGEM DE CLIENTES E FUNCIONARIOS ATIVOS PARA LISTAGEM DO SELECTBOX ### CACHE ###
 	private DtoDadosParaSolicitacao coletaDadosParaSolicitacao() {
-		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		Cliente cliente = getClienteLogado();
 		return new DtoDadosParaSolicitacao(cliente.getNomeCliente(), cliente.getId().toString());
 	}
 	
 	@PostMapping //SALVA UMA NOVA SOLICITAÇÃO NO BANCO
 	public String cadastrarNova(@RequestBody DtoCadastroSolicitacao dados ) {
-		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		Cliente cliente = getClienteLogado();
 		Solicitacao solicitacao = new Solicitacao(dados, cliente);
 		Funcionario funcionario = repositoryFuncionario.buscarPorNome("Suporte");
 		solicitacao.setFuncionario(funcionario);
@@ -80,7 +82,7 @@ public class SolicitacaoRestController {
 	
 	@GetMapping("/dashboard/cliente") //RETORNA UMA DTO COM TODOS OS DADOS PARA O DASHBOARD POR CLIENTE
 	public DtoDashboardCliente dashboardCliente() {
-		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		Cliente cliente = getClienteLogado();
 		return solicitacaoService.geraDashboardCliente(cliente.getId());
 	}
 	
@@ -92,6 +94,32 @@ public class SolicitacaoRestController {
 	@GetMapping("/relatorio/{status}/hoje")
 	public Page<SolicitacaoProjecao> listarRelatorioAtualizadasHoje(@PathVariable String status, @PageableDefault(size = 50, sort= {"id"}, direction = Direction.DESC) Pageable page) {
 		return solicitacaoService.listarSolicitacoesRelatorioHoje(page, status);
+	}
+	
+	private Cliente getClienteLogado() {
+
+	    var auth = SecurityContextHolder.getContext().getAuthentication();
+	    Object principal = auth.getPrincipal();
+
+	    // 🔹 Cliente direto
+	    if (principal instanceof Cliente c) {
+	        return service.buscaPorNome(c.getNomeCliente());
+	    }
+
+	    // 🔹 CustomUserDetails
+	    if (principal instanceof CustomUserDetails custom) {
+
+	        Object entidade = custom.getEntidade();
+
+	        if (entidade instanceof Cliente c) {
+	            return service.buscaPorNome(c.getNomeCliente());
+	        }
+
+	        if (entidade instanceof Colaborador colab) {
+	            return colab.getCliente();
+	        }
+	    }
+	    throw new RuntimeException("Cliente não encontrado no contexto de autenticação");
 	}
 
 }

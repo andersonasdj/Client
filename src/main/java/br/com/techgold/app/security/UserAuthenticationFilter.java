@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.techgold.app.model.Cliente;
+import br.com.techgold.app.model.CustomUserDetails;
 import br.com.techgold.app.services.ClienteService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,30 +20,113 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired private ClienteService clienteService;
 	
+	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		
-		boolean isLoginPost = "/cliente/login".equals(request.getRequestURI().trim()) && "POST".equalsIgnoreCase(request.getMethod().trim());
-		
-		if(isLoginPost) {
-			
-			filterChain.doFilter(request, response);
-			var auth = SecurityContextHolder.getContext().getAuthentication();
-			
-			if(auth != null && auth.getPrincipal() instanceof Cliente)  {
-				Cliente cliente = clienteService.buscaPorNome(((Cliente) auth.getPrincipal()).getNomeCliente());
-				System.out.println("CLIENTE LOGADO: " + cliente.getNomeCliente());
-				clienteService.atualizaIpLogin(cliente, request.getRemoteHost(),request.getLocale().getCountry());
-			}else {
-				String user = request.getParameter("username");
-				System.out.println(user + " - USUARIO SEM SESSÃO PASSOU NO FILTRO!");
-				SecurityContextHolder.clearContext();
-			}
-		}else {
-			filterChain.doFilter(request, response);
-		}
-		
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	        throws ServletException, IOException {
+
+	    boolean isLoginPost = "/cliente/login".equals(request.getRequestURI().trim())
+	            && "POST".equalsIgnoreCase(request.getMethod().trim());
+
+	    if (isLoginPost) {
+
+	        filterChain.doFilter(request, response);
+
+	        var auth = SecurityContextHolder.getContext().getAuthentication();
+	        
+	        if (auth == null || !auth.isAuthenticated()) {
+	            return;
+	        }
+
+	        if (auth != null && auth.getPrincipal() != null) {
+
+	            Object principal = auth.getPrincipal();
+
+	            // ===================== CLIENTE =====================
+	            if (principal instanceof Cliente cliente) {
+
+	                cliente = clienteService.buscaPorNome(cliente.getNomeCliente());
+
+	                System.out.println("CLIENTE LOGADO: " + cliente.getNomeCliente());
+
+	                clienteService.atualizaIpLogin(
+	                        cliente,
+	                        request.getRemoteHost(),
+	                        request.getLocale().getCountry()
+	                );
+	            }
+
+	            // ===================== CUSTOM USER (COLABORADOR) =====================
+	            else if (principal instanceof CustomUserDetails customUser) {
+
+	                Object entidade = customUser.getEntidade();
+
+	                if (entidade instanceof Cliente cliente) {
+
+	                    cliente = clienteService.buscaPorNome(cliente.getNomeCliente());
+
+	                    System.out.println("CLIENTE LOGADO (CUSTOM): " + cliente.getNomeCliente());
+
+	                    clienteService.atualizaIpLogin(
+	                            cliente,
+	                            request.getRemoteHost(),
+	                            request.getLocale().getCountry()
+	                    );
+	                }
+
+	                // AQUI você pode tratar colaborador se quiser
+	                else {
+	                    System.out.println("COLABORADOR LOGADO: " + customUser.getUsername());
+	                }
+	            }
+
+	            // ===================== FALLBACK =====================
+	            else {
+	                String user = request.getParameter("username");
+	                System.out.println(user + " - USUARIO NÃO IDENTIFICADO NO FILTER!");
+	                SecurityContextHolder.clearContext();
+	            }
+
+	        } else {
+	            String user = request.getParameter("username");
+	            System.out.println(user + " - USUARIO SEM SESSÃO PASSOU NO FILTRO!");
+	            SecurityContextHolder.clearContext();
+	        }
+
+	    } else {
+	        filterChain.doFilter(request, response);
+	    }
 	}
+	
+	
+	
+	
+	
+	
+//	@Override
+//	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//		
+//		boolean isLoginPost = "/cliente/login".equals(request.getRequestURI().trim()) && "POST".equalsIgnoreCase(request.getMethod().trim());
+//		
+//		if(isLoginPost) {
+//			
+//			filterChain.doFilter(request, response);
+//			var auth = SecurityContextHolder.getContext().getAuthentication();
+//			
+//			if(auth != null && auth.getPrincipal() instanceof Cliente)  {
+//				Cliente cliente = clienteService.buscaPorNome(((Cliente) auth.getPrincipal()).getNomeCliente());
+//				System.out.println("CLIENTE LOGADO: " + cliente.getNomeCliente());
+//				clienteService.atualizaIpLogin(cliente, request.getRemoteHost(),request.getLocale().getCountry());
+//			}else {
+//				String user = request.getParameter("username");
+//				System.out.println(user + " - USUARIO SEM SESSÃO PASSOU NO FILTRO!");
+//				SecurityContextHolder.clearContext();
+//			}
+//		}else {
+//			filterChain.doFilter(request, response);
+//		}
+//		
+//	}
 	
 	String getBrowser(HttpServletRequest request) {
 		

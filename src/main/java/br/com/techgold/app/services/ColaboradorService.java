@@ -16,6 +16,7 @@ import br.com.techgold.app.orm.ColaboradorProjecao;
 import br.com.techgold.app.orm.ColaboradorProjecaoSimples;
 import br.com.techgold.app.repository.ClienteRepository;
 import br.com.techgold.app.repository.ColaboradorRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ColaboradorService {
@@ -77,4 +78,12 @@ public class ColaboradorService {
 	public String retornaEmailColaboradorPorIdeEmail(Long id, String nome) {
 		return repository.retornarEmailColaboradorPorIdClienteNome(id,nome);
 	}
+
+	@Transactional
+	public void atualizaImagem(Long id, String caminho) {
+		Colaborador colaborador = repository.getReferenceById(id);
+		colaborador.setCaminhoFoto(caminho);
+		
+	}
+	
 }

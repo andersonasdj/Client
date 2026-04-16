@@ -14,6 +14,8 @@ import br.com.techgold.app.dto.DashboardClienteProjection;
 import br.com.techgold.app.dto.DtoDashboardCliente;
 import br.com.techgold.app.dto.DtoSolicitacaoRelatorios;
 import br.com.techgold.app.model.Cliente;
+import br.com.techgold.app.model.Colaborador;
+import br.com.techgold.app.model.CustomUserDetails;
 import br.com.techgold.app.model.Solicitacao;
 import br.com.techgold.app.orm.SolicitacaoProjecao;
 import br.com.techgold.app.repository.SolicitacaoRepository;
@@ -41,14 +43,13 @@ public class SolicitacaoService {
 	}
 
 	public String salvarNovaSolicitacao(Solicitacao solicitacao) {
-		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		Cliente cliente = getClienteLogado();
 		solicitacao.setAbertoPor(cliente.getNomeCliente());
 		solicitacao.setPeso(0l);
 		solicitacao.setVersao(0);
 		repository.save(solicitacao);
 		return "Solicitação cadastrada";
 	}
-	
 	
 	public DtoDashboardCliente geraDashboardCliente(Long id) {
 
@@ -89,8 +90,7 @@ public class SolicitacaoService {
 	
 		public DtoSolicitacaoRelatorios geraRelatorios() {
 		
-			Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
-			
+			Cliente cliente = getClienteLogado();
 			Long abertos, finalizados, atualizadas;
 			abertos = repository.listarSolicitacoesAbertasHojeQtd(false, cliente.getId());
 			finalizados = repository.listarSolicitacoesFinalizadasHojeQtd(false, cliente.getId());
@@ -100,8 +100,7 @@ public class SolicitacaoService {
 		}
 		
 		public Page<SolicitacaoProjecao> listarSolicitacoesRelatorioHoje(Pageable page, String status) {
-			Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
-			
+			Cliente cliente = getClienteLogado();
 			if(status.equals("atualizadas")) {
 				return repository.listarSolicitacoesAtualizadasHoje(page, cliente.getId());
 			} else if(status.equals("finalizadas")) {
@@ -111,5 +110,32 @@ public class SolicitacaoService {
 			}else {
 				return null;
 			}
+		}
+		
+		private Cliente getClienteLogado() {
+
+		    var auth = SecurityContextHolder.getContext().getAuthentication();
+		    Object principal = auth.getPrincipal();
+
+		    // 🔹 Cliente direto
+		    if (principal instanceof Cliente c) {
+		        return service.buscaPorNome(c.getNomeCliente());
+		    }
+
+		    // 🔹 CustomUserDetails
+		    if (principal instanceof CustomUserDetails custom) {
+
+		        Object entidade = custom.getEntidade();
+
+		        if (entidade instanceof Cliente c) {
+		            return service.buscaPorNome(c.getNomeCliente());
+		        }
+
+		        if (entidade instanceof Colaborador colab) {
+		            return colab.getCliente();
+		        }
+		    }
+
+		    throw new RuntimeException("Cliente não encontrado no contexto de autenticação");
 		}
 }

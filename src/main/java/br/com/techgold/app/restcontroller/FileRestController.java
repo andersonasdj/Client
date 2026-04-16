@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,8 +35,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.techgold.app.dto.DtoFile;
 import br.com.techgold.app.model.Cliente;
-import br.com.techgold.app.model.Solicitacao;
+import br.com.techgold.app.model.Colaborador;
+import br.com.techgold.app.model.CustomUserDetails;
 import br.com.techgold.app.services.ClienteService;
+import br.com.techgold.app.services.ColaboradorService;
 import br.com.techgold.app.services.SolicitacaoService;
 
 @RestController
@@ -47,6 +47,9 @@ public class FileRestController {
 	
 	@Autowired
 	ClienteService service;
+	
+	@Autowired
+	ColaboradorService colaboradorService;
 	
 	@Autowired
 	SolicitacaoService solicitacaoService;
@@ -89,13 +92,45 @@ public class FileRestController {
 	
 	@PostMapping("/perfil/upload")
 	public ResponseEntity<String> perfilUploadFile(@ModelAttribute DtoFile uploadRequest) {
-		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
+		var auth = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = auth.getPrincipal();
 
-		System.out.println("ID: " +cliente.getId());
-		System.out.println("FILE" + uploadRequest.file());
+		Long id = null;
+		String tipo = null;
+		String caminhoBase = null;
+
+		Object entidade = null;
+
+		if (principal instanceof Cliente cliente) {
+		    id = cliente.getId();
+		    tipo = "cliente";
+		    caminhoBase = "/cliente/";
+		    entidade = cliente;
+		}
+
+		else if (principal instanceof CustomUserDetails custom) {
+
+		    entidade = custom.getEntidade();
+
+		    if (entidade instanceof Cliente cliente) {
+		        id = cliente.getId();
+		        tipo = "cliente";
+		        caminhoBase = "/cliente/";
+		    }
+
+		    else if (entidade instanceof Colaborador colab) {
+		        id = colab.getId();
+		        tipo = "colaborador";
+		        caminhoBase = "/colaborador/";
+		    }
+		}
+
+		if (id == null) {
+		    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário inválido");
+		}
+
 	   
 	    MultipartFile file = uploadRequest.file();
-	    Long id = cliente.getId();
 	    		
 	    String contentType = file.getContentType();
 	    String originalFileName = file.getOriginalFilename();
@@ -109,7 +144,7 @@ public class FileRestController {
 	    }
 
 	    try {
-	        File uploadDir = new File(UPLOAD_DIR + "/cliente/" + id + "/");
+	    	File uploadDir = new File(UPLOAD_DIR + caminhoBase + id + "/");
 	        if (!uploadDir.exists() && !uploadDir.mkdirs()) {
 	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Não foi possível criar o diretório");
 	        }
@@ -143,7 +178,7 @@ public class FileRestController {
 	        g.dispose();
 
 	        // Salva como JPEG com compressão
-	        String finalFileName = "perfil_" + id + ".jpg";
+	        String finalFileName = "perfil_" + tipo + "_" + id + ".jpg";
 	        Path destino = Paths.get(uploadDir.getAbsolutePath(), finalFileName);
 
 	        try (OutputStream os = Files.newOutputStream(destino)) {
@@ -160,7 +195,15 @@ public class FileRestController {
 	            writer.dispose();
 	        }
 
-	        service.atualizaImagem(cliente.getId(), "/cliente/" + id + "/" + finalFileName);
+	        String caminho = caminhoBase + id + "/" + finalFileName;
+
+	        if (entidade instanceof Cliente cliente) {
+	            service.atualizaImagem(cliente.getId(), caminho);
+	        }
+
+	        else if (entidade instanceof Colaborador colab) {
+	            colaboradorService.atualizaImagem(colab.getId(), caminho);
+	        }
 	        return ResponseEntity.ok("Arquivo enviado com sucesso!");
 
 	    } catch (IOException e) {
@@ -183,41 +226,70 @@ public class FileRestController {
 	}
 	
 	@GetMapping("/perfil")
-	public ResponseEntity<Resource> exibirImagem(){
+	public ResponseEntity<Resource> exibirImagem() {
 		
-		Cliente cliente = service.buscaPorNome(((Cliente) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNomeCliente());
-		
-		if(cliente.getId() != null) {
-			Path diretorioImagens = Paths.get(UPLOAD_DIR);
-			
-			try {
-				Path caminhoArquivo = diretorioImagens.resolve(diretorioImagens + cliente.getCaminhoFoto()).normalize();
-				Resource recurso = new UrlResource(caminhoArquivo.toUri());
-				
-				if(!recurso.exists()) {
-					return ResponseEntity.notFound().build();
-				}
-				
-				String contentType = Files.probeContentType(caminhoArquivo);
-				
-				if(contentType == null) {
-					contentType = "application/octet-stream";
-				}
-				
-				return ResponseEntity.ok()
-						.contentType(MediaType.parseMediaType(contentType))
-						.header("Content-Disposition", "inline; filename=\"" + recurso.getFilename() + "\"")
-						.body(recurso);
-				
-			} catch (MalformedURLException e) {
-				return ResponseEntity.badRequest().build();
-			} catch (Exception e) {
-				return ResponseEntity.internalServerError().build();
-			}
-		}else {
-			return ResponseEntity.internalServerError().build();
-		}
-		
+		System.out.println("perfil");
+
+	    var auth = SecurityContextHolder.getContext().getAuthentication();
+	    Object principal = auth.getPrincipal();
+
+	    String caminhoFoto = null;
+
+	    // 🔹 Cliente direto
+	    if (principal instanceof Cliente cliente) {
+
+	        Cliente clienteAtualizado = service.buscaPorNome(cliente.getNomeCliente());
+
+	        caminhoFoto = clienteAtualizado.getCaminhoFoto();
+
+	        System.out.println("CAMINHO_DB: " + caminhoFoto);
+	    }
+
+	    // 🔹 CustomUserDetails
+	    else if (principal instanceof CustomUserDetails custom) {
+	    	
+	        Object entidade = custom.getEntidade();
+
+	        if (entidade instanceof Cliente cliente) {
+	            caminhoFoto = cliente.getCaminhoFoto();
+	        }
+
+	        else if (entidade instanceof Colaborador colab) {
+	            caminhoFoto = colab.getCaminhoFoto();
+	        }
+	    }
+
+	    if (caminhoFoto == null) {
+	        return ResponseEntity.notFound().build();
+	    }
+
+	    try {
+	        Path base = Paths.get(UPLOAD_DIR);
+
+	        // 🔥 CORREÇÃO IMPORTANTE (sem duplicar path)
+	        Path caminhoArquivo = base.resolve(caminhoFoto.replaceFirst("^/", "")).normalize();
+
+	        Resource recurso = new UrlResource(caminhoArquivo.toUri());
+
+	        if (!recurso.exists()) {
+	            return ResponseEntity.notFound().build();
+	        }
+
+	        String contentType = Files.probeContentType(caminhoArquivo);
+	        if (contentType == null) {
+	            contentType = "application/octet-stream";
+	        }
+
+	        return ResponseEntity.ok()
+	                .contentType(MediaType.parseMediaType(contentType))
+	                .header("Content-Disposition", "inline; filename=\"" + recurso.getFilename() + "\"")
+	                .body(recurso);
+
+	    } catch (MalformedURLException e) {
+	        return ResponseEntity.badRequest().build();
+	    } catch (Exception e) {
+	        return ResponseEntity.internalServerError().build();
+	    }
 	}
 	
 	
@@ -337,50 +409,6 @@ public class FileRestController {
 //	    }
 //	}
 
-	
-	
-	@GetMapping("/solicitacao/{id}")
-	public ResponseEntity<Resource> baixarAnexo(@PathVariable Long id) {
-		
-	    try {
-	        Solicitacao solicitacao = solicitacaoService.buscarPorId(id);
-
-	        // Caminho completo do anexo
-	        Path caminhoArquivo = Paths.get(UPLOAD_DIR).resolve(UPLOAD_DIR + solicitacao.getAnexo()).normalize();
-	        Resource recurso = new UrlResource(caminhoArquivo.toUri());
-
-	        if (!recurso.exists() || !recurso.isReadable()) {
-	            return ResponseEntity.notFound().build();
-	        }
-
-	        String contentType = Files.probeContentType(caminhoArquivo);
-	        if (contentType == null) {
-	            contentType = "application/octet-stream";
-	        }
-
-	        return ResponseEntity.ok()
-	            .contentType(MediaType.parseMediaType(contentType))
-	            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"")
-	            .body(recurso);
-
-	    } catch (MalformedURLException e) {
-	        return ResponseEntity.badRequest().build();
-	    } catch (Exception e) {
-	        return ResponseEntity.internalServerError().build();
-	    }
-	}
-	
-	
-	private boolean isValidUpload(String contentType, String fileName) {
-	    return isPdf(contentType, fileName) || isJpeg(contentType, fileName) || isPng(contentType, fileName);
-	}
-
-	private boolean isPdf(String contentType, String fileName) {
-	    boolean mimeOk = contentType != null && contentType.equalsIgnoreCase("application/pdf");
-	    boolean extOk = fileName != null && fileName.toLowerCase().endsWith(".pdf");
-	    return mimeOk || extOk;
-	}
-
 	private boolean isJpeg(String contentType, String fileName) {
 	    boolean mimeOk = contentType != null && (
 	            contentType.equalsIgnoreCase("image/jpeg") ||
@@ -399,6 +427,32 @@ public class FileRestController {
 	    return mimeOk || extOk;
 	}
 
+	private Cliente getClienteLogado() {
+
+	    var auth = SecurityContextHolder.getContext().getAuthentication();
+	    Object principal = auth.getPrincipal();
+
+	    // 🔹 Cliente direto
+	    if (principal instanceof Cliente c) {
+	        return service.buscaPorNome(c.getNomeCliente());
+	    }
+
+	    // 🔹 CustomUserDetails
+	    if (principal instanceof CustomUserDetails custom) {
+
+	        Object entidade = custom.getEntidade();
+
+	        if (entidade instanceof Cliente c) {
+	            return service.buscaPorNome(c.getNomeCliente());
+	        }
+
+	        if (entidade instanceof Colaborador colab) {
+	            return colab.getCliente();
+	        }
+	    }
+
+	    throw new RuntimeException("Cliente não encontrado no contexto de autenticação");
+	}
 
 
 }

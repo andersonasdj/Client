@@ -1,6 +1,7 @@
 package br.com.techgold.app.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -45,5 +46,8 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long>{
 	
 	@Query(value = "SELECT COUNT(*) FROM colaboradores co WHERE co.nomeColaborador=:nomeColaborador AND co.email=:email", nativeQuery = true)
 	public int verificaSeExistePorNome(String nomeColaborador, String email);
+
+
+	Optional<Colaborador> findByUsername(String username);
 
 }
