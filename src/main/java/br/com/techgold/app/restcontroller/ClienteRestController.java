@@ -77,7 +77,7 @@ public class ClienteRestController {
 
 	            return ResponseEntity.ok().body(
 	                new DtoClienteHome(
-	                    nomeExibicao + " - " + cliente.getNomeCliente(),
+	                    nomeExibicao,
 	                    cliente.getDataUltimoLogin().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
 	                    //  SOMENTE DELE
 	                    service.buscaSolicitacoes(cliente),
