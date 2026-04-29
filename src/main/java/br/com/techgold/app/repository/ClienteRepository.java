@@ -34,6 +34,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 		    )
 		    FROM Solicitacao s
 		    WHERE s.cliente.id = :id
+		    AND s.status != 'EXCLUIDO'
 		    ORDER BY s.dataAbertura DESC
 		""")
 		List<DtoUltimasSolicitacoes> buscarUltimas(@Param("id") Long id, Pageable pageable);

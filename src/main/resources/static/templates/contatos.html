@@ -371,10 +371,22 @@
 
     <!-- CONTENT -->
     <main class="content flex-grow-1">
-
-		<div class="container-fluid mt-4">
-			   
+			
 			<div class="container-fluid mt-4">
+				<div class="row mb-3">
+				    <div class="col-md-4">
+				        <div class="input-group">
+				            <span class="input-group-text">
+				                <i class="bi bi-search"></i>
+				            </span>
+				            <input type="text" id="buscaColaborador" class="form-control" placeholder="Buscar por nome, email ou telefone...">
+								   <span class="input-group-text" style="cursor:pointer" onclick="limparBusca()">
+								       <i class="bi bi-x"></i>
+								   </span>
+				        </div>
+				    </div>
+				</div>
+				
 			  <div class="row g-3" id="listaColaboradores">
 
 			    <div class="col-12 text-center text-muted no-result">
@@ -384,7 +396,6 @@
 			  </div>
 			</div>
 
-		  </div>
 
     </main>
 </div>
@@ -476,15 +487,12 @@ function home() {
     fetch("/cliente/clientes/home")
     .then(res => res.json())
     .then(data => {
-
 		carregarFotoTopbar(data.nomeFuncionario);
 		document.getElementById('kpiTotal').innerText = data.solicitacoes.total;
 		document.getElementById('kpiAndamento').innerText = data.solicitacoes.andamento;
 		document.getElementById('kpiAbertas').innerText = data.solicitacoes.abertas;
 		document.getElementById('kpiAguardando').innerText = data.solicitacoes.aguardando;
 		document.getElementById('nomeTopbar').innerText = data.nomeFuncionario;
-		
-		
     });
 }
 
@@ -566,7 +574,6 @@ function gerarCor(nome) {
     for (let i = 0; i < nome.length; i++) {
         hash = nome.charCodeAt(i) + ((hash << 5) - hash);
     }
-
     return cores[Math.abs(hash) % cores.length];
 }
 </script>
@@ -586,7 +593,6 @@ function gerarCor(nome) {
 					 carregarFotoTopbar();
 				});
 		});
-			
 		
 		async function listarColaboradores() {
 
@@ -615,7 +621,6 @@ function gerarCor(nome) {
 
 		        const data = await response.json();
 
-
 		        if (!data.length) {
 		            lista.innerHTML = `
 		                <div class="col-12 text-center text-muted">
@@ -632,7 +637,10 @@ function gerarCor(nome) {
 				    const cor = gerarCor(c.nomeColaborador || 'User');
 
 				    return `
-				    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+					<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 item-colaborador"
+					     data-nome="${(c.nomeColaborador || '').toLowerCase()}"
+					     data-email="${(c.email || '').toLowerCase()}"
+					     data-celular="${(c.celular || '').toLowerCase()}">
 				        <div class="card card-colaborador h-100 shadow-sm border-0">
 
 				            <div class="card-body d-flex flex-column">
@@ -680,7 +688,56 @@ function gerarCor(nome) {
 		        `;
 		    }
 		}
-			
+		
+		document.getElementById('buscaColaborador').addEventListener('input', function () {
+
+		    const termo = this.value.toLowerCase().trim();
+		    const itens = document.querySelectorAll('.item-colaborador');
+
+		    let visiveis = 0;
+
+		    itens.forEach(item => {
+
+		        const nome = item.dataset.nome;
+		        const email = item.dataset.email;
+		        const celular = item.dataset.celular;
+
+		        const match =
+		            nome.includes(termo) ||
+		            email.includes(termo) ||
+		            celular.includes(termo);
+
+		        if (match) {
+		            item.style.display = '';
+		            visiveis++;
+		        } else {
+		            item.style.display = 'none';
+		        }
+		    });
+
+		    // mensagem quando não encontra
+		    const lista = document.getElementById('listaColaboradores');
+		    let vazio = document.querySelector('.no-result-busca');
+
+		    if (visiveis === 0) {
+		        if (!vazio) {
+		            vazio = document.createElement('div');
+		            vazio.className = 'col-12 text-center text-muted no-result-busca';
+		            vazio.innerText = 'Nenhum resultado encontrado';
+		            lista.appendChild(vazio);
+		        }
+
+		    } else {
+		        if (vazio) vazio.remove();
+		    }
+
+		});
+		
+		function limparBusca() {
+		    const input = document.getElementById('buscaColaborador');
+		    input.value = '';
+		    input.dispatchEvent(new Event('input'));
+		}
 </script>
 </body>
 </html>
