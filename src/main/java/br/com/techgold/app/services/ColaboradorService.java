@@ -86,4 +86,8 @@ public class ColaboradorService {
 		
 	}
 	
+	public List<ColaboradorProjecao> listarColaboradoresPorIdCliente(Long dados) {
+		return repository.buscarPorId(dados);
+	}
+	
 }

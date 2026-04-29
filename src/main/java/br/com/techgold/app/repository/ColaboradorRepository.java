@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import br.com.techgold.app.model.Colaborador;
 import br.com.techgold.app.orm.ColaboradorProjecao;
@@ -49,5 +50,17 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long>{
 
 
 	Optional<Colaborador> findByUsername(String username);
+
+	@Query("""
+		    SELECT 
+		        c.id                AS id,
+		        c.nomeColaborador   AS nomeColaborador,
+		        c.celular           AS celular,
+		        c.email             AS email
+		    FROM Colaborador c
+		    WHERE c.cliente.id = :id
+		""")
+		List<ColaboradorProjecao> buscarPorId(@Param("id") Long id);
+	
 
 }

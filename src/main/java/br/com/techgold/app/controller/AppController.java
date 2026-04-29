@@ -27,9 +27,9 @@ public class AppController {
 		return "templates/sobre.html";
 	}
 	
-	@GetMapping("/avisos")
+	@GetMapping("/contatos")
 	public String avisos() {
-		return "templates/avisos.html";
+		return "templates/contatos.html";
 	}
 	
 

@@ -30,7 +30,6 @@ public class ColaboradorRestController {
 	public ResponseEntity<List<ColaboradorProjecao>> listarPorIdCliente( ) {
 
 		Cliente cliente = getClienteLogado();
-		System.out.println("EM COLABORADOR LIST: " + cliente.getId());
 		return ResponseEntity.ok().body(service.listarPorIdCliente(cliente.getId()));
 	}
 	
@@ -54,12 +53,12 @@ public class ColaboradorRestController {
 	    var auth = SecurityContextHolder.getContext().getAuthentication();
 	    Object principal = auth.getPrincipal();
 
-	    // 🔹 Cliente direto
+	    // Cliente direto
 	    if (principal instanceof Cliente c) {
 	        return clienteService.buscaPorNome(c.getNomeCliente());
 	    }
 
-	    // 🔹 CustomUserDetails
+	    // CustomUserDetails
 	    if (principal instanceof CustomUserDetails custom) {
 
 	        Object entidade = custom.getEntidade();
@@ -74,6 +73,13 @@ public class ColaboradorRestController {
 	    }
 
 	    throw new RuntimeException("Cliente não encontrado no contexto de autenticação");
+	}
+	
+	@GetMapping("listar/colaboradores")
+	public ResponseEntity<List<ColaboradorProjecao>> buscarColaboradorPorPalavraChave() {
+
+		Cliente cliente = getClienteLogado();
+	    return ResponseEntity.ok(service.listarColaboradoresPorIdCliente(cliente.getId()));
 	}
 	
 }

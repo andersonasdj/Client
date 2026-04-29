@@ -234,6 +234,29 @@
     letter-spacing: 1px;
 }
 
+.card-colaborador {
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.card-colaborador:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.card-colaborador .btn {
+    border-radius: 8px;
+}
+
+.avatar-inicial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 50%;
+    font-weight: 600;
+}
+
 </style>
 </head>
 
@@ -349,32 +372,19 @@
     <!-- CONTENT -->
     <main class="content flex-grow-1">
 
-        <!-- HEADER -->
-        <div class="row g-3 mb-4"> </div>
+		<div class="container-fluid mt-4">
+			   
+			<div class="container-fluid mt-4">
+			  <div class="row g-3" id="listaColaboradores">
 
-        <!-- CARDS -->
-		<div class="row g-3">
+			    <div class="col-12 text-center text-muted no-result">
+			      Nenhum colaborador encontrado
+			    </div>
 
-		    <!-- GRÁFICO -->
-		    <div class="col-lg-6">
-		        <div class="card shadow-sm border-0 h-100">
-		            <div class="card-body">
-		                <h6>Minhas Solicitações</h6>
-		                <canvas id="minhasSolicitacoes"></canvas>
-		            </div>
-		        </div>
-		    </div>
+			  </div>
+			</div>
 
-		    <!-- ÚLTIMAS SOLICITAÇÕES -->
-		    <div class="col-lg-6">
-		        <div class="card shadow-sm border-0 h-100">
-					<div class="card-body">
-					    <h6>Últimas solicitações</h6>
-					    <div id="ultimasSolicitacoes" class="d-flex flex-column gap-2"></div>
-					</div>
-		        </div>
-		    </div>
-		</div>
+		  </div>
 
     </main>
 </div>
@@ -451,24 +461,7 @@
 				</div>
 			</div>
 		<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
-		<!-- ################################################# MODAL DETALHES ############################################### -->
-			<div class="modal fade" id="modalSolicitacao" tabindex="-1">
-			    <div class="modal-dialog modal-lg">
-			        <div class="modal-content">
 		
-			            <div class="modal-header">
-			                <h5 class="modal-title">Detalhes da Solicitação</h5>
-			                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-			            </div>
-		
-			            <div class="modal-body" id="conteudoSolicitacao">
-			                <!-- carregado via JS -->
-			            </div>
-		
-			        </div>
-			    </div>
-			</div>
-		<!-- ################################################# MODAL DETALHES ############################################### -->
 <script src="assets/js/popper.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/chart.js"></script>
@@ -485,47 +478,19 @@ function home() {
     .then(data => {
 
 		carregarFotoTopbar(data.nomeFuncionario);
-		renderUltimasSolicitacoes(data.ultimas);
 		document.getElementById('kpiTotal').innerText = data.solicitacoes.total;
 		document.getElementById('kpiAndamento').innerText = data.solicitacoes.andamento;
 		document.getElementById('kpiAbertas').innerText = data.solicitacoes.abertas;
 		document.getElementById('kpiAguardando').innerText = data.solicitacoes.aguardando;
 		document.getElementById('nomeTopbar').innerText = data.nomeFuncionario;
 		
-		const ctx = document.getElementById('minhasSolicitacoes');
-
-		new Chart(ctx, {
-		    type: 'bar',
-		    data: {
-		        labels: ['Abertas','Andamento','Agendados','Aguardando','Pausado'],
-		        datasets: [{
-					label: 'Minhas Solicitações: ',
-		            data: [
-						data.solicitacoes.abertas,
-                        data.solicitacoes.andamento,
-                        data.solicitacoes.agendados,
-                        data.solicitacoes.aguardando,
-                        data.solicitacoes.pausado
-					],
-		            backgroundColor: [
-		                '#ef4444',
-		                '#3b82f6',
-		                '#f59e0b',
-		                '#6b7280',
-		                '#10b981'
-		            ]
-		        }]
-		    },
-		    options: {
-		        cutout: '70%',
-		        plugins: { legend: { position: 'bottom' } }
-		    }
-		});
+		
     });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     home();
+	listarColaboradores();
 });
 
 function carregarFotoTopbar(nomeUsuario) {
@@ -621,254 +586,101 @@ function gerarCor(nome) {
 					 carregarFotoTopbar();
 				});
 		});
+			
 		
-		function renderUltimasSolicitacoes(lista) {
+		async function listarColaboradores() {
 
-		    const container = document.getElementById("ultimasSolicitacoes");
-		    container.innerHTML = "";
+		    const lista = document.getElementById('listaColaboradores');
 
-		    lista.slice(0, 5).forEach(item => {
+		    // loading
+		    lista.innerHTML = `
+		        <div class="col-12 text-center text-muted">
+		            <i class="bi bi-arrow-repeat spin"></i> Carregando...
+		        </div>
+		    `;
 
-		        const statusClass = getStatusClass(item.status);
-		        const prioridade = getPrioridadeBadge(item.prioridade);
-		        const iconClassificacao = getClassificacaoIcon(item.classificacao);
+		    try {
 
-		        container.innerHTML += `
-				<div class="item-solicitacao"
-				     style="cursor:pointer;"
-				     onclick="abrirModalSolicitacao(${item.id})">
-		                <div class="item-left">
-		                    <span class="item-id">
-		                        <strong>#${item.id}</strong>
-		                    </span>
-		                    <span class="item-desc">
-		                        <i class="bi ${iconClassificacao} me-1"></i>
-		                        ${item.descricao.substring(0, 110)}...
-		                    </span>
-		                    <div class="d-flex gap-2 mt-1 flex-wrap">
-		                        ${prioridade}
-		                        <span class="badge bg-light text-dark">
-		                            ${item.classificacao}
-		                        </span>
-		                    </div>
+		        const response = await fetch('/cliente/colaborador/listar/colaboradores');
+
+		        if (response.status === 401) {
+		            alert('Sessão expirada. Faça login novamente.');
+		            window.location.href = "/cliente/login";
+		            return;
+		        }
+
+		        if (!response.ok) {
+		            throw new Error('Erro na requisição');
+		        }
+
+		        const data = await response.json();
+
+
+		        if (!data.length) {
+		            lista.innerHTML = `
+		                <div class="col-12 text-center text-muted">
+		                    Nenhum colaborador encontrado
 		                </div>
-		                <span class="badge ${statusClass}">
-		                    ${item.status}
-		                </span>
+		            `;
+		            return;
+		        }
+
+		        // render otimizado
+				const html = data.map(c => {
+
+				    const iniciais = gerarIniciais(c.nomeColaborador || 'U');
+				    const cor = gerarCor(c.nomeColaborador || 'User');
+
+				    return `
+				    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+				        <div class="card card-colaborador h-100 shadow-sm border-0">
+
+				            <div class="card-body d-flex flex-column">
+
+				                <!-- TOPO -->
+				                <div class="d-flex align-items-center mb-3">
+
+				                    <div class="avatar-inicial me-3" 
+				                         style="background:${cor}; width:45px; height:45px; font-size:16px;">
+				                        ${iniciais}
+				                    </div>
+
+				                    <div class="flex-grow-1">
+				                        <h6 class="mb-0 fw-semibold">${c.nomeColaborador}</h6>
+				                    </div>
+
+				                </div>
+
+				                <!-- INFO -->
+				                <div class="mb-2 small text-muted">
+				                    <i class="bi bi-envelope me-2"></i>
+				                    ${c.email || '-'}
+				                </div>
+
+				                <div class="mb-3 small text-muted">
+				                    <i class="bi bi-telephone me-2"></i>
+				                    ${c.celular || '-'}
+				                </div>
+
+				            </div>
+
+				        </div>
+				    </div>
+				    `;
+				}).join('');
+
+		        lista.innerHTML = html;
+
+		    } catch (error) {
+
+		        lista.innerHTML = `
+		            <div class="col-12 text-center text-danger">
+		                <i class="bi bi-exclamation-triangle"></i> Erro ao carregar dados
 		            </div>
 		        `;
-		    });
+		    }
 		}
 			
-			function getStatusClass(status) {
-			    switch (status) {
-			        case "ABERTO": return "bg-danger";
-			        case "ANDAMENTO": return "bg-primary";
-			        case "AGUARDANDO": return "bg-secondary";
-			        case "PAUSADO": return "bg-dark";
-			        case "CONCLUIDO": return "bg-success";
-			        default: return "bg-light text-dark";
-			    }
-			}
-			
-			function getClassificacaoIcon(classificacao) {
-
-			    switch (classificacao) {
-			        case "PROBLEMA": return "bi-bug";
-			        case "INCIDENTE": return "bi-exclamation-triangle";
-			        case "SOLICITACAO": return "bi-ticket";
-			        case "BACKUP": return "bi-cloud-arrow-down";
-			        case "ACESSO": return "bi-shield-lock";
-			        case "EVENTO": return "bi-calendar-event";
-			        default: return "bi-folder";
-			    }
-			}
-			
-			function getPrioridadeBadge(prioridade) {
-
-			    switch (prioridade) {
-			        case "BAIXA": return `<span class="badge bg-success"><i class="bi bi-arrow-down"></i> Baixa</span>`;
-			        case "MEDIA": return `<span class="badge bg-primary"><i class="bi bi-dash"></i> Média</span>`;
-			        case "ALTA": return `<span class="badge bg-warning text-dark"><i class="bi bi-arrow-up"></i> Alta</span>`;
-			        case "CRITICA": return `<span class="badge bg-danger"><i class="bi bi-fire"></i> Crítica</span>`;
-			        case "PLANEJADA": return `<span class="badge bg-secondary"><i class="bi bi-calendar"></i> Planejada</span>`;
-			        default: return "";
-			    }
-			}
-			let intervalo;
-			function abrirModalSolicitacao(id) {
-				
-				if (intervalo) clearInterval(intervalo);
-
-			    fetch(`/cliente/api/v1/solicitacao/busca/${id}`)
-			        .then(res => res.json())
-			        .then(data => {
-
-			            const prioridade = getPrioridadeBadge(data.prioridade);
-						document.getElementById("conteudoSolicitacao").innerHTML = `
-
-						<div class="d-flex justify-content-between align-items-start mb-3">
-						    <div>
-						        <h5 class="mb-1">
-						            <i class="bi bi-hash"></i> #${data.id}
-						        </h5>
-
-						        <div class="mb-3">
-						            <small class="text-muted d-flex align-items-center gap-1">
-						                <i class="bi bi-stopwatch"></i> Tempo em aberto
-						            </small>
-						            <div id="tempoAberto" class="fw-bold text-danger"></div>
-						        </div>
-
-						        <small class="text-muted d-flex align-items-center gap-1">
-						            <i class="bi bi-tag"></i> ${data.classificacao}
-						        </small>
-						    </div>
-
-						    <div class="d-flex gap-2">
-						        <span class="badge ${getStatusClass(data.status)}">
-						            <i class="bi bi-activity"></i> ${data.status}
-						        </span>
-						        ${getPrioridadeBadge(data.prioridade)}
-						    </div>
-						</div>
-
-						<hr>
-
-						<div class="row g-3">
-
-						    <div class="col-md-6">
-						        <small class="text-muted d-flex align-items-center gap-1">
-						            <i class="bi bi-person"></i> Solicitante
-						        </small>
-						        <div class="fw-semibold">${data.solicitante || '-'}</div>
-						    </div>
-
-						    <div class="col-md-6">
-						        <small class="text-muted d-flex align-items-center gap-1">
-						            <i class="bi bi-person-check"></i> Responsável
-						        </small>
-						        <div class="fw-semibold">${data.funcionario || '-'}</div>
-						    </div>
-
-						    <div class="col-md-6">
-						        <small class="text-muted d-flex align-items-center gap-1">
-						            <i class="bi bi-calendar-plus"></i> Data abertura
-						        </small>
-						        <div>${data.dataAbertura}</div>
-						    </div>
-
-						    <div class="col-md-6">
-						        <small class="text-muted d-flex align-items-center gap-1">
-						            <i class="bi bi-arrow-repeat"></i> Última atualização
-						        </small>
-						        <div>${data.dataAtualizacao}</div>
-						    </div>
-
-						</div>
-
-						<hr>
-
-						<div class="mb-3">
-						    <small class="text-muted d-flex align-items-center gap-1">
-						        <i class="bi bi-card-text"></i> Descrição
-						    </small>
-						    <div class="mt-1">${data.descricao}</div>
-						</div>
-
-						<div class="mb-3">
-						    <small class="text-muted d-flex align-items-center gap-1">
-						        <i class="bi bi-chat-left-text"></i> Observações
-						    </small>
-						    <div class="mt-1">${data.observacao || '-'}</div>
-						</div>
-
-						<div class="mb-3">
-						    <small class="text-muted d-flex align-items-center gap-1">
-						        <i class="bi bi-check2-square"></i> Resolução
-						    </small>
-						    <div class="mt-1">${data.resolucao || '-'}</div>
-						</div>
-						`;
-						
-						if (data.status === "FINALIZADO" || data.status === "CONCLUIDO") {
-
-						    document.getElementById("tempoAberto").innerHTML =
-						        `<span class="text-success fw-bold d-flex align-items-center gap-1">
-						            <i class="bi bi-stopwatch"></i>
-						            ${data.duracao}
-						        </span>`;
-
-						} else {
-
-						    intervalo = iniciarCronometro(data.dataAbertura);
-
-						}
-
-			            const modal = new bootstrap.Modal(document.getElementById('modalSolicitacao'));
-			            modal.show();
-			        });
-			}
-			function formatarData(data) {
-			    if (!data) return '-';
-
-			    const d = new Date(data);
-
-			    return d.toLocaleString('pt-BR', {
-			        day: '2-digit',
-			        month: '2-digit',
-			        year: 'numeric',
-			        hour: '2-digit',
-			        minute: '2-digit'
-			    });
-			}
-			function calcularTempoDecorrido(dataAbertura) {
-
-			    const inicio = parseDataBR(dataAbertura);
-			    const agora = new Date();
-
-			    if (!inicio) return "-";
-
-			    const diff = Math.floor((agora - inicio) / 1000);
-
-			    const horas = Math.floor(diff / 3600);
-			    const minutos = Math.floor((diff % 3600) / 60);
-			    const segundos = diff % 60;
-
-			    return `${String(horas).padStart(2,'0')}h `
-			         + `${String(minutos).padStart(2,'0')}m `
-			         + `${String(segundos).padStart(2,'0')}s`;
-			}
-			function iniciarCronometro(dataAbertura) {
-
-			    const el = document.getElementById("tempoAberto");
-
-			    function atualizar() {
-			        el.innerHTML = `
-			            <span class="text-danger fw-bold d-flex align-items-center gap-1">
-			                <i class="bi bi-stopwatch"></i>
-			                ${calcularTempoDecorrido(dataAbertura)}
-			            </span>
-			        `;
-			    }
-
-			    atualizar();
-			    return setInterval(atualizar, 1000);
-			}
-			function parseDataBR(dataStr) {
-
-			    if (!dataStr) return null;
-
-			    const [data, hora] = dataStr.split(" ");
-			    const [dia, mes, ano] = data.split("/");
-			    const [h, m] = hora.split(":");
-
-			    return new Date(ano, mes - 1, dia, h, m);
-			}
-			document.getElementById('modalSolicitacao')
-			    .addEventListener('hidden.bs.modal', () => {
-			        if (intervalo) clearInterval(intervalo);
-			    });
 </script>
 </body>
 </html>

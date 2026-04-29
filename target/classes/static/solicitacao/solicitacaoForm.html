@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cliente - TechGold</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cliente - TechGold</title>
 
-<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-<link rel="stylesheet" href="../assets/css/bootstrap-icons.min.css">
-<link rel="stylesheet" href="../assets/css/password-generator.css">
+	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../assets/css/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="../assets/css/password-generator.css">
 
-<style>
-	body {
+	<style>
+		body {
 			overflow-x: hidden;
-		    background: #f3f4f6;
+			background: #f3f4f6;
 		}
 
-		h5 { font-weight: 600; }
+		h5 {
+			font-weight: 600;
+		}
 
 		.topbar {
-		    background: #fff;
-		    padding: 15px 20px;
-		    border-radius: 10px;
+			background: #fff;
+			padding: 15px 20px;
+			border-radius: 10px;
 		}
 
 		#fotoTopbar img {
-		    width: 40px;
-		    height: 40px;
-		    border-radius: 50%;
-		    object-fit: cover;
-		    border: 2px solid #e5e7eb;
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			object-fit: cover;
+			border: 2px solid #e5e7eb;
 			transition: 0.2s;
 		}
 
 		#fotoTopbar img:hover {
-		    opacity: 0.8;
-		    transform: scale(2.05);
+			opacity: 0.8;
+			transform: scale(2.05);
 		}
 
 		.sidebar {
-		    width: 220px;
-		    height: 100vh;
+			width: 220px;
+			height: 100vh;
 			position: sticky;
 			top: 0;
 			background: linear-gradient(200deg, rgb(246, 245, 244), rgb(255, 255, 255));
@@ -47,52 +50,71 @@
 			flex-shrink: 0;
 			transition: width 0.3s ease;
 			overflow-y: auto;
-			box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+			box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
 		}
 
-		.sidebar.collapsed { width: 70px; }
-		.sidebar.collapsed span { display: none; }
-		.sidebar.collapsed .menu li.text-muted { display: none; }
+		.sidebar.collapsed {
+			width: 70px;
+		}
+
+		.sidebar.collapsed span {
+			display: none;
+		}
+
+		.sidebar.collapsed .menu li.text-muted {
+			display: none;
+		}
+
 		.sidebar.collapsed .menu a {
-		    justify-content: center;
+			justify-content: center;
 		}
+
 		.sidebar.collapsed .menu i {
-		    font-size: 20px;
+			font-size: 20px;
 		}
-		.sidebar .menu { list-style: none; padding: 0; }
+
+		.sidebar .menu {
+			list-style: none;
+			padding: 0;
+		}
+
 		.sidebar .menu .text-muted {
 			font-size: 17px;
-		    text-transform: uppercase;
+			text-transform: uppercase;
 			color: rgb(26, 95, 180) !important;
-		 }
-		.sidebar .menu li { padding: 10px 0; }
-
-	   	.sidebar .menu a {
-		    display: flex;
-		   	cursor: pointer;
-		   	color: rgb(0, 0, 0);
-		   	padding: 10px 12px;
-		 	border-radius: 8px;
-		    transition: 0.2s;
-		   	text-decoration: none;
-		    gap: 12px;
-	   	}
-		.sidebar .menu i {
-		    font-size: 18px;
-		    min-width: 24px;
-		    text-align: center;
 		}
-		   
-		   .sidebar .menu a:hover {
-		       background: rgb(153, 193, 241);
-		       border-radius: 6px;
-		   }
-		   
-		   .sidebar .menu a.active {
-		   		transform: scale(0.97);
-		   		background: #2563eb;
-		   	  	color: #fff;
-		   }
+
+		.sidebar .menu li {
+			padding: 10px 0;
+		}
+
+		.sidebar .menu a {
+			display: flex;
+			cursor: pointer;
+			color: rgb(0, 0, 0);
+			padding: 10px 12px;
+			border-radius: 8px;
+			transition: 0.2s;
+			text-decoration: none;
+			gap: 12px;
+		}
+
+		.sidebar .menu i {
+			font-size: 18px;
+			min-width: 24px;
+			text-align: center;
+		}
+
+		.sidebar .menu a:hover {
+			background: rgb(153, 193, 241);
+			border-radius: 6px;
+		}
+
+		.sidebar .menu a.active {
+			transform: scale(0.97);
+			background: #2563eb;
+			color: #fff;
+		}
 
 		.content {
 			padding: 20px;
@@ -100,573 +122,713 @@
 		}
 
 		.card-body ul {
-		    max-height: 250px;
-		    overflow-y: auto;
+			max-height: 250px;
+			overflow-y: auto;
 		}
 
 		.card-time {
-		    background: linear-gradient(135deg, rgb(153, 193, 241), rgb(153, 193, 241));
-		    color: #fff;
-		    border-radius: 12px;
+			background: linear-gradient(135deg, rgb(153, 193, 241), rgb(153, 193, 241));
+			color: #fff;
+			border-radius: 12px;
 		}
 
-		.card { transition: all 0.2s ease; }
+		.card {
+			transition: all 0.2s ease;
+		}
 
 		.card:hover {
-		    transform: translateY(-4px) scale(1.01);
+			transform: translateY(-4px) scale(1.01);
 			transition: 0.2s;
 		}
 
 		.kpi-card {
-		    border-radius: 12px;
-		    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-		    transition: 0.2s;
+			border-radius: 12px;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+			transition: 0.2s;
 			border: none;
 			border-left: 4px solid transparent;
 		}
 
-		.kpi-card i { transition: all 0.3s ease; }
-		.kpi-card:hover { transform: translateY(-5px); }
-		.kpi-card:hover i { transform: scale(1.2) rotate(5deg); }
-		.kpi-card:nth-child(1) { border-left-color: #3b82f6; }
-		.kpi-card:nth-child(2) { border-left-color: #10b981; }
-		.kpi-card:nth-child(3) { border-left-color: #f59e0b; }
-		.kpi-card:nth-child(4) { border-left-color: #ef4444; }
-
-		.dropdown > div:hover {
-		    background: #f3f4f6;
-		    padding: 5px 10px;
-		    border-radius: 8px;
+		.kpi-card i {
+			transition: all 0.3s ease;
 		}
-		.dropdown-menu { transition: all 0.2s ease; }
+
+		.kpi-card:hover {
+			transform: translateY(-5px);
+		}
+
+		.kpi-card:hover i {
+			transform: scale(1.2) rotate(5deg);
+		}
+
+		.kpi-card:nth-child(1) {
+			border-left-color: #3b82f6;
+		}
+
+		.kpi-card:nth-child(2) {
+			border-left-color: #10b981;
+		}
+
+		.kpi-card:nth-child(3) {
+			border-left-color: #f59e0b;
+		}
+
+		.kpi-card:nth-child(4) {
+			border-left-color: #ef4444;
+		}
+
+		.dropdown>div:hover {
+			background: #f3f4f6;
+			padding: 5px 10px;
+			border-radius: 8px;
+		}
+
+		.dropdown-menu {
+			transition: all 0.2s ease;
+		}
 
 		.avatar-inicial {
-		    width: 36px;
-		    height: 36px;
-		    border-radius: 50%;
-		    display: flex;
-		    align-items: center;
-		    justify-content: center;
-		    font-weight: 600;
-		    font-size: 14px;
-		    color: #fff;
-		}
-		.form-control, .form-select {
-		    border-radius: 8px;
-		    border: 1px solid #e5e7eb;
-		    transition: 0.2s;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 600;
+			font-size: 14px;
+			color: #fff;
 		}
 
-		.form-control:focus, .form-select:focus {
-		    border-color: #3b82f6;
-		    box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+		.form-control,
+		.form-select {
+			border-radius: 8px;
+			border: 1px solid #e5e7eb;
+			transition: 0.2s;
 		}
 
-		.spin { animation: spin 2s linear infinite; }
-		.pulse { animation: pulse 1.5s infinite; }
+		.form-control:focus,
+		.form-select:focus {
+			border-color: #3b82f6;
+			box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+		}
+
+		.spin {
+			animation: spin 2s linear infinite;
+		}
+
+		.pulse {
+			animation: pulse 1.5s infinite;
+		}
 
 		@keyframes spin {
-		    from { transform: rotate(0deg); }
-		    to { transform: rotate(360deg); }
+			from {
+				transform: rotate(0deg);
+			}
+
+			to {
+				transform: rotate(360deg);
+			}
 		}
 
 		@keyframes pulse {
-		    0% { opacity: 1; }
-		    50% { opacity: 0.5; }
-		    100% { opacity: 1; }
+			0% {
+				opacity: 1;
+			}
+
+			50% {
+				opacity: 0.5;
+			}
+
+			100% {
+				opacity: 1;
+			}
 		}
+
+
+		.item-solicitacao {
+			padding: 10px 12px;
+			border-radius: 8px;
+			background: #f9fafb;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			transition: 0.2s;
+		}
+
+		.item-solicitacao:hover {
+			background: #f3f4f6;
+			transform: translateX(3px);
+		}
+
+		.item-left {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.item-id {
+			font-weight: 600;
+			font-size: 13px;
+		}
+
+		.item-desc {
+			font-size: 12px;
+			color: #6b7280;
+		}
+
+		label i {
+			margin-right: 6px;
+			opacity: 0.7;
+		}
+
+		h6 i {
+			margin-right: 6px;
+			opacity: 0.8;
+		}
+		#criticidade {
+		    font-weight: 500;
+		}
+
+		.critica { border-left: 4px solid #ef4444 !important; }
+		.alta { border-left: 4px solid #f59e0b !important; }
+		.media { border-left: 4px solid #3b82f6 !important; }
+		.baixa { border-left: 4px solid #10b981 !important; }
 		
-
-	.item-solicitacao {
-	    padding: 10px 12px;
-	    border-radius: 8px;
-	    background: #f9fafb;
-	    display: flex;
-	    justify-content: space-between;
-	    align-items: center;
-	    transition: 0.2s;
-	}
-
-	.item-solicitacao:hover {
-	    background: #f3f4f6;
-	    transform: translateX(3px);
-	}
-
-	.item-left {
-	    display: flex;
-	    flex-direction: column;
-	}
-
-	.item-id {
-	    font-weight: 600;
-	    font-size: 13px;
-	}
-
-	.item-desc {
-	    font-size: 12px;
-	    color: #6b7280;
-	}
-	label i {
-	    margin-right: 6px;
-	    opacity: 0.7;
-	}
-
-	h6 i {
-	    margin-right: 6px;
-	    opacity: 0.8;
-	}
-</style>
+		.card-body h6 {
+		    font-weight: 600;
+		    color: #374151;
+		}
+	</style>
 </head>
 
 <body>
 	<div class="topbar mb-4 d-flex justify-content-between align-items-center">
 
-	    <h5 class="mb-0 fw-bold">Dashboard</h5>
+		<h5 class="mb-0 fw-bold">Dashboard</h5>
 
-	    <div class="d-flex align-items-center gap-3">
+		<div class="d-flex align-items-center gap-3">
 
-	        <i class="bi bi-search"></i>
-	        <i class="bi bi-bell"></i>
+			<i class="bi bi-search"></i>
+			<i class="bi bi-bell"></i>
 
-	        <!-- USUÁRIO -->
-	        <div class="dropdown">
+			<!-- USUÁRIO -->
+			<div class="dropdown">
 
-	            <!-- TRIGGER -->
-	            <div class="d-flex align-items-center gap-2"
-	                 style="cursor:pointer;"
-	                 data-bs-toggle="dropdown"
-	                 aria-expanded="false">
+				<!-- TRIGGER -->
+				<div class="d-flex align-items-center gap-2" style="cursor:pointer;" data-bs-toggle="dropdown"
+					aria-expanded="false">
+					<div id="fotoTopbar"></div>
+					<span id="nomeTopbar" class="fw-semibold"></span>
+					<i class="bi bi-chevron-down"></i>
+				</div>
 
-	                <div id="fotoTopbar"></div>
-	                <span id="nomeTopbar" class="fw-semibold"></span>
-	                <i class="bi bi-chevron-down"></i>
-
-	            </div>
-
-	            <!-- MENU -->
-	            <ul class="dropdown-menu dropdown-menu-end">
-	                <li><a class="dropdown-item" href="/cliente/cliente/perfil">Perfil</a></li>
-	                <li><a class="dropdown-item" href="/cliente/sobre">Sobre</a></li>
-	                <li><hr class="dropdown-divider"></li>
-	                <li><a class="dropdown-item text-danger" href="/cliente/logout">Sair</a></li>
-	            </ul>
-	        </div>
-	    </div>
-
+				<!-- MENU -->
+				<ul class="dropdown-menu dropdown-menu-end">
+					<li><a class="dropdown-item text-danger" href="/cliente/logout">Sair</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
-	
+
 	<div class="row g-3 mb-4">
 
-	    <!-- TOTAL -->
-	    <div class="col-md-3">
-	        <div class="card kpi-card">
-	            <div class="card-body d-flex justify-content-between align-items-center">
-	                <div>
-	                    <small>Total</small>
-	                    <h4 id="kpiTotal">0</h4>
-	                </div>
-	                <i class="bi bi-bar-chart fs-2 text-primary"></i>
-	            </div>
-	        </div>
-	    </div>
+		<!-- TOTAL -->
+		<div class="col-md-3">
+			<div class="card kpi-card">
+				<div class="card-body d-flex justify-content-between align-items-center">
+					<div>
+						<small>Total</small>
+						<h4 id="kpiTotal">0</h4>
+					</div>
+					<i class="bi bi-bar-chart fs-2 text-primary"></i>
+				</div>
+			</div>
+		</div>
 
-	    <!-- ANDAMENTO -->
-	    <div class="col-md-3">
-	        <div class="card kpi-card">
-	            <div class="card-body d-flex justify-content-between align-items-center">
-	                <div>
-	                    <small>Andamento</small>
-	                    <h4 id="kpiAndamento">0</h4>
-	                </div>
-	                <i class="bi bi-arrow-repeat fs-2 text-success spin"></i>
-	            </div>
-	        </div>
-	    </div>
+		<!-- ANDAMENTO -->
+		<div class="col-md-3">
+			<div class="card kpi-card">
+				<div class="card-body d-flex justify-content-between align-items-center">
+					<div>
+						<small>Andamento</small>
+						<h4 id="kpiAndamento">0</h4>
+					</div>
+					<i class="bi bi-arrow-repeat fs-2 text-success spin"></i>
+				</div>
+			</div>
+		</div>
 
-	    <!-- ABERTAS -->
-	    <div class="col-md-3">
-	        <div class="card kpi-card">
-	            <div class="card-body d-flex justify-content-between align-items-center">
-	                <div>
-	                    <small>Abertas</small>
-	                    <h4 id="kpiAbertas">0</h4>
-	                </div>
-	                <i class="bi bi-folder2-open fs-2 text-warning"></i>
-	            </div>
-	        </div>
-	    </div>
+		<!-- ABERTAS -->
+		<div class="col-md-3">
+			<div class="card kpi-card">
+				<div class="card-body d-flex justify-content-between align-items-center">
+					<div>
+						<small>Abertas</small>
+						<h4 id="kpiAbertas">0</h4>
+					</div>
+					<i class="bi bi-folder2-open fs-2 text-warning"></i>
+				</div>
+			</div>
+		</div>
 
-	    <!-- AGUARDANDO -->
-	    <div class="col-md-3">
-	        <div class="card kpi-card">
-	            <div class="card-body d-flex justify-content-between align-items-center">
-	                <div>
-	                    <small>Aguardando</small>
-	                    <h4 id="kpiAguardando">0</h4>
-	                </div>
-	                <i class="bi bi-hourglass-split fs-2 text-secondary pulse"></i>
-	            </div>
-	        </div>
-	    </div>
+		<!-- AGUARDANDO -->
+		<div class="col-md-3">
+			<div class="card kpi-card">
+				<div class="card-body d-flex justify-content-between align-items-center">
+					<div>
+						<small>Aguardando</small>
+						<h4 id="kpiAguardando">0</h4>
+					</div>
+					<i class="bi bi-hourglass-split fs-2 text-secondary pulse"></i>
+				</div>
+			</div>
+		</div>
 
 	</div>
 
-<div class="d-flex">
+	<div class="d-flex">
 
-	<!-- SIDEBAR -->
-	   <aside id="sidebar" class="sidebar">
-	       <div class="p-3 d-flex justify-content-between align-items-center">
-	           <strong></strong>
-	           <button id="toggleSidebar" class="btn btn-sm btn-light">☰</button>
-	       </div>
+		<!-- SIDEBAR -->
+		<aside id="sidebar" class="sidebar">
+			<div class="p-3 d-flex align-items-center">
+				<strong></strong>
+				<button id="toggleSidebar" class="btn btn-sm btn-light">☰</button>
+			</div>
 
-		<ul class="menu">
+			<ul class="menu">
 
-		    <li>
-		        <a href="/cliente/home">
-		            <i class="bi bi-house-door"></i>
-		            <span>Início</span>
-		        </a>
-		    </li>
+				<li>
+					<a href="/cliente/home">
+						<i class="bi bi-house-door"></i>
+						<span>Início</span>
+					</a>
+				</li>
 
-		    <li class="text-muted px-3 mt-3">Solicitações</li>
+				<li class="text-muted px-3 mt-3">Solicitações</li>
 
-		    <li>
-		        <a href="/cliente/solicitacao/form">
-		            <i class="bi bi-plus-circle"></i>
-		            <span>Novo</span>
-		        </a>
-		    </li>
+				<li>
+					<a href="/cliente/solicitacao/form">
+						<i class="bi bi-plus-circle"></i>
+						<span>Novo</span>
+					</a>
+				</li>
 
-		    <li>
-		        <a href="/cliente/solicitacao/list">
-		            <i class="bi bi-list-ul"></i>
-		            <span>Listar</span>
-		        </a>
-		    </li>
+				<li>
+					<a href="/cliente/solicitacao/list">
+						<i class="bi bi-list-ul"></i>
+						<span>Listar</span>
+					</a>
+				</li>
 
-		    <li>
-		        <a href="/cliente/solicitacao/relatorios">
-		            <i class="bi bi-bar-chart-line"></i>
-		            <span>Relatórios</span>
-		        </a>
-		    </li>
+				<li>
+					<a href="/cliente/solicitacao/relatorios">
+						<i class="bi bi-bar-chart-line"></i>
+						<span>Relatórios</span>
+					</a>
+				</li>
 
-		    <li class="text-muted px-3 mt-3">Dashboard</li>
+				<li class="text-muted px-3 mt-3">Dashboard</li>
 
-		    <li>
-		        <a href="/cliente/solicitacao/dashboard/geral">
-		            <i class="bi bi-speedometer2"></i>
-		            <span>Solicitações</span>
-		        </a>
-		    </li>
+				<li>
+					<a href="/cliente/solicitacao/dashboard/geral">
+						<i class="bi bi-speedometer2"></i>
+						<span>Solicitações</span>
+					</a>
+				</li>
 
-		    <li class="text-muted px-3 mt-3">Ferramentas</li>
+				<li class="text-muted px-3 mt-3">Ferramentas</li>
 
-		    <li>
-		        <a href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">
-		            <i class="bi bi-key"></i>
-		            <span>Password Generator</span>
-		        </a>
-		    </li>
+				<li>
+					<a href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">
+						<i class="bi bi-key"></i>
+						<span>Password Generator</span>
+					</a>
+				</li>
 
-		</ul>
-	   </aside>
+			</ul>
+		</aside>
 
-    <!-- CONTENT -->
-    <main class="content flex-grow-1">
+		<!-- CONTENT -->
+		<main class="content flex-grow-1">
 
-		<div class="container corpoFormulario" style="display: block;">
-						<div id="form-solicitacao">
-							<div class="container-fluid">
+			<div class="container corpoFormulario" style="display: block;">
+				<div id="form-solicitacao">
+					<div class="container-fluid">
+						<div class="row g-4">
 
-							    <!-- TÍTULO -->
+							<!-- FORMULÁRIO -->
+							<div class="col-lg-9">
+
+								<!-- TÍTULO -->
 								<h4 class="fw-bold">
-								    <i class="bi bi-plus-circle"></i> Nova Solicitação
-								    <span id="idCliente" hidden></span>
+									<i class="bi bi-plus-circle"></i> Nova Solicitação
+									<span id="idCliente" hidden></span>
 								</h4>
 
-							    <!-- INFORMAÇÕES GERAIS -->
-							    <div class="card shadow-sm border-0 mb-4">
-							        <div class="card-body">
+								<!-- INFORMAÇÕES GERAIS -->
+								<div class="card card-cor shadow-sm border-0 mb-4">
+									<div class="card-body">
 										<h6 class="mb-3">
-										    <i class="bi bi-info-circle"></i> Informações Gerais
+											<i class="bi bi-info-circle"></i> Informações Gerais
 										</h6>
 
-							            <div class="row g-3">
+										<div class="row g-3">
 
-							                <div class="col-lg-3 col-md-6">
-							                    <label><i class="bi bi-activity"></i> Status</label>
-							                    <select class="form-select" id="status">
-							                        <option>ABERTO</option>
-							                        <option>AGENDADO</option>
-							                    </select>
-							                </div>
-
-							                <div class="col-lg-3 col-md-6">
-							                    <label><i class="bi bi-diagram-3"></i> Canal</label>
-							                    <select class="form-select" id="formaAbertura">
-							                        <option>LOCAL</option>
-							                    </select>
-							                </div>
-
-							                <div class="col-lg-3 col-md-6">
-							                    <label><i class="bi bi-tags"></i> Categoria</label>
-							                    <select class="form-select" id="categoria">
-													<option value="BACKUP">Backup</option>
-														<option value="CABEAMENTO">Cabeamento</option>
-														<option value="COTACAO">Cotação</option>
-														<option value="DOMINIOS">Domínios</option>
-														<option value="EMAIL">Email</option>
-														<option value="HARDWARE">Hardware</option>
-														<option value="HOSPEDAGENS">Hospedagens</option>
-														<option value="INTERNET">Internet</option>
-														<option value="MIGRACAO">Migração</option>
-														<option value="OUTROS">Outros</option>
-														<option value="PROJETO">Projeto</option>
-														<option value="REDE">Rede</option>
-														<option value="SERVIDORES">Servidores</option>
-														<option value="SHAREPOINT">SharePoint</option>
-														<option value="SMARTPHONE">Smartphone</option>
-														<option value="SOFTWARE" selected>Software</option>
+											<div class="col-lg-3 col-md-6">
+												<label><i class="bi bi-clipboard-check"></i>Status</label>
+												<select class="form-select" id="status">
+													<option>ABERTO</option>
+													<option>AGENDADO</option>
 												</select>
-							                </div>
+											</div>
 
-							                <div class="col-lg-3 col-md-6">
-							                    <label><i class="bi bi-exclamation-triangle"></i> Criticidade</label>
-							                    <select class="form-select" id="criticidade">
+											<div class="col-lg-3 col-md-6">
+												<label><i class="bi bi-broadcast"></i> Canal</label>
+												<select class="form-select" id="formaAbertura">
+													<option>LOCAL</option>
+												</select>
+											</div>
+
+											<div class="col-lg-3 col-md-6">
+												<label><i class="bi bi-folder"></i> Categoria</label>
+												<select class="form-select" id="categoria">
+													<option value="BACKUP">Backup</option>
+													<option value="CABEAMENTO">Cabeamento</option>
+													<option value="COTACAO">Cotação</option>
+													<option value="DOMINIOS">Domínios</option>
+													<option value="EMAIL">Email</option>
+													<option value="HARDWARE">Hardware</option>
+													<option value="HOSPEDAGENS">Hospedagens</option>
+													<option value="INTERNET">Internet</option>
+													<option value="MIGRACAO">Migração</option>
+													<option value="OUTROS">Outros</option>
+													<option value="PROJETO">Projeto</option>
+													<option value="REDE">Rede</option>
+													<option value="SERVIDORES">Servidores</option>
+													<option value="SHAREPOINT">SharePoint</option>
+													<option value="SMARTPHONE">Smartphone</option>
+													<option value="SOFTWARE" selected>Software</option>
+												</select>
+											</div>
+
+											<div class="col-lg-3 col-md-6">
+												<label><i class="bi bi-exclamation-triangle"></i> Criticidade</label>
+												<select class="form-select" id="criticidade">
 													<option value="ALTA">Alta</option>
-													<option value="BAIXA" selected>Baixa</option> 
+													<option value="BAIXA" selected>Baixa</option>
 													<option value="CRITICA">Crítico</option>
 													<option value="MEDIA">Media</option>
 													<option value="PLANEJADA">Planejada</option>
 												</select>
-							                </div>
-							            </div>
-							        </div>
-							    </div>
+											</div>
+										</div>
+									</div>
+								</div>
 
-							    <!-- USUÁRIOS -->
-							    <div class="card shadow-sm border-0 mb-4">
-							        <div class="card-body">
+								<!-- USUÁRIOS -->
+								<div class="card card-cor shadow-sm border-0 mb-4">
+									<div class="card-body">
 										<h6 class="mb-3">
-										    <i class="bi bi-people"></i> Usuários
+											<i class="bi bi-people"></i> Usuários
 										</h6>
-							            <div class="row g-3">
-							                <div class="col-lg-6">
-							                    <label><i class="bi bi-person"></i> Solicitante</label>
-							                    <select class="form-select" id="solicitante"></select>
-							                </div>
-							                <div class="col-lg-6">
-							                    <label><i class="bi bi-person-badge"></i> Usuário afetado</label>
-							                    <select class="form-select" id="afetado"></select>
-							                </div>
-							            </div>
-							        </div>
-							    </div>
+										<div class="row g-3">
+											<div class="col-lg-6">
+												<label><i class="bi bi-person-circle"></i>Solicitante</label>
+												<select class="form-select" id="solicitante"></select>
+											</div>
+											<div class="col-lg-6">
+												<label><i class="bi bi-person-exclamation"></i> Usuário afetado</label>
+												<select class="form-select" id="afetado"></select>
+											</div>
+										</div>
+									</div>
+								</div>
 
-							    <!-- DESCRIÇÃO -->
-							    <div class="card shadow-sm border-0 mb-4">
-							        <div class="card-body">
+								<!-- DESCRIÇÃO -->
+								<div class="card card-cor shadow-sm border-0 mb-4">
+									<div class="card-body">
 										<h6 class="mb-3">
-										    <i class="bi bi-card-text"></i> Descrição
+											<i class="bi bi-file-text"></i> Descrição
 										</h6>
-							            <div class="row g-3">
-							                <div class="col-12">
-							                    <label><i class="bi bi-bug"></i> Problema Relatado *</label>
-							                    <textarea class="form-control p-3" rows="5" id="descricao" placeholder="Descreva o problema..."></textarea>
-							                </div>
+										<div class="row g-3">
+											<div class="col-12">
+												<label><i class="bi bi-bug"></i> Problema Relatado *</label>
+												<textarea class="form-control p-3" rows="5" id="descricao"
+													placeholder="Ex: Usuário não consegue acessar o Outlook desde 09:00. Erro exibido: 'Mailbox not found'"></textarea>
+											</div>
 
-							                <div class="col-12">
-							                    <label><i class="bi bi-chat-left-text"></i> Observações</label>
-							                    <textarea class="form-control" rows="3" id="observacao"></textarea>
-							                </div>
+											<div class="col-12">
+												<label><i class="bi bi-chat-dots"></i> Observações</label>
+												<textarea class="form-control" rows="3" id="observacao"></textarea>
+											</div>
 
-							            </div>
-							        </div>
-							    </div>
+										</div>
+									</div>
+								</div>
 
-							    <!-- CLASSIFICAÇÃO -->
-							    <div class="card shadow-sm border-0 mb-4">
-							        <div class="card-body">
+								<!-- CLASSIFICAÇÃO -->
+								<div class="card card-cor shadow-sm border-0 mb-4">
+									<div class="card-body">
 										<h6 class="mb-3">
-										    <i class="bi bi-diagram-2"></i> Classificação
+											<i class="bi bi-diagram-2"></i> Classificação
 										</h6>
-							            <div class="row g-3">
-							                <div class="col-lg-4 col-md-6">
-							                    <label><i class="bi bi-tag"></i> Classificação</label>
-							                    <select class="form-select" id="classificacao">
+										<div class="row g-3">
+											<div class="col-lg-4 col-md-6">
+												<label><i class="bi bi-tag"></i> Classificação</label>
+												<select class="form-select" id="classificacao">
 													<option value="ACESSO">Acesso</option>
 													<option value="BACKUP">Backup</option>
 													<option value="INCIDENTE" selected>Incidente</option>
 													<option value="PROBLEMA">Problema</option>
 													<option value="SOLICITACAO">Solicitação</option>
 												</select>
-							                </div>
-							                <div class="col-lg-4 col-md-6">
-							                    <label><i class="bi bi-geo-alt"></i> Onsite / Offsite</label>
-							                    <select class="form-select" id="local">
+											</div>
+											<div class="col-lg-4 col-md-6">
+												<label><i class="bi bi-geo-alt"></i> Onsite / Offsite</label>
+												<select class="form-select" id="local">
 													<option value="OFFSITE">Offsite</option>
 													<option value="ONSITE">Onsite</option>
 												</select>
-							                </div>
-							            </div>
-							        </div>
-							    </div>
+											</div>
+										</div>
+									</div>
+								</div>
 
-							    <!-- RESOLUÇÃO -->
-							    <div class="card shadow-sm border-0 mb-4" id="resolucaoarea" style="display:none;">
-							        <div class="card-body">
+								<!-- RESOLUÇÃO -->
+								<div class="card card-cor shadow-sm border-0 mb-4" id="resolucaoarea" style="display:none;">
+									<div class="card-body">
 										<h6 class="mb-3">
-										    <i class="bi bi-check2-square"></i> Resolução
+											<i class="bi bi-check2-square"></i> Resolução
 										</h6>
-							            <textarea class="form-control" rows="4" id="resolucao" placeholder="Descreva a solução..."></textarea>
-							        </div>
-							    </div>
+										<textarea class="form-control" rows="4" id="resolucao"
+											placeholder="Descreva a solução..."></textarea>
+									</div>
+								</div>
 
-							    <!-- AÇÕES -->
-							    <div class="d-flex justify-content-end gap-2 mt-4">
+								<!-- AÇÕES -->
+								<div class="d-flex justify-content-end gap-2 mt-4">
 									<a href="/cliente/home" class="btn btn-light border">
-									    <i class="bi bi-x-circle"></i> Cancelar
+										<i class="bi bi-x-circle"></i> Cancelar
 									</a>
 									<button id="enviar" class="btn btn-primary px-4" onclick="salvar()">
-									    <i class="bi bi-save"></i> Salvar Solicitação
+										<i class="bi bi-save"></i> Salvar Solicitação
 									</button>
-							    </div>
+								</div>
 							</div>
+
+							<!-- PAINEL LATERAL -->
+							<div class="col-lg-3">
+
+								<div class="card card-cor shadow-sm border-0 position-sticky mt-5" style="top: 20px;">
+									<div class="card-body">
+
+										<h6 class="mb-3">
+											<i class="bi bi-lightbulb"></i> Orientações
+										</h6>
+
+										<div class="mb-3">
+											<strong><i class="bi bi-globe"></i> Onsite vs Offsite</strong>
+											<p class="small text-muted mb-0">
+												Onsite: atendimento presencial.<br>
+												Offsite: remoto.
+											</p>
+										</div>
+
+										<div class="mb-3">
+											<strong><i class="bi bi-exclamation-triangle"></i> Criticidade</strong>
+											<ul class="small text-muted mb-0">
+												<li><b>Crítica:</b> parada total</li>
+												<li><b>Alta:</b> impacto grande</li>
+												<li><b>Média:</b> impacto moderado</li>
+												<li><b>Baixa:</b> sem urgência</li>
+											</ul>
+										</div>
+										
+										<div class="mb-3">
+											    <strong><i class="bi bi-ui-checks"></i> Classificação</strong>
+
+											    <ul class="small text-muted mb-0">
+											        <li>
+											            <b>Incidente:</b> falha inesperada (ex: sistema fora)
+											        </li>
+											        <li>
+											            <b>Solicitação:</b> pedido do usuário (ex: acesso, criação)
+											        </li>
+											        <li>
+											            <b>Problema:</b> causa raiz de incidentes recorrentes
+											        </li>
+											        <li>
+											            <b>Acesso:</b> permissões / liberação de recursos
+											        </li>
+											    </ul>
+											</div>
+
+										<div class="mb-3">
+											<strong><i class="bi bi-clock"></i> SLA</strong>
+											<p class="small text-muted mb-0">
+												SLA atual: <span id="sla-info"><b>Até 24 horas</b></span>
+											</p>
+										</div>
+										
+										<div class="mb-3">
+										    <strong><i class="bi bi-building"></i> Impacto no negócio</strong>
+										    <ul class="small text-muted mb-0">
+										        <li>Quantos usuários afetados?</li>
+										        <li>Área crítica (Financeiro, Operação)?</li>
+										        <li>Existe parada total?</li>
+										    </ul>
+										</div>
+										<br/>
+										<div class="mb-3">
+											<strong><i class="bi bi-pencil"></i> Boas práticas</strong>
+											<ul class="small text-muted mb-0">
+												<li>Descreva o problema claramente</li>
+												<li>Informe mensagens de erro</li>
+												<li>Explique o impacto no negócio</li>
+											</ul>
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+
 						</div>
+					</div>
 				</div>
-	    </main>
+
+			</div>
+	</div>
+	</main>
 	</div>
 
-<!-- ################################################# MODAL FOTO ################################################# -->
-		<div class="modal fade" id="modalFoto" tabindex="-1" aria-labelledby="modalFoto" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="modalLabelColaborador">Atualização de foto de perfil</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-					</div>
-					<br />
-					<div class="container">
-						<div class="Neon Neon-theme-dragdropbox">
-							<form id="uploadForm" enctype="multipart/form-data">
+	<!-- ################################################# MODAL FOTO ################################################# -->
+	<div class="modal fade" id="modalFoto" tabindex="-1" aria-labelledby="modalFoto" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="modalLabelColaborador">Atualização de foto de perfil</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+				</div>
+				<br />
+				<div class="container">
+					<div class="Neon Neon-theme-dragdropbox">
+						<form id="uploadForm" enctype="multipart/form-data">
 
-								<div class="Neon-input-dragDrop">
-									<div class="Neon-input-inner">
-										<div class="Neon-input-icon"><i class="fa fa-file-image-o"></i></div>
-										<span id="inputId"></span>
-										<input type="file" id="file" name="file" class="Neon-input-choose-btn blue"></input>
-									</div>
-									<br />
-									<button type="submit" class="btn btn-secondary btn-sm">Enviar</button>
+							<div class="Neon-input-dragDrop">
+								<div class="Neon-input-inner">
+									<div class="Neon-input-icon"><i class="fa fa-file-image-o"></i></div>
+									<span id="inputId"></span>
+									<input type="file" id="file" name="file" class="Neon-input-choose-btn blue"></input>
 								</div>
-							</form>
-						</div>
+								<br />
+								<button type="submit" class="btn btn-secondary btn-sm">Enviar</button>
+							</div>
+						</form>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
-					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
 				</div>
 			</div>
 		</div>
+	</div>
 	<!-- ################################################# MODAL FOTO ################################################# -->
 	<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
-		<div class="modal fade" id="modalPasswordGenerator" tabindex="-1" aria-labelledby="modalPasswordGenerator"
-			aria-hidden="true">
-			<div class="modal-dialog modal-md">
-				<div class="modal-content">
-					<div class="container-password">
-						<div class="result">
-							<div class="result__info right">click para copiar</div>
-							<div class="result__info left">copiado</div>
-							<div class="result__viewbox" id="result" style="color: aliceblue; "></div>
-							<a id="copy-btn" style="--x: 0; --y: 0"><i class="far fa-copy"></i></a>
-						</div>
-						<div class="length range__slider" data-min="4" data-max="32">
-							<div class="length__title field-title" data-length='0'>Tamanho:</div>
-							<input id="slider" type="range" min="4" max="32" value="16" />
-						</div>
-						<div class="settings">
-							<span class="settings__title field-title">configurações</span>
-							<div class="setting">
-								<input type="checkbox" id="uppercase" checked />
-								<label for="uppercase">Incluir Maiúsculo</label>
-							</div>
-							<div class="setting">
-								<input type="checkbox" id="lowercase" checked />
-								<label for="lowercase">Incluir Minúsculo</label>
-							</div>
-							<div class="setting">
-								<input type="checkbox" id="number" checked />
-								<label for="number">Incluir Número</label>
-							</div>
-							<div class="setting">
-								<input type="checkbox" id="symbol" />
-								<label for="symbol">Incluir Símbolo</label>
-							</div>
-						</div>
-						<button class="btn generate" id="generate">Gerar Senha</button>
+	<div class="modal fade" id="modalPasswordGenerator" tabindex="-1" aria-labelledby="modalPasswordGenerator"
+		aria-hidden="true">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="container-password">
+					<div class="result">
+						<div class="result__info right">click para copiar</div>
+						<div class="result__info left">copiado</div>
+						<div class="result__viewbox" id="result" style="color: aliceblue; "></div>
+						<a id="copy-btn" style="--x: 0; --y: 0"><i class="far fa-copy"></i></a>
 					</div>
+					<div class="length range__slider" data-min="4" data-max="32">
+						<div class="length__title field-title" data-length='0'>Tamanho:</div>
+						<input id="slider" type="range" min="4" max="32" value="16" />
+					</div>
+					<div class="settings">
+						<span class="settings__title field-title">configurações</span>
+						<div class="setting">
+							<input type="checkbox" id="uppercase" checked />
+							<label for="uppercase">Incluir Maiúsculo</label>
+						</div>
+						<div class="setting">
+							<input type="checkbox" id="lowercase" checked />
+							<label for="lowercase">Incluir Minúsculo</label>
+						</div>
+						<div class="setting">
+							<input type="checkbox" id="number" checked />
+							<label for="number">Incluir Número</label>
+						</div>
+						<div class="setting">
+							<input type="checkbox" id="symbol" />
+							<label for="symbol">Incluir Símbolo</label>
+						</div>
+					</div>
+					<button class="btn generate" id="generate">Gerar Senha</button>
 				</div>
 			</div>
 		</div>
+	</div>
 	<!-- ############################################ MODAL PASSWORD GENERATOR ########################################## -->
-<script src="../assets/js/jquery-3.6.3.js"></script>
-<script src="../assets/js/popper.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="../assets/js/password-generator.js"></script>
-<script>
-	document.getElementById("toggleSidebar").addEventListener("click", () => {
-	    document.getElementById("sidebar").classList.toggle("collapsed");
-	});
+	<script src="../assets/js/jquery-3.6.3.js"></script>
+	<script src="../assets/js/popper.min.js"></script>
+	<script src="../assets/js/bootstrap.min.js"></script>
+	<script src="../assets/js/password-generator.js"></script>
+	<script>
+		document.getElementById("toggleSidebar").addEventListener("click", () => {
+			document.getElementById("sidebar").classList.toggle("collapsed");
+		});
 
-function home() {
-    fetch("/cliente/clientes/home")
-    .then(res => res.json())
-    .then(data => {
-		carregarFotoTopbar(data.nomeFuncionario);
-		document.getElementById('kpiTotal').innerText = data.solicitacoes.total;
-		document.getElementById('kpiAndamento').innerText = data.solicitacoes.andamento;
-		document.getElementById('kpiAbertas').innerText = data.solicitacoes.abertas;
-		document.getElementById('kpiAguardando').innerText = data.solicitacoes.aguardando;
-		document.getElementById('nomeTopbar').innerText = data.nomeFuncionario;
+		function home() {
+			fetch("/cliente/clientes/home")
+				.then(res => res.json())
+				.then(data => {
+					carregarFotoTopbar(data.nomeFuncionario);
+					document.getElementById('kpiTotal').innerText = data.solicitacoes.total;
+					document.getElementById('kpiAndamento').innerText = data.solicitacoes.andamento;
+					document.getElementById('kpiAbertas').innerText = data.solicitacoes.abertas;
+					document.getElementById('kpiAguardando').innerText = data.solicitacoes.aguardando;
+					document.getElementById('nomeTopbar').innerText = data.nomeFuncionario;
 
-    });
-}
+				});
+		}
 
-document.addEventListener("DOMContentLoaded", function () {
-    home();
-	preencheSolicitante();
-});
+		document.addEventListener("DOMContentLoaded", function () {
+			home();
+			preencheSolicitante();
+		});
 
-function carregarFotoTopbar(nomeUsuario) {
-    fetch("/cliente/api/file/perfil")
-    .then(res => res.blob())
-    .then(blob => {
+		function carregarFotoTopbar(nomeUsuario) {
+			fetch("/cliente/api/file/perfil")
+				.then(res => res.blob())
+				.then(blob => {
 
-        const contentType = blob.type;
-        const container = document.getElementById("fotoTopbar");
+					const contentType = blob.type;
+					const container = document.getElementById("fotoTopbar");
 
-        container.innerHTML = "";
+					container.innerHTML = "";
 
-        if (contentType.startsWith('image/')) {
+					if (contentType.startsWith('image/')) {
 
-            const url = URL.createObjectURL(blob);
+						const url = URL.createObjectURL(blob);
 
-            container.innerHTML = `
+						container.innerHTML = `
                 <img src="${url}" 
                      data-bs-toggle="modal" 
                      data-bs-target="#modalFoto"
                      style="cursor:pointer;">
             `;
 
-        } else {
+					} else {
 
-            const iniciais = gerarIniciais(nomeUsuario);
-            const cor = gerarCor(nomeUsuario);
+						const iniciais = gerarIniciais(nomeUsuario);
+						const cor = gerarCor(nomeUsuario);
 
-            container.innerHTML = `
+						container.innerHTML = `
                 <div class="avatar-inicial"
                      data-bs-toggle="modal"
                      data-bs-target="#modalFoto"
@@ -674,16 +836,16 @@ function carregarFotoTopbar(nomeUsuario) {
                     ${iniciais}
                 </div>
             `;
-        }
+					}
 
-    })
-    .catch(() => {
+				})
+				.catch(() => {
 
-        const container = document.getElementById("fotoTopbar");
-        const iniciais = gerarIniciais(nomeUsuario);
-        const cor = gerarCor(nomeUsuario);
+					const container = document.getElementById("fotoTopbar");
+					const iniciais = gerarIniciais(nomeUsuario);
+					const cor = gerarCor(nomeUsuario);
 
-        container.innerHTML = `
+					container.innerHTML = `
             <div class="avatar-inicial"
                  data-bs-toggle="modal"
                  data-bs-target="#modalFoto"
@@ -691,38 +853,38 @@ function carregarFotoTopbar(nomeUsuario) {
                 ${iniciais}
             </div>
         `;
-    });
-}
+				});
+		}
 
-function gerarIniciais(nome) {
-    if (!nome) return "U";
+		function gerarIniciais(nome) {
+			if (!nome) return "U";
 
-    const partes = nome.trim().split(" ");
+			const partes = nome.trim().split(" ");
 
-    if (partes.length === 1) {
-        return partes[0][0].toUpperCase();
-    }
+			if (partes.length === 1) {
+				return partes[0][0].toUpperCase();
+			}
 
-    return (
-        partes[0][0] + partes[partes.length - 1][0]
-    ).toUpperCase();
-}
+			return (
+				partes[0][0] + partes[partes.length - 1][0]
+			).toUpperCase();
+		}
 
-function gerarCor(nome) {
-    const cores = [
-        "#3b82f6", "#10b981", "#f59e0b",
-        "#ef4444", "#8b5cf6", "#14b8a6"
-    ];
+		function gerarCor(nome) {
+			const cores = [
+				"#3b82f6", "#10b981", "#f59e0b",
+				"#ef4444", "#8b5cf6", "#14b8a6"
+			];
 
-    let hash = 0;
-    for (let i = 0; i < nome.length; i++) {
-        hash = nome.charCodeAt(i) + ((hash << 5) - hash);
-    }
+			let hash = 0;
+			for (let i = 0; i < nome.length; i++) {
+				hash = nome.charCodeAt(i) + ((hash << 5) - hash);
+			}
 
-    return cores[Math.abs(hash) % cores.length];
-}
-</script>
-<script>
+			return cores[Math.abs(hash) % cores.length];
+		}
+	</script>
+	<script>
 		document.getElementById("uploadForm").addEventListener("submit", function (e) {
 			e.preventDefault();
 
@@ -735,23 +897,23 @@ function gerarCor(nome) {
 			})
 				.then(res => res.text())
 				.then(data => {
-					 carregarFotoTopbar();
+					carregarFotoTopbar();
 				});
 		});
-</script>
-<script>
+	</script>
+	<script>
 		$.ajax({
 			type: "GET",
 			contentType: "application/json",
 			url: "/cliente/api/v1/solicitacao/getData",
 			success: function (data) {
-					$('#idCliente').text(data.clientesId);
+				$('#idCliente').text(data.clientesId);
 			},
 			statusCode: {
-			    500: function() { alert('Erro! Contate o desenvolvedor!'); },
-				401: function() { 
-					alert('Realize login novamente!'); 
-					window.location.href = "/sistech/login"; 
+				500: function () {alert('Erro! Contate o desenvolvedor!');},
+				401: function () {
+					alert('Realize login novamente!');
+					window.location.href = "/sistech/login";
 				}
 			}
 		});
@@ -767,7 +929,7 @@ function gerarCor(nome) {
 				classificacao = $('#classificacao').val(),
 				local = $('#local').val(),
 				status = $('#status').val()
-				
+
 			$.ajax({
 				type: "POST",
 				contentType: "application/json",
@@ -783,7 +945,7 @@ function gerarCor(nome) {
 					"classificacao": classificacao,
 					"local": local,
 					"status": status
-					
+
 				}),
 				success: function (data) {
 					$('#descricao').val("");
@@ -791,70 +953,70 @@ function gerarCor(nome) {
 					alert("Solicitação criada com sucesso!");
 				},
 				statusCode: {
-				    500: function() { alert('Erro! Contate o desenvolvedor!'); },
-					401: function() { 
-						alert('Realize login novamente!'); 
-						window.location.href = "/cliente/login"; 
+					500: function () {alert('Erro! Contate o desenvolvedor!');},
+					401: function () {
+						alert('Realize login novamente!');
+						window.location.href = "/cliente/login";
 					},
-				    405: function() { alert('Verifique se todos os campos foram marcados!'); }
+					405: function () {alert('Verifique se todos os campos foram marcados!');}
 				}
 			});
 		}
 
 	</script>
 	<script>
-		function preencheSolicitante(){
-				var idCliente = $("#idCliente").text();
-				var json = {"nomeCliente": idCliente};
-					
-					$.ajax({
-					url: "/cliente/colaborador/list",
-					type: "GET",
-					data: json,
-					success: function (data) {
+		function preencheSolicitante() {
+			var idCliente = $("#idCliente").text();
+			var json = {"nomeCliente": idCliente};
 
-						if (data != null) {
-							
-							var boxSolicitante = $('#solicitante');
-							boxSolicitante.find('option').remove();
+			$.ajax({
+				url: "/cliente/colaborador/list",
+				type: "GET",
+				data: json,
+				success: function (data) {
 
-							var boxAfetado = $('#afetado');
-							boxAfetado.find('option').remove();
+					if (data != null) {
 
-							$('#boxSolicitante').append('<option value="" slected="selected"></option>');
-							$('#boxAfetado').append('<option value="" slected="selected"></option>');
+						var boxSolicitante = $('#solicitante');
+						boxSolicitante.find('option').remove();
 
-							$.each(data, function (i, item) {
-								$('#solicitante').append('<option value="' + item.nomeColaborador + '" slected="selected">' + item.nomeColaborador + '</option>');
-							});
-							$('#solicitante').append('<option value="Suporte" slected="selected">Suporte</option>');
-							$('#solicitante').append('<option value="Geral" slected="selected">Geral</option>');
+						var boxAfetado = $('#afetado');
+						boxAfetado.find('option').remove();
 
-							$.each(data, function (i, item) {
-								$('#afetado').append('<option value="' + item.nomeColaborador + '" slected="selected">' + item.nomeColaborador + '</option>');
-							});
-							$('#afetado').append('<option value="Suporte" slected="selected">Suporte</option>');
-							$('#afetado').append('<option value="Geral" slected="selected">Geral</option>');
-							
-							var id_cliente = $('#nomeCliente').val();
-							var nomeSolicitante = $("#solicitante").val();
-							
-							var nomeAfetado = $("#afetado").val();
-							
-						}
-					},
-					statusCode: {
-				    	500: function() { alert('Erro! Contate o desenvolvedor!'); },
-						401: function() { 
-							alert('Realize login novamente!'); 
-							window.location.href = "/sistech/login"; 
-						}
-					},
-					complete: function (data) { }
-					})
-				
+						//$('#boxSolicitante').append('<option value="" slected="selected"></option>');
+						//$('#boxAfetado').append('<option value="" slected="selected"></option>');
+
+						$.each(data, function (i, item) {
+							$('#solicitante').append('<option value="' + item.nomeColaborador + '" slected="selected">' + item.nomeColaborador + '</option>');
+						});
+						$('#solicitante').append('<option value="Suporte" slected="selected">Suporte</option>');
+						$('#solicitante').append('<option value="Geral" slected="selected">Geral</option>');
+
+						$.each(data, function (i, item) {
+							$('#afetado').append('<option value="' + item.nomeColaborador + '" slected="selected">' + item.nomeColaborador + '</option>');
+						});
+						$('#afetado').append('<option value="Suporte" slected="selected">Suporte</option>');
+						$('#afetado').append('<option value="Geral" slected="selected">Geral</option>');
+
+						var id_cliente = $('#nomeCliente').val();
+						var nomeSolicitante = $("#solicitante").val();
+
+						var nomeAfetado = $("#afetado").val();
+
+					}
+				},
+				statusCode: {
+					500: function () {alert('Erro! Contate o desenvolvedor!');},
+					401: function () {
+						alert('Realize login novamente!');
+						window.location.href = "/sistech/login";
+					}
+				},
+				complete: function (data) { }
+			})
+
 		}
-		
+
 		function limite_textarea_prob(valor) {
 			quant = 500;
 			total = valor.length;
@@ -885,19 +1047,99 @@ function gerarCor(nome) {
 				document.getElementById('resolucao').value = valor.substr(0, quant);
 			}
 		}
-		
+
 		const handlePhone = (event) => {
-		  let input = event.target
-		  input.value = phoneMask(input.value)
+			let input = event.target
+			input.value = phoneMask(input.value)
 		}
-		
+
 		const phoneMask = (value) => {
-		  if (!value) return ""
-		  value = value.replace(/\D/g,'')
-		  value = value.replace(/(\d{2})(\d)/,"($1) $2")
-		  value = value.replace(/(\d)(\d{4})$/,"$1-$2")
-		  return value
+			if (!value) return ""
+			value = value.replace(/\D/g, '')
+			value = value.replace(/(\d{2})(\d)/, "($1) $2")
+			value = value.replace(/(\d)(\d{4})$/, "$1-$2")
+			return value
+		}
+		$('#criticidade').on('change', function() {
+
+		    const val = $(this).val();
+		    let sla = '';
+
+		    switch(val) {
+		        case 'CRITICA':
+		            sla = '<b>Atendimento imediato</b>';
+		            break;
+		        case 'ALTA':
+		            sla = '<b>Até 4 horas</b>';
+		            break;
+		        case 'MEDIA':
+		            sla = '<b>Até 8 horas</b>';
+		            break;
+		        case 'BAIXA':
+		            sla = '<b>Até 24 horas</b>';
+		            break;
+		        case 'PLANEJADA':
+		            sla = '<b>Agendado</b>';
+		            break;
+		    }
+
+		    $('#sla-info').html(sla);
+		});
+		
+		$('#criticidade, #classificacao').on('change', atualizarContextoSolicitacao);
+		
+		function atualizarContextoSolicitacao() {
+
+		    const criticidade = $('#criticidade').val();
+		    const classificacao = $('#classificacao').val();
+
+		    // RESET DE CLASSES
+		    $('.card-cor').removeClass('critica alta media baixa');
+
+		    // COR POR CRITICIDADE
+		    switch (criticidade) {
+		        case 'CRITICA':
+		            $('.card-cor').addClass('critica');
+		            break;
+		        case 'ALTA':
+		            $('.card-cor').addClass('alta');
+		            break;
+		        case 'MEDIA':
+		            $('.card-cor').addClass('media');
+		            break;
+		        case 'BAIXA':
+		            $('.card-cor').addClass('baixa');
+		            break;
+		    }
+
+		    // SLA DINÂMICO (considerando classificação)
+		    let sla = '';
+
+		    if (classificacao === 'SOLICITACAO') {
+		        sla = '<b>Até 24-48 horas</b>';
+		    } else {
+		        switch (criticidade) {
+		            case 'CRITICA':
+		                sla = '<b>Atendimento imediato</b>';
+		                break;
+		            case 'ALTA':
+		                sla = '<b>Até 4 horas</b>';
+		                break;
+		            case 'MEDIA':
+		                sla = '<b>Até 8 horas</b>';
+		                break;
+		            case 'BAIXA':
+		                sla = '<b>Até 24 horas</b>';
+		                break;
+		            case 'PLANEJADA':
+		                sla = '<b>Agendado</b>';
+		                break;
+		        }
+		    }
+
+		    $('#sla-info').html(sla);
 		}
 	</script>
 </body>
+
 </html>

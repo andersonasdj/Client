@@ -129,9 +129,7 @@ public class FileRestController {
 		    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário inválido");
 		}
 
-	   
 	    MultipartFile file = uploadRequest.file();
-	    		
 	    String contentType = file.getContentType();
 	    String originalFileName = file.getOriginalFilename();
 
@@ -227,25 +225,19 @@ public class FileRestController {
 	
 	@GetMapping("/perfil")
 	public ResponseEntity<Resource> exibirImagem() {
-		
-		System.out.println("perfil");
 
 	    var auth = SecurityContextHolder.getContext().getAuthentication();
 	    Object principal = auth.getPrincipal();
-
 	    String caminhoFoto = null;
 
-	    // 🔹 Cliente direto
+	    // Cliente direto
 	    if (principal instanceof Cliente cliente) {
 
 	        Cliente clienteAtualizado = service.buscaPorNome(cliente.getNomeCliente());
-
 	        caminhoFoto = clienteAtualizado.getCaminhoFoto();
-
-	        System.out.println("CAMINHO_DB: " + caminhoFoto);
 	    }
 
-	    // 🔹 CustomUserDetails
+	    // CustomUserDetails
 	    else if (principal instanceof CustomUserDetails custom) {
 	    	
 	        Object entidade = custom.getEntidade();
@@ -266,7 +258,7 @@ public class FileRestController {
 	    try {
 	        Path base = Paths.get(UPLOAD_DIR);
 
-	        // 🔥 CORREÇÃO IMPORTANTE (sem duplicar path)
+	        // CORREÇÃO IMPORTANTE (sem duplicar path)
 	        Path caminhoArquivo = base.resolve(caminhoFoto.replaceFirst("^/", "")).normalize();
 
 	        Resource recurso = new UrlResource(caminhoArquivo.toUri());
