@@ -45,14 +45,9 @@ import br.com.techgold.app.services.SolicitacaoService;
 @RequestMapping("/api/file")
 public class FileRestController {
 	
-	@Autowired
-	ClienteService service;
-	
-	@Autowired
-	ColaboradorService colaboradorService;
-	
-	@Autowired
-	SolicitacaoService solicitacaoService;
+	@Autowired ClienteService service;
+	@Autowired ColaboradorService colaboradorService;
+	@Autowired SolicitacaoService solicitacaoService;
 	
 	@Value("${upload.dir}")
 	private String UPLOAD_DIR;
@@ -129,7 +124,9 @@ public class FileRestController {
 		    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário inválido");
 		}
 
+	   
 	    MultipartFile file = uploadRequest.file();
+	    		
 	    String contentType = file.getContentType();
 	    String originalFileName = file.getOriginalFilename();
 
@@ -225,14 +222,13 @@ public class FileRestController {
 	
 	@GetMapping("/perfil")
 	public ResponseEntity<Resource> exibirImagem() {
-
+		
 	    var auth = SecurityContextHolder.getContext().getAuthentication();
 	    Object principal = auth.getPrincipal();
 	    String caminhoFoto = null;
 
 	    // Cliente direto
 	    if (principal instanceof Cliente cliente) {
-
 	        Cliente clienteAtualizado = service.buscaPorNome(cliente.getNomeCliente());
 	        caminhoFoto = clienteAtualizado.getCaminhoFoto();
 	    }
@@ -260,7 +256,6 @@ public class FileRestController {
 
 	        // CORREÇÃO IMPORTANTE (sem duplicar path)
 	        Path caminhoArquivo = base.resolve(caminhoFoto.replaceFirst("^/", "")).normalize();
-
 	        Resource recurso = new UrlResource(caminhoArquivo.toUri());
 
 	        if (!recurso.exists()) {

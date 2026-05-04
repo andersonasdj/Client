@@ -241,6 +241,9 @@
 
 	            <!-- MENU -->
 	            <ul class="dropdown-menu dropdown-menu-end">
+	                <li><a class="dropdown-item" href="/cliente/cliente/perfil">Perfil</a></li>
+	                <li><a class="dropdown-item" href="/cliente/sobre">Sobre</a></li>
+	                <li><hr class="dropdown-divider"></li>
 	                <li><a class="dropdown-item text-danger" href="/cliente/logout">Sair</a></li>
 	            </ul>
 	        </div>
@@ -306,69 +309,135 @@
 
 <div class="d-flex">
 
-		<!--######################## SIDEBAR ########################-->
+	<!-- SIDEBAR -->
 	    <aside id="sidebar" class="sidebar">
-	        <div class="p-3 d-flex align-items-center">
+	        <div class="p-3 d-flex justify-content-between align-items-center">
 	            <strong></strong>
 	            <button id="toggleSidebar" class="btn btn-sm btn-light">☰</button>
 	        </div>
 
 			<ul class="menu">
-			    <li> <a href="/cliente/home"> <i class="bi bi-house-door"></i> <span>Início</span> </a> </li>
-			    <li class="text-muted px-3">Solicitações</li>
-			    <li> <a href="/cliente/solicitacao/form"> <i class="bi bi-plus-circle"></i> <span>Nova solicitação</span> </a> </li>
-			    <li> <a href="/cliente/solicitacao/list"> <i class="bi bi-list-ul"></i> <span>Listar</span> </a> </li>
-			    <li> <a href="/cliente/solicitacao/relatorios"> <i class="bi bi-bar-chart-line"></i> <span>Relatórios</span> </a> </li>
-			    <li class="text-muted px-3">Dashboard</li>
-			    <li> <a href="/cliente/solicitacao/dashboard/geral"> <i class="bi bi-speedometer2"></i> <span>Solicitações</span> </a> </li>
-				<li class="text-muted px-3">Cliente</li>
-				<li> <a href="/cliente/contatos"> <i class="bi bi-people"></i> <span>Contatos</span> </a> </li>
-			    <li class="text-muted px-3">Ferramentas</li>
-			    <li> <a href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator"> <i class="bi bi-key"></i> <span>Password Generator</span> </a> </li>
+			    <li>
+			        <a href="/cliente/home">
+			            <i class="bi bi-house-door"></i>
+			            <span>Início</span>
+			        </a>
+			    </li>
+			    <li class="text-muted px-3 mt-3">Solicitações</li>
+			    <li>
+			        <a href="/cliente/solicitacao/form">
+			            <i class="bi bi-plus-circle"></i>
+			            <span>Novo</span>
+			        </a>
+			    </li>
+			    <li>
+			        <a href="/cliente/solicitacao/list">
+			            <i class="bi bi-list-ul"></i>
+			            <span>Listar</span>
+			        </a>
+			    </li>
+			    <li>
+			        <a href="/cliente/solicitacao/relatorios">
+			            <i class="bi bi-bar-chart-line"></i>
+			            <span>Relatórios</span>
+			        </a>
+			    </li>
+			    <li class="text-muted px-3 mt-3">Dashboard</li>
+			    <li>
+			        <a href="/cliente/solicitacao/dashboard/geral">
+			            <i class="bi bi-speedometer2"></i>
+			            <span>Solicitações</span>
+			        </a>
+			    </li>
+			    <li class="text-muted px-3 mt-3">Ferramentas</li>
+			    <li>
+			        <a href="#" data-bs-toggle="modal" data-bs-target="#modalPasswordGenerator">
+			            <i class="bi bi-key"></i>
+			            <span>Password Generator</span>
+			        </a>
+			    </li>
 			</ul>
 	    </aside>
-		<!--######################## SIDEBAR ########################-->
 	
 	<div class="content flex-grow-1">
 
-	    <!-- 🔹 BLOCO DE FILTROS -->
-	    <div class="container-fluid mb-3">
+		
+		<!-- BLOCO DE FILTROS -->
+		<div class="container-fluid mb-3">
 
-	        <div class="card shadow-sm border-0">
-	            <div class="card-body">
-					<input type="hidden" id="linkPage" name="linkPage">
-	                <h6 class="mb-3">Relatórios do dia</h6>
-				
-	                <div class="filtros-relatorio">
+		    <div class="row">
 
-	                    <button class="btn btn-outline-primary" onclick="abertoHoje()">
-	                        <i class="bi bi-folder2-open"></i> Abertos
-	                        <span class="badge bg-primary ms-1" id="btnAbertosHoje"></span>
-	                    </button>
+		        <!-- BLOCO DE BUSCA -->
+		        <div class="col-md-5 col-lg-4 mb-3">
+		            <div class="card shadow-sm border-0 h-100">
+		                <div class="card-body">
 
-	                    <button class="btn btn-outline-success" onclick="finalizadoHoje()">
-	                        <i class="bi bi-check-circle"></i> Finalizados
-	                        <span class="badge bg-success ms-1" id="btnFinalizadosHoje"></span>
-	                    </button>
+		                 <h6><i class="bi bi-search me-1"></i> Buscar</h6>
 
-	                    <button class="btn btn-outline-warning" onclick="atualizadoHoje()">
-	                        <i class="bi bi-arrow-repeat"></i> Atualizados
-	                        <span class="badge bg-warning text-dark ms-1" id="btnAtualizadosHoje"></span>
-	                    </button>
+		                    <div class="input-group">
+		                        <input 
+		                            type="text" 
+		                            class="form-control"
+		                            id="filtroPalavraChave"
+		                            placeholder="Digite uma palavra-chave..."
+		                            onkeyup="handleKeyBusca(event)"
+		                        >
 
-	                    <button class="btn btn-outline-secondary" onclick="agendadoHoje()">
-	                        <i class="bi bi-calendar-event"></i> Agendados
-	                        <span class="badge bg-secondary ms-1" id="btnAgendadosHoje"></span>
-	                    </button>
+		                        <button 
+		                            class="btn btn-primary"
+		                            onclick="executarBusca()"
+		                        >
+		                            <i class="bi bi-search"></i>
+		                        </button>
+		                    </div>
 
-	                </div>
+		                </div>
+		            </div>
+		        </div>
 
-	            </div>
-	        </div>
+		        <!-- BLOCO DE FILTROS -->
+		        <div class="col-md-7 col-lg-8 mb-3">
+		            <div class="card shadow-sm border-0 h-100">
+		                <div class="card-body">
 
-	    </div>
+		                    <input type="hidden" id="linkPage" name="linkPage">
 
-	    <!-- 🔹 TABELA -->
+		                    <h6 class="mb-3">Relatórios do dia</h6>
+
+		                    <div class="filtros-relatorio d-flex flex-wrap gap-2">
+
+		                        <button class="btn btn-outline-primary" onclick="abertoHoje()">
+		                            <i class="bi bi-folder2-open"></i> Abertos
+		                            <span class="badge bg-primary ms-1" id="btnAbertosHoje"></span>
+		                        </button>
+
+		                        <button class="btn btn-outline-success" onclick="finalizadoHoje()">
+		                            <i class="bi bi-check-circle"></i> Finalizados
+		                            <span class="badge bg-success ms-1" id="btnFinalizadosHoje"></span>
+		                        </button>
+
+		                        <button class="btn btn-outline-warning" onclick="atualizadoHoje()">
+		                            <i class="bi bi-arrow-repeat"></i> Atualizados
+		                            <span class="badge bg-warning text-dark ms-1" id="btnAtualizadosHoje"></span>
+		                        </button>
+
+		                        <button class="btn btn-outline-secondary" onclick="agendadoHoje()">
+		                            <i class="bi bi-calendar-event"></i> Agendados
+		                            <span class="badge bg-secondary ms-1" id="btnAgendadosHoje"></span>
+		                        </button>
+
+		                    </div>
+
+		                </div>
+		            </div>
+		        </div>
+
+		    </div>
+
+		</div>
+		<!-- BLOCO DE FILTROS -->
+
+	    <!--  TABELA -->
 	    <div id="tabela-solicitacoes" style="display:none;">
 			<div class="container-fluid mb-2">
 
@@ -770,7 +839,33 @@
 	});
 
 
-	<!--exibeTodasSolicitacoes();-->
+	//exibeTodasSolicitacoes();
+	
+	function handleKeyBusca(event) {
+	    if (event.key === "Enter") {
+	        executarBusca();
+	    }
+	}
+
+	function executarBusca() {
+		$('#corpoSolicitacoes').empty();
+	    const valor = document.getElementById("filtroPalavraChave").value.toLowerCase();
+
+		$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			url: "/cliente/api/v1/solicitacao/relatorio/palavra/"+valor,
+			success: function (data) {
+				var linkPage = document.getElementById('linkPage').value;
+				constroiResultados(data);
+			},
+			statusCode: {
+			    500: function() { alert('Erro! Contate o desenvolvedor!'); },
+			    401: function() { alert('Realize login novamente!'); }
+			}
+		});
+	   
+	}
 
 	function exibeTodas(){
 		$('#corpoSolicitacoes, #paginas').empty();

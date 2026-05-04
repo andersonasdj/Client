@@ -96,6 +96,11 @@ public class SolicitacaoRestController {
 		return solicitacaoService.listarSolicitacoesRelatorioHoje(page, status);
 	}
 	
+	@GetMapping("/relatorio/palavra/{valor}")
+	public Page<SolicitacaoProjecao> listarRelatorioPavavra(@PathVariable String valor, @PageableDefault(size = 50, sort= {"id"}, direction = Direction.DESC) Pageable page) {
+		return solicitacaoService.buscarPorPalavra(page, valor);
+	}
+	
 	private Cliente getClienteLogado() {
 
 	    var auth = SecurityContextHolder.getContext().getAuthentication();

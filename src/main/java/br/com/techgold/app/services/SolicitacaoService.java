@@ -138,4 +138,9 @@ public class SolicitacaoService {
 
 		    throw new RuntimeException("Cliente não encontrado no contexto de autenticação");
 		}
+		
+		public Page<SolicitacaoProjecao> buscarPorPalavra(Pageable page, String valor) {
+			Cliente cliente = getClienteLogado();
+			return repository.buscarPorPalavra(page, valor, cliente.getId());
+		}
 }

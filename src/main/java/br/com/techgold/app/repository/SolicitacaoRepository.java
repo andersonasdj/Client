@@ -206,4 +206,30 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long>{
 			          AND s.dataAbertura < CURRENT_DATE + INTERVAL 1 DAY
 			    """)
 			Page<SolicitacaoProjecao> listarSolicitacoesAbertasHoje(Pageable page, @Param("clienteId") Long clienteId);
+		
+		@Query(value = """
+			    SELECT s.id, s.abertoPor, s.afetado, s.categoria,
+			           s.classificacao, s.descricao, s.formaAbertura, c.redFlag, s.duracao,
+			           s.local, s.observacao, s.prioridade, s.resolucao, c.vip, s.versao, s.dataAgendado,
+			           s.solicitante, s.status, c.nomeCliente, f.nomeFuncionario,
+			           s.dataAbertura, s.dataAtualizacao, s.dataAndamento
+			    FROM solicitacoes s
+			    INNER JOIN clientes c ON s.cliente_id = c.id
+			    LEFT JOIN funcionarios f ON s.funcionario_id = f.id
+			    WHERE 
+			        s.excluido = false
+			        AND s.cliente_id = :id
+			        AND (
+			            LOWER(s.descricao) LIKE LOWER(CONCAT('%', :palavra, '%'))
+			            OR LOWER(s.observacao) LIKE LOWER(CONCAT('%', :palavra, '%'))
+			            OR LOWER(s.resolucao) LIKE LOWER(CONCAT('%', :palavra, '%'))
+			            OR LOWER(s.solicitante) LIKE LOWER(CONCAT('%', :palavra, '%'))
+			            OR LOWER(s.afetado) LIKE LOWER(CONCAT('%', :palavra, '%'))
+			        )
+			""", nativeQuery = true)
+			Page<SolicitacaoProjecao> buscarPorPalavra(
+			    Pageable page, 
+			    @Param("palavra") String palavra, 
+			    @Param("id") Long id
+			);
 }
